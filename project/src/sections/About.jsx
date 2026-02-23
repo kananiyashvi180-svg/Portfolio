@@ -54,7 +54,7 @@ const BentoCard = ({ children, className = '', glowColor = 'rgba(139,92,246,0.15
             ref={cardRef}
             onMouseMove={handleMove}
             onMouseLeave={reset}
-            style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000 }}
+            style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000, willChange: 'transform' }}
             className={`relative rounded-[2rem] p-8 border border-slate-200 dark:border-primary-500/10 bg-white dark:bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden group ${className}`}
         >
             <motion.div

@@ -36,11 +36,11 @@ const UniverseBackground = () => {
             {/* ── HIGH-DENSITY FOG FILTERS ── */}
             <svg style={{ position: 'absolute', width: 0, height: 0 }}>
                 <filter id="fractalFog">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" seed="2" />
-                    <feDisplacementMap in="SourceGraphic" scale="150" />
+                    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="1" seed="2" />
+                    <feDisplacementMap in="SourceGraphic" scale="100" />
                 </filter>
                 <filter id="denseMist">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="4" seed="5" />
+                    <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" seed="5" />
                     <feColorMatrix type="matrix" values="0 0 0 0 0.1  0 0 0 0 0.2  0 0 0 0 0.6  0 0 0 1 0" />
                 </filter>
             </svg>
@@ -48,14 +48,23 @@ const UniverseBackground = () => {
             {/* ── LAYER 1: DEEP DENSE MIST (Base Texture) ── */}
             <div
                 className="absolute inset-0 opacity-40 mix-blend-screen"
-                style={{ filter: 'url(#denseMist) blur(40px)' }}
+                style={{
+                    filter: 'url(#denseMist) blur(40px)',
+                    willChange: 'transform'
+                }}
             />
 
             {/* ── LAYER 2: INTERACTIVE FOG CLOUDS ── */}
-            <motion.div style={{ y: yScroll }} className="absolute inset-x-0 h-[150vh]">
+            <motion.div
+                style={{ y: yScroll }}
+                className="absolute inset-x-0 h-[150vh]"
+            >
                 <div
                     className="absolute inset-[-30%] opacity-70 mix-blend-screen"
-                    style={{ filter: 'url(#fractalFog) blur(60px)' }}
+                    style={{
+                        filter: 'url(#fractalFog) blur(60px)',
+                        willChange: 'transform'
+                    }}
                 >
                     {/* Large Primary Cloud Masses */}
                     <motion.div
@@ -90,37 +99,40 @@ const UniverseBackground = () => {
 
             {/* ── LAYER 4: CRYSTALLINE STAR FIELD (DENSE & TWINKLING) ── */}
             <motion.div
-                style={{ y: useTransform(scrollYProgress, [0, 1], [0, -600]) }}
+                style={{
+                    y: useTransform(scrollYProgress, [0, 1], [0, -600]),
+                    willChange: 'transform'
+                }}
                 className="absolute inset-0 h-[150vh] opacity-100 mix-blend-screen"
             >
-                {Array.from({ length: 150 }).map((_, i) => (
+                {Array.from({ length: 80 }).map((_, i) => (
                     <motion.div
                         key={i}
                         animate={{
-                            opacity: [Math.random() * 0.3 + 0.1, 1, Math.random() * 0.3 + 0.1],
-                            scale: [1, 1.25, 1]
+                            opacity: [0.2, 0.8, 0.2],
                         }}
                         transition={{
-                            duration: Math.random() * 4 + 2,
+                            duration: 3 + (i % 5),
                             repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: Math.random() * 5
+                            ease: "linear",
+                            delay: i * 0.1
                         }}
                         className="absolute rounded-full bg-white"
                         style={{
-                            width: Math.random() * 2 + 0.5,
-                            height: Math.random() * 2 + 0.5,
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            boxShadow: i % 10 === 0 ? '0 0 10px rgba(255, 255, 255, 0.9)' : 'none',
+                            width: 1 + (i % 2),
+                            height: 1 + (i % 2),
+                            top: `${(i * 13) % 100}%`,
+                            left: `${(i * 17) % 100}%`,
+                            boxShadow: i % 10 === 0 ? '0 0 8px rgba(255, 255, 255, 0.8)' : 'none',
+                            willChange: 'opacity'
                         }}
                     />
                 ))}
             </motion.div>
 
             {/* ── FINAL NOISE POLISH & VIGNETTE ── */}
-            <div className="absolute inset-0 opacity-[0.05] pointer-events-none noise"
-                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none noise"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
 
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#01010c] opacity-90" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#01010c]/40 via-transparent to-transparent opacity-60" />

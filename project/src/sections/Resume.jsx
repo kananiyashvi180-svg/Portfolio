@@ -276,7 +276,7 @@ const Resume = () => {
                                 y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
                                 boxShadow: { duration: 2, repeat: Infinity, repeatType: "reverse" }
                             }}
-                            style={{ rotateX: rx, rotateY: ry, transformPerspective: 1500 }}
+                            style={{ rotateX: rx, rotateY: ry, transformPerspective: 1500, willChange: 'transform' }}
                             className="relative w-full max-w-4xl rounded-[2.5rem] bg-white dark:bg-[#1E1F3A] border border-slate-200 dark:border-primary-500/20 shadow-3xl overflow-hidden group cursor-pointer flex flex-col md:flex-row transition-colors"
                             onClick={handleDownload}
                         >

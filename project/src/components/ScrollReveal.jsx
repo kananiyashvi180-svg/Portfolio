@@ -39,6 +39,7 @@ const ScrollReveal = ({ children, direction = 'up', delay = 0, className = '', c
                 mass: 0.5,
                 delay: delay,
             }}
+            style={{ willChange: 'transform, opacity' }}
             className={className}
         >
             {children}

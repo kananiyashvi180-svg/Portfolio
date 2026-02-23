@@ -106,13 +106,11 @@ const LiquidEngine = () => {
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Group by type for proper layering
-            const types = ['deep', 'gold', 'foam'];
-            types.forEach(type => {
-                blobs.current.filter(b => b.type === type).forEach(blob => {
-                    blob.update();
-                    blob.draw();
-                });
+            // Grouping by type is constant, so we can just iterate.
+            // Using a single loop to update and draw
+            blobs.current.forEach(blob => {
+                blob.update();
+                blob.draw();
             });
 
             animationFrameId = requestAnimationFrame(render);
@@ -142,19 +140,20 @@ const LiquidEngine = () => {
             <canvas
                 ref={canvasRef}
                 className="w-full h-full"
-                style={{ filter: 'url(#marble-goo) contrast(150%) brightness(120%)' }}
+                style={{
+                    filter: 'url(#marble-goo) contrast(150%) brightness(120%)',
+                    willChange: 'filter'
+                }}
             />
             {/* SVG Filter for "Marble Foam" Gooiness */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" className="absolute w-0 h-0 invisible">
                 <defs>
                     <filter id="marble-goo">
-                        {/* High Blur for Base Goo */}
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
-                        {/* Heavy Contrast Matrix for Sharp Edges */}
+                        {/* Lower stdDeviation and numOctaves for speed */}
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
                         <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 45 -20" result="goo" />
-                        {/* Blend back with noise for "Foam" texture */}
-                        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
-                        <feDisplacementMap in="goo" in2="noise" scale="35" result="textured" />
+                        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="1" result="noise" />
+                        <feDisplacementMap in="goo" in2="noise" scale="25" result="textured" />
                         <feComposite in="SourceGraphic" in2="textured" operator="atop" />
                     </filter>
                 </defs>

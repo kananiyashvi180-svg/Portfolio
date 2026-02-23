@@ -41,6 +41,7 @@ const ExhibitCard = ({ item, index, type = 'project' }) => {
             onClick={handleCardClick}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={handleMouseLeave}
+            style={{ willChange: 'transform' }}
             className="group relative h-[500px] sm:h-[520px] rounded-[2rem] sm:rounded-[2.5rem] bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-primary-500/10 shadow-3xl shadow-black/5 overflow-hidden cursor-pointer"
         >
             {/* Holographic Overlay */}
@@ -56,6 +57,7 @@ const ExhibitCard = ({ item, index, type = 'project' }) => {
                 <motion.img
                     src={item.image}
                     alt={item.title}
+                    loading="lazy"
                     className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
                     animate={{ scale: hovered ? 1.05 : 1.1 }}
                 />
@@ -146,6 +148,7 @@ const CloneCard = ({ item, index }) => {
             ref={cardRef}
             onMouseMove={(e) => { const r = cardRef.current.getBoundingClientRect(); mx.set(e.clientX - r.left); my.set(e.clientY - r.top); setHovered(true); }}
             onMouseLeave={() => { setHovered(false); mx.set(200); my.set(150); }}
+            style={{ willChange: 'transform' }}
             className="group relative rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-primary-500/10 shadow-xl overflow-hidden cursor-pointer"
         >
             {/* Glow overlay */}

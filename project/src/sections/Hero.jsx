@@ -182,7 +182,7 @@ const Hero = () => {
                     {/* Center Column - Profile Image */}
                     <motion.div
                         className="relative flex items-end justify-center perspective-[1000px] md:col-span-1"
-                        style={{ rotateX: springX, rotateY: springY }}
+                        style={{ rotateX: springX, rotateY: springY, willChange: 'transform' }}
                         onMouseMove={handleCardMove}
                         onMouseLeave={resetCardTilt}
                         initial={{ opacity: 0, scale: 0.8 }}
