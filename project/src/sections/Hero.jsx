@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { Typewriter } from 'react-simple-typewriter';
 import { Github, Linkedin, Mail, ChevronDown, ArrowUpRight, Download, Sparkles } from 'lucide-react';
@@ -80,18 +80,6 @@ const SocialBadge = ({ href, label, children }) => (
 
 /* ─── Main Hero ──────────────────────────────────────────────────────────── */
 const Hero = () => {
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            setMousePos({
-                x: (e.clientX / window.innerWidth - 0.5) * 40,
-                y: (e.clientY / window.innerHeight - 0.5) * 40,
-            });
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
 
     const tiltX = useMotionValue(0);
     const tiltY = useMotionValue(0);
@@ -125,23 +113,7 @@ const Hero = () => {
     };
 
     return (
-        <section id="home" className="relative min-h-screen flex flex-col overflow-hidden bg-slate-50 dark:bg-[#1E1F3A]">
-            {/* Background Decorations */}
-            <div
-                className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07] pointer-events-none"
-                style={{
-                    backgroundImage: 'radial-gradient(circle, #6C63FF 1px, transparent 1px)',
-                    backgroundSize: '40px 40px',
-                    transform: `translate(${mousePos.x * 0.2}px, ${mousePos.y * 0.2}px)`
-                }}
-            />
-
-            <motion.div
-                className="absolute top-[10%] left-[5%] w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none opacity-20"
-                style={{ background: 'radial-gradient(circle, #6C63FF, transparent)' }}
-                animate={{ x: [0, mousePos.x * 0.5], y: [0, mousePos.y * 0.5], scale: [1, 1.1, 1] }}
-                transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            />
+        <section id="home" className="relative min-h-screen flex flex-col overflow-hidden bg-transparent">
 
             {/* Main Layout Grid */}
             <div className="flex-1 flex items-center px-4 sm:px-6 md:px-12 lg:px-20 pt-24 pb-12 z-20">
@@ -154,16 +126,16 @@ const Hero = () => {
                             animate={{ opacity: 1, x: 0 }}
                             className="inline-flex self-start mb-6"
                         >
-                            <span className="bg-white/80 dark:bg-[#2A2C5B]/80 backdrop-blur-md text-slate-900 dark:text-slate-100 font-outfit font-black text-xs uppercase tracking-[0.3em] px-5 py-2.5 rounded-full shadow-lg border border-primary-500/20 flex items-center gap-2">
+                            <span className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-md text-slate-900 dark:text-slate-100 font-outfit font-black text-xs uppercase tracking-[0.3em] px-5 py-2.5 rounded-full shadow-lg border border-primary-500/20 flex items-center gap-2">
                                 <Sparkles size={14} className="text-primary-500" /> Hi, there!
                             </span>
                         </motion.div>
 
-                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] sm:leading-[0.85] uppercase text-slate-900 dark:text-white mb-8 tracking-tighter">
+                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] sm:leading-[1] uppercase text-slate-900 dark:text-white mb-8 tracking-tighter">
                             <motion.span variants={itemVariants} className="block">Yashvi</motion.span>
                             <motion.span variants={itemVariants} className="block gradient-text italic">Kanani</motion.span>
-                            <motion.div variants={itemVariants} className="flex items-center gap-3 sm:gap-4 mt-2 sm:mt-4">
-                                <span className="block whitespace-nowrap text-2xl sm:text-3xl lg:text-4xl text-slate-500 dark:text-slate-400">Right here</span>
+                            <motion.div variants={itemVariants} className="flex items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
+                                <span className="block whitespace-nowrap text-2xl sm:text-3xl lg:text-4xl text-slate-500 dark:text-slate-400 tracking-normal">Right here</span>
                                 <span className="flex-1 h-px sm:h-0.5 bg-primary-500 rounded-full" />
                             </motion.div>
                         </motion.div>
@@ -188,16 +160,12 @@ const Hero = () => {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        <div className="relative w-full max-w-xs lg:max-w-sm aspect-[3.5/5] rounded-[2.5rem] overflow-hidden border-2 border-primary-500/25 shadow-2xl bg-slate-100 dark:bg-[#2A2C5B] z-10">
+                        <div className="relative w-full max-w-xs lg:max-w-sm aspect-[3.5/5] rounded-[2.5rem] overflow-hidden border-2 border-primary-500/50 shadow-[0_0_30px_rgba(108,99,255,0.3)] bg-slate-100 dark:bg-[#111111] z-10 transition-shadow duration-500 hover:shadow-[0_0_50px_rgba(108,99,255,0.5)]">
                             <img src="/profile.jpg" alt={portfolioData.name} className="w-full h-full object-cover object-top" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                            <motion.div
-                                className="absolute bottom-10 left-1/2 -translate-x-1/2 px-6 py-2.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white text-[10px] font-black tracking-[0.2em] uppercase whitespace-nowrap"
-                                animate={{ y: [0, -8, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                            >
+                            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 px-6 py-2.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white text-[10px] font-black tracking-[0.2em] uppercase whitespace-nowrap">
                                 <Typewriter words={portfolioData.roles} loop={0} cursor cursorStyle="_" typeSpeed={80} />
-                            </motion.div>
+                            </div>
                         </div>
                     </motion.div>
 
@@ -245,20 +213,9 @@ const Hero = () => {
             </div>
 
             {/* Scroll Indicator */}
-            <motion.div
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-            >
-                <div className="w-px h-16 bg-gradient-to-b from-primary-500 to-transparent relative">
-                    <motion.div
-                        className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary-500 shadow-[0_0_10px_#6C63FF]"
-                        animate={{ top: ['0%', '100%'], opacity: [1, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: 'easeIn' }}
-                    />
-                </div>
-            </motion.div>
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+                <div className="w-px h-16 bg-gradient-to-b from-primary-500 to-transparent" />
+            </div>
         </section>
     );
 };

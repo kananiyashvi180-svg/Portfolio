@@ -23,7 +23,7 @@ const CategoryPill = ({ label, active, onClick, count }) => (
         )}
         <span className="relative z-10 flex items-center gap-3">
             {label}
-            <span className={`text-[10px] px-2 py-0.5 rounded-lg font-black ${active ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-white/5 text-slate-400'}`}>
+            <span className={`text-[10px] px-2 py-0.5 rounded-lg font-black ${active ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-black/60 text-slate-400'}`}>
                 {count}
             </span>
         </span>
@@ -55,7 +55,7 @@ const SkillCard = ({ skill, index }) => {
         <motion.div
             onMouseMove={handleMove}
             onMouseLeave={reset}
-            className="relative p-6 sm:p-8 rounded-[2rem] bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-primary-500/10 shadow-3xl shadow-black/5 overflow-hidden group cursor-pointer"
+            className="relative p-6 sm:p-8 rounded-[2rem] bg-white dark:bg-black/60 backdrop-blur-xl border border-slate-200 dark:border-primary-500/30 shadow-3xl shadow-black/5 overflow-hidden group cursor-pointer"
         >
             {/* Holographic Flash */}
             <motion.div
@@ -67,7 +67,7 @@ const SkillCard = ({ skill, index }) => {
 
             <div className="relative z-10 flex flex-col items-center text-center gap-6">
                 <motion.div
-                    className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center bg-slate-50 dark:bg-white/5 text-primary-500 shadow-inner"
+                    className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center bg-slate-50 dark:bg-black/60 text-primary-500 shadow-inner"
                     whileHover={{ scale: 1.1, rotate: index % 2 === 0 ? 5 : -5 }}
                 >
                     <IconComponent className="w-6 h-6 sm:w-8 sm:h-8" />
@@ -94,7 +94,7 @@ const Skills = () => {
         : portfolioData.skills.filter(s => s.category === active);
 
     return (
-        <section id="skills" className="section-padding bg-slate-50 dark:bg-transparent relative overflow-hidden">
+        <section id="skills" className="section-padding bg-transparent relative overflow-hidden">
             {/* Animated Grid Lines */}
             <div
                 className="absolute inset-0 opacity-[0.03] dark:opacity-[0.08] pointer-events-none"

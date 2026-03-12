@@ -22,16 +22,17 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-inter);
+    cursor: none;
   }
 
   body {
-    @apply bg-slate-50 text-slate-950 transition-colors duration-500;
+    @apply bg-black text-white transition-colors duration-500;
+    cursor: none;
   }
 
   .dark body {
-    background: linear-gradient(135deg, #0a0b16 0%, #12132d 50%, #1e1540 100%);
-    background-attachment: fixed;
-    color: #f8fafc;
+    background: #000000;
+    color: #ffffff;
   }
 
   h1,
@@ -48,12 +49,13 @@
 
   /* ── Cards ──────────────────────────────────────────────────────── */
   .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/30 shadow-xl transition-all duration-300;
+    @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-xl transition-all duration-300;
   }
 
   .dark .glass-card {
-    background-color: rgba(40, 36, 72, 0.75);
-    border-color: rgba(139, 92, 246, 0.18);
+    background-color: rgba(10, 10, 15, 0.85);
+    border-color: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
   }
 
   /* Spotlight card — hover reveals moving radial glow */
@@ -80,12 +82,13 @@
 
   /* ── Navigation ──────────────────────────────────────────────────── */
   .glass-nav {
-    @apply bg-white/40 backdrop-blur-2xl border-b border-white/20 fixed top-0 w-full z-50 transition-all duration-300;
+    @apply bg-black/40 backdrop-blur-2xl border-b border-white/10 fixed top-0 w-full z-50 transition-all duration-300;
   }
 
   .dark .glass-nav {
-    background-color: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(25px);
   }
 
   /* ── Buttons ─────────────────────────────────────────────────────── */
@@ -98,12 +101,12 @@
   }
 
   .dark .btn-secondary {
-    border-color: #2A2C5B;
+    border-color: #111111;
     color: #E2E8F0;
   }
 
   .dark .btn-secondary:hover {
-    background-color: #2A2C5B;
+    background-color: #111111;
   }
 
   /* ── Layout ──────────────────────────────────────────────────────── */
@@ -128,11 +131,11 @@
 
   /* Section band alternation */
   .section-alt {
-    @apply bg-slate-100/60;
+    @apply bg-white/5;
   }
 
   .dark .section-alt {
-    background-color: rgba(30, 31, 58, 0.5);
+    background-color: rgba(255, 255, 255, 0.02);
   }
 
   /* ── Section heading decoration ──────────────────────────────────── */
@@ -160,7 +163,7 @@
 }
 
 .dark ::-webkit-scrollbar-track {
-  background-color: #1E1F3A;
+  background-color: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -168,7 +171,7 @@
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background-color: #2A2C5B;
+  background-color: #111111;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
@@ -193,33 +196,4 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   opacity: 0.4;
-}
-
-/* ── Foam Cursor Animation ───────────────────────────────────────── */
-.bubble {
-  position: fixed;
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle,
-      rgba(255, 255, 255, 0.4),
-      rgba(139, 92, 246, 0.2),
-      transparent);
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%) scale(0);
-  animation: foam 0.8s ease-out forwards;
-  filter: blur(25px);
-  z-index: 10;
-}
-
-@keyframes foam {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(1.5);
-    opacity: 0;
-  }
 }

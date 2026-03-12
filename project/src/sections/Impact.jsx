@@ -5,7 +5,7 @@ import LeetCodeIcon from '../components/LeetCodeIcon'; // Assuming there's a Lee
 import ScrollReveal from '../components/ScrollReveal';
 
 const ImpactCard = ({ icon, text, highlight }) => (
-    <div className="flex items-center gap-6 p-6 md:p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-primary-500/10 shadow-xl shadow-black/5 group hover:-translate-y-2 transition-transform duration-300">
+    <div className="flex items-center gap-6 p-6 md:p-8 rounded-[2rem] bg-white dark:bg-black/60 border border-slate-200 dark:border-primary-500/30 shadow-xl shadow-black/5 group hover:-translate-y-2 transition-transform duration-300">
         <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-primary-50 dark:bg-primary-500/10 text-primary-500 group-hover:scale-110 group-hover:bg-primary-500 group-hover:text-white transition-all duration-300">
             {icon}
         </div>
@@ -22,7 +22,7 @@ const ImpactCard = ({ icon, text, highlight }) => (
 
 const Impact = () => {
     return (
-        <section id="impact" className="section-padding bg-slate-50 dark:bg-transparent relative overflow-hidden">
+        <section id="impact" className="section-padding bg-transparent relative overflow-hidden">
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="flex flex-col mb-16">
                     <ScrollReveal>

@@ -29,7 +29,7 @@ const CertificateCard = ({ cert, onOpen, index }) => {
             ref={cardRef}
             onMouseMove={handleMove}
             onMouseLeave={reset}
-            className="group relative rounded-[2.5rem] bg-white dark:bg-[#25213d] border border-slate-200 dark:border-primary-500/10 shadow-3xl overflow-hidden cursor-pointer"
+            className="group relative rounded-[2.5rem] bg-white dark:bg-[#25213d] border border-slate-200 dark:border-primary-500/30 shadow-3xl overflow-hidden cursor-pointer"
         >
             {/* Image Preview */}
             <div className="relative aspect-video overflow-hidden">
@@ -51,7 +51,7 @@ const CertificateCard = ({ cert, onOpen, index }) => {
             <div className="p-6 sm:p-8">
                 <div className="flex justify-between items-start mb-4">
                     <motion.div
-                        className="w-12 h-12 rounded-2xl flex items-center justify-center bg-slate-50 dark:bg-white/5 text-primary-500 shadow-inner -mt-14 relative z-10"
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center bg-slate-50 dark:bg-black/60 text-primary-500 shadow-inner -mt-14 relative z-10"
                         whileHover={{ rotate: 15 }}
                     >
                         <Award size={24} />
@@ -71,7 +71,7 @@ const CertificateCard = ({ cert, onOpen, index }) => {
 
                 <motion.button
                     onClick={() => onOpen(cert)}
-                    className="w-full py-4 rounded-2xl border border-slate-200 dark:border-primary-500/10 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
+                    className="w-full py-4 rounded-2xl border border-slate-200 dark:border-primary-500/30 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
                 >
                     <Eye size={14} /> Full View Details
                 </motion.button>
@@ -92,7 +92,7 @@ const Certificates = () => {
     const [selectedCert, setSelectedCert] = useState(null);
 
     return (
-        <section id="certificates" className="section-padding bg-slate-50 dark:bg-transparent relative overflow-hidden">
+        <section id="certificates" className="section-padding bg-transparent relative overflow-hidden">
             {/* BG Narrative */}
             <div className="absolute top-20 left-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase">
                 HONORS
@@ -135,11 +135,11 @@ const Certificates = () => {
                         />
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                            className="relative w-full max-w-3xl rounded-[3rem] overflow-hidden glass-card bg-white dark:bg-[#1E1F3A] border border-white/20"
+                            className="relative w-full max-w-3xl rounded-[3rem] overflow-hidden glass-card bg-white dark:bg-[#000000] border border-white/20"
                         >
                             <button
                                 onClick={() => setSelectedCert(null)}
-                                className="absolute top-6 right-6 p-3 rounded-2xl bg-slate-100 dark:bg-white/5 hover:bg-primary-500 hover:text-white transition-all z-20"
+                                className="absolute top-6 right-6 p-3 rounded-2xl bg-slate-100 dark:bg-black/60 hover:bg-primary-500 hover:text-white transition-all z-20"
                             >
                                 <X size={20} />
                             </button>

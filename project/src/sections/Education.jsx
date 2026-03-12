@@ -6,7 +6,7 @@ import ScrollReveal from '../components/ScrollReveal';
 
 const Education = () => {
     return (
-        <section id="education" className="py-24 bg-slate-50 dark:bg-transparent relative overflow-hidden">
+        <section id="education" className="py-24 bg-transparent relative overflow-hidden">
             {/* Subtle glow */}
             <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary-500/5 rounded-full blur-[120px] pointer-events-none" />
 

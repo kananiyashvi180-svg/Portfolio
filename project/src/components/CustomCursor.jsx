@@ -1,82 +1,81 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useSpring } from 'framer-motion';
 
 const CustomCursor = () => {
-    const [isVisible, setIsVisible] = useState(false);
-    const [isHovering, setIsHovering] = useState(false);
-    const [isTouch, setIsTouch] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
 
-    const mouseX = useMotionValue(-100);
-    const mouseY = useMotionValue(-100);
+  // Smooth springs for the outer circle
+  const springConfig = { damping: 25, stiffness: 200 };
+  const cursorX = useSpring(0, springConfig);
+  const cursorY = useSpring(0, springConfig);
 
-    const springConfig = { damping: 20, stiffness: 400, mass: 0.2 };
-    const cursorX = useSpring(mouseX, springConfig);
-    const cursorY = useSpring(mouseY, springConfig);
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    };
 
-    useEffect(() => {
-        setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    const handleHover = (e) => {
+      const target = e.target;
+      const isClickable = 
+        target.closest('a') || 
+        target.closest('button') || 
+        target.closest('.cursor-pointer') ||
+        target.tagName.toLowerCase() === 'button';
+      
+      setIsHovering(!!isClickable);
+    };
 
-        const moveMouse = (e) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
-            if (!isVisible) setIsVisible(true);
-        };
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseover', handleHover);
 
-        const handleOver = (e) => {
-            if (e.target.closest('a, button, [role="button"], .magnetic-wrap')) {
-                setIsHovering(true);
-            } else {
-                setIsHovering(false);
-            }
-        };
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleHover);
+    };
+  }, [cursorX, cursorY]);
 
-        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+  return (
+    <>
+      {/* Small Dot (follows cursor exactly) */}
+      <motion.div
+        className="fixed top-0 left-0 w-2 h-2 bg-primary-500 rounded-full z-[999] pointer-events-none"
+        animate={{
+          x: mousePos.x - 4,
+          y: mousePos.y - 4,
+          scale: isHovering ? 2 : 1,
+        }}
+        transition={{ type: 'tween', ease: 'backOut', duration: 0.1 }}
+      />
 
-        window.addEventListener('mousemove', moveMouse);
-        window.addEventListener('mouseover', handleOver);
-
-        return () => {
-            window.removeEventListener('mousemove', moveMouse);
-            window.removeEventListener('mouseover', handleOver);
-        };
-    }, [isVisible, mouseX, mouseY]);
-
-    if (isTouch) return null;
-
-    return (
-        <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden mix-blend-difference">
-            {/* Inner Dot - Instant movement */}
-            <motion.div
-                className="w-1.5 h-1.5 bg-white rounded-full fixed"
-                style={{
-                    x: mouseX,
-                    y: mouseY,
-                    translateX: '-50%',
-                    translateY: '-50%',
-                    opacity: isVisible ? 1 : 0
-                }}
-            />
-
-            {/* Outer Circle - Fast spring follower */}
-            <motion.div
-                className="fixed border-2 border-white rounded-full"
-                animate={{
-                    width: isHovering ? 80 : 30,
-                    height: isHovering ? 80 : 30,
-                    backgroundColor: isHovering ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0)',
-                    opacity: isVisible ? 1 : 0,
-                    scale: isVisible ? 1 : 0
-                }}
-                style={{
-                    translateX: '-50%',
-                    translateY: '-50%',
-                    x: cursorX,
-                    y: cursorY
-                }}
-                transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            />
-        </div>
-    );
+      {/* Outer Ring (smooth following) */}
+      <motion.div
+        className="fixed top-0 left-0 w-10 h-10 border border-primary-500/50 rounded-full z-[998] pointer-events-none"
+        style={{
+          x: cursorX,
+          y: cursorY,
+          translateX: '-50%',
+          translateY: '-50%',
+        }}
+        animate={{
+          scale: isHovering ? 1.5 : 1,
+          backgroundColor: isHovering ? 'rgba(108, 99, 255, 0.1)' : 'rgba(0,0,0,0)',
+        }}
+      />
+      
+      {/* Light Blur around cursor for visibility on black bg */}
+      <motion.div
+        className="fixed top-0 left-0 w-32 h-32 bg-primary-500/10 blur-3xl rounded-full z-[997] pointer-events-none"
+        animate={{
+          x: mousePos.x - 64,
+          y: mousePos.y - 64,
+        }}
+        transition={{ type: 'tween', ease: 'linear', duration: 0 }}
+      />
+    </>
+  );
 };
 
 export default CustomCursor;

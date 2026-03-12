@@ -23,7 +23,7 @@ const FloatingInput = ({ label, type = 'text', placeholder, value, onChange, req
                 rows={rows}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
-                className="peer w-full px-6 sm:px-8 pt-9 pb-4 rounded-[1.5rem] sm:rounded-[2rem] bg-white dark:bg-white/[0.03] border-2 border-slate-200 dark:border-white/20 outline-none transition-all resize-none text-slate-900 dark:text-white focus:bg-white dark:focus:bg-white/[0.08] focus:border-primary-500 dark:focus:border-primary-500 shadow-sm focus:shadow-2xl focus:shadow-primary-500/20 placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm sm:text-base"
+                className="peer w-full px-6 sm:px-8 pt-9 pb-4 rounded-[1.5rem] sm:rounded-[2rem] bg-white dark:bg-black/40 border-2 border-slate-200 dark:border-white/20 outline-none transition-all resize-none text-slate-900 dark:text-white focus:bg-white dark:focus:bg-white/[0.08] focus:border-primary-500 dark:focus:border-primary-500 shadow-sm focus:shadow-2xl focus:shadow-primary-500/20 placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm sm:text-base"
             />
             <motion.label
                 initial={false}
@@ -123,7 +123,7 @@ const Contact = () => {
     ];
 
     return (
-        <section id="contact" ref={containerRef} className="section-padding bg-slate-50 dark:bg-transparent relative overflow-hidden transition-colors duration-500">
+        <section id="contact" ref={containerRef} className="section-padding bg-transparent relative overflow-hidden transition-colors duration-500">
             {/* Background Text Parallax */}
             <motion.div
                 style={{ y: yParallax }}
@@ -176,7 +176,7 @@ const Contact = () => {
                                         href={s.href}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white dark:bg-[#25213d] border border-slate-200 dark:border-primary-500/10 flex items-center justify-center text-slate-900 dark:text-white shadow-xl shadow-black/5 hover:bg-slate-900 hover:text-white dark:hover:bg-primary-500 transition-all duration-300"
+                                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white dark:bg-[#25213d] border border-slate-200 dark:border-primary-500/30 flex items-center justify-center text-slate-900 dark:text-white shadow-xl shadow-black/5 hover:bg-slate-900 hover:text-white dark:hover:bg-primary-500 transition-all duration-300"
                                     >
                                         <s.Icon size={22} />
                                     </motion.a>
@@ -187,7 +187,7 @@ const Contact = () => {
 
                     {/* ── Right: Form ──────────────────────────────────────────────────── */}
                     <ScrollReveal direction="scale" delay={0.2} className="relative lg:pt-24">
-                        <div className="relative bg-white dark:bg-slate-900/50 p-6 sm:p-10 md:p-14 rounded-[2.5rem] sm:rounded-[3.5rem] border border-slate-200 dark:border-white/10 shadow-3xl backdrop-blur-xl">
+                        <div className="relative bg-white dark:bg-slate-900/50 p-6 sm:p-10 md:p-14 rounded-[2.5rem] sm:rounded-[3.5rem] border border-slate-200 dark:border-white/20 shadow-3xl backdrop-blur-xl">
                             <form onSubmit={handleSubmit} className="space-y-10">
                                 <div className="space-y-8">
                                     <FloatingInput

@@ -55,7 +55,7 @@ const BentoCard = ({ children, className = '', glowColor = 'rgba(139,92,246,0.15
             onMouseMove={handleMove}
             onMouseLeave={reset}
             style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000, willChange: 'transform' }}
-            className={`relative rounded-[2rem] p-8 border border-slate-200 dark:border-primary-500/10 bg-white dark:bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden group ${className}`}
+            className={`relative rounded-[2rem] p-8 border border-slate-200 dark:border-primary-500/30 bg-white dark:bg-black/60 backdrop-blur-xl shadow-2xl overflow-hidden group ${className}`}
         >
             <motion.div
                 className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -72,7 +72,7 @@ const About = () => {
     const techs = ['React', 'Node.js', 'Typescript', 'MongoDB', 'Next.js', 'Tailwind', 'Python', 'Go', 'Docker', 'AWS', 'Redux', 'Vitest'];
 
     return (
-        <section id="about" className="section-padding bg-slate-50 dark:bg-transparent relative overflow-hidden">
+        <section id="about" className="section-padding bg-transparent relative overflow-hidden">
             {/* Background Orbs */}
             <div className="absolute top-[20%] -right-20 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse" />
 
@@ -116,7 +116,7 @@ const About = () => {
                                             <motion.span
                                                 key={t}
                                                 whileHover={{ scale: 1.1, y: -2 }}
-                                                className="px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-black uppercase tracking-widest bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-600 dark:text-slate-300"
+                                                className="px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-black uppercase tracking-widest bg-slate-100 dark:bg-black/60 border border-slate-200 dark:border-white/20 rounded-xl text-slate-600 dark:text-slate-300"
                                             >
                                                 {t}
                                             </motion.span>

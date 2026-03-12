@@ -30,7 +30,7 @@ const Footer = () => {
             {/* Top gradient line */}
             <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, #6C63FF, #00E5FF, #FF6EC7, transparent)' }} />
 
-            <div className="bg-slate-50 dark:bg-transparent pt-20 pb-10 px-6">
+            <div className="bg-transparent pt-20 pb-10 px-6">
                 {/* Glow blobs */}
                 <div className="absolute -top-32 left-0 w-80 h-80 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)' }} />
                 <div className="absolute -bottom-16 right-0 w-96 h-96 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(56,189,248,0.06) 0%, transparent 70%)' }} />

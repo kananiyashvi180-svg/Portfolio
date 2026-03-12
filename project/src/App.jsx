@@ -11,22 +11,16 @@ import Certificates from './sections/Certificates';
 import Resume from './sections/Resume';
 import Contact from './sections/Contact';
 import Footer from './components/Footer';
-import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+import ParticleNetwork from './components/ParticleNetwork';
+import FloatingParticles from './components/FloatingParticles';
 import CustomCursor from './components/CustomCursor';
-import UniverseBackground from './components/UniverseBackground';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
+    const timer = setTimeout(() => setLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -38,9 +32,8 @@ const App = () => {
             key="loader"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center"
+            className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center gap-4"
           >
-            <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-4"></div>
             <h2 className="text-xl font-bold font-outfit gradient-text">Yashvi Kanani</h2>
           </motion.div>
         ) : (
@@ -48,28 +41,31 @@ const App = () => {
             key="content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="min-h-screen bg-slate-50 dark:bg-transparent text-slate-900 dark:text-[#E2E8F0] selection:bg-primary-500/30"
+            transition={{ duration: 0.5 }}
+            className="min-h-screen bg-black text-white selection:bg-primary-500/30 relative"
           >
-            <UniverseBackground />
+            <div className="fixed inset-0 z-0 pointer-events-none">
+              <ParticleNetwork />
+              <FloatingParticles />
+            </div>
+            
             <CustomCursor />
-            <motion.div
-              className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 via-sky-400 to-pink-500 z-[100] origin-left"
-              style={{ scaleX }}
-            />
-            <Navbar />
-            <main className="pt-[76px]">
-              <Hero />
-              <About />
-              <Impact />
-              <Skills />
-              <Projects />
-              <Education />
-              <Certificates />
-              <Resume />
-              <Contact />
-            </main>
-            <Footer />
+            
+            <div className="relative z-10 flex flex-col min-h-screen">
+              <Navbar />
+              <main className="pt-[76px] flex-1">
+                <Hero />
+                <About />
+                <Impact />
+                <Skills />
+                <Projects />
+                <Education />
+                <Certificates />
+                <Resume />
+                <Contact />
+              </main>
+              <Footer />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

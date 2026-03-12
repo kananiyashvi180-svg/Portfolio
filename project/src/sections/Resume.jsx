@@ -231,7 +231,7 @@ const Resume = () => {
     };
 
     return (
-        <section id="resume" className="section-padding bg-slate-50 dark:bg-transparent relative overflow-hidden">
+        <section id="resume" className="section-padding bg-transparent relative overflow-hidden">
             {/* BG Narrative - Animated floating */}
             <motion.div
                 animate={{ y: [-5, 5, -5] }}
@@ -277,11 +277,11 @@ const Resume = () => {
                                 boxShadow: { duration: 2, repeat: Infinity, repeatType: "reverse" }
                             }}
                             style={{ rotateX: rx, rotateY: ry, transformPerspective: 1500, willChange: 'transform' }}
-                            className="relative w-full max-w-4xl rounded-[2.5rem] bg-white dark:bg-[#1E1F3A] border border-slate-200 dark:border-primary-500/20 shadow-3xl overflow-hidden group cursor-pointer flex flex-col md:flex-row transition-colors"
+                            className="relative w-full max-w-4xl rounded-[2.5rem] bg-white dark:bg-[#000000] border border-slate-200 dark:border-primary-500/20 shadow-3xl overflow-hidden group cursor-pointer flex flex-col md:flex-row transition-colors"
                             onClick={handleDownload}
                         >
                             {/* Sidebar Column */}
-                            <div className="w-full md:w-[35%] bg-slate-100 dark:bg-white/5 p-8 md:p-10 border-r border-slate-200 dark:border-white/5 flex flex-col gap-10">
+                            <div className="w-full md:w-[35%] bg-slate-100 dark:bg-black/60 p-8 md:p-10 border-r border-slate-200 dark:border-white/5 flex flex-col gap-10">
                                 {/* Profile Photo */}
                                 <div className="relative aspect-square rounded-2xl overflow-hidden border-2 border-primary-500/20 shadow-xl">
                                     <img src="/profile.jpg" className="w-full h-full object-cover" alt="Profile" />

@@ -42,7 +42,7 @@ const ExhibitCard = ({ item, index, type = 'project' }) => {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={handleMouseLeave}
             style={{ willChange: 'transform' }}
-            className="group relative h-[500px] sm:h-[520px] rounded-[2rem] sm:rounded-[2.5rem] bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-primary-500/10 shadow-3xl shadow-black/5 overflow-hidden cursor-pointer"
+            className="group relative h-[500px] sm:h-[520px] rounded-[2rem] sm:rounded-[2.5rem] bg-white dark:bg-black/60 backdrop-blur-xl border border-slate-200 dark:border-primary-500/30 shadow-3xl shadow-black/5 overflow-hidden cursor-pointer"
         >
             {/* Holographic Overlay */}
             <motion.div
@@ -91,7 +91,7 @@ const ExhibitCard = ({ item, index, type = 'project' }) => {
                             <span className="block line-clamp-2">{item.title}</span>
                         )}
                     </h3>
-                    <div className="p-3 rounded-2xl bg-slate-50 dark:bg-white/5 text-primary-500">
+                    <div className="p-3 rounded-2xl bg-slate-50 dark:bg-black/60 text-primary-500">
                         {type === 'project' ? <ArrowUpRight size={24} /> : <Figma size={24} />}
                     </div>
                 </div>
@@ -104,7 +104,7 @@ const ExhibitCard = ({ item, index, type = 'project' }) => {
                     {type === 'project' ? (
                         <>
                             <Magnetic strength={0.25}>
-                                <a href={item.github} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-slate-900 dark:bg-[#2A2C5B] flex items-center justify-center text-white hover:bg-primary-500 transition-colors">
+                                <a href={item.github} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-slate-900 dark:bg-[#111111] flex items-center justify-center text-white hover:bg-primary-500 transition-colors">
                                     <Github size={20} />
                                 </a>
                             </Magnetic>
@@ -117,12 +117,12 @@ const ExhibitCard = ({ item, index, type = 'project' }) => {
                     ) : (
                         <>
                             <Magnetic strength={0.25}>
-                                <a href={item.figma} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-primary-500 hover:bg-primary-500 hover:text-white transition-all duration-300">
+                                <a href={item.figma} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-black/60 flex items-center justify-center text-primary-500 hover:bg-primary-500 hover:text-white transition-all duration-300">
                                     <Figma size={20} />
                                 </a>
                             </Magnetic>
                             <Magnetic strength={0.25}>
-                                <a href={item.figma} target="_blank" rel="noreferrer" className="flex-1 h-12 rounded-2xl bg-slate-900 dark:bg-[#2A2C5B] flex items-center justify-center gap-3 text-white hover:bg-[#F24E1E] transition-colors font-black text-xs uppercase tracking-widest">
+                                <a href={item.figma} target="_blank" rel="noreferrer" className="flex-1 h-12 rounded-2xl bg-slate-900 dark:bg-[#111111] flex items-center justify-center gap-3 text-white hover:bg-[#F24E1E] transition-colors font-black text-xs uppercase tracking-widest">
                                     <Layout size={18} /> View Project
                                 </a>
                             </Magnetic>
@@ -149,7 +149,7 @@ const CloneCard = ({ item, index }) => {
             onMouseMove={(e) => { const r = cardRef.current.getBoundingClientRect(); mx.set(e.clientX - r.left); my.set(e.clientY - r.top); setHovered(true); }}
             onMouseLeave={() => { setHovered(false); mx.set(200); my.set(150); }}
             style={{ willChange: 'transform' }}
-            className="group relative rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-primary-500/10 shadow-xl overflow-hidden cursor-pointer"
+            className="group relative rounded-[2rem] bg-white dark:bg-black/60 border border-slate-200 dark:border-primary-500/30 shadow-xl overflow-hidden cursor-pointer"
         >
             {/* Glow overlay */}
             <motion.div
@@ -185,7 +185,7 @@ const CloneCard = ({ item, index }) => {
                 <div className="flex gap-3">
                     <Magnetic strength={0.2}>
                         <a href={item.github} target="_blank" rel="noreferrer"
-                            className="w-10 h-10 rounded-xl bg-slate-900 dark:bg-[#2A2C5B] flex items-center justify-center text-white hover:bg-primary-500 transition-colors">
+                            className="w-10 h-10 rounded-xl bg-slate-900 dark:bg-[#111111] flex items-center justify-center text-white hover:bg-primary-500 transition-colors">
                             <Github size={16} />
                         </a>
                     </Magnetic>
@@ -203,7 +203,7 @@ const CloneCard = ({ item, index }) => {
 
 const Projects = () => {
     return (
-        <section id="projects" className="section-padding bg-slate-50 dark:bg-transparent relative overflow-hidden">
+        <section id="projects" className="section-padding bg-transparent relative overflow-hidden">
             {/* Background Narrative */}
             <div className="absolute top-20 right-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase whitespace-nowrap">
                 EXHIBIT

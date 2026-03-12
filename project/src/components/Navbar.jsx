@@ -28,7 +28,7 @@ const Navbar = () => {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`h-[76px] w-full flex items-center transition-all duration-500 fixed top-0 left-0 right-0 z-[100] bg-white/40 dark:bg-[#1E1F3A]/40 backdrop-blur-[15px] border-b ${isScrolled ? 'border-primary-500/30 dark:border-primary-500/50' : 'border-white/20 dark:border-white/10'}`}
+            className={`h-[76px] w-full flex items-center transition-all duration-500 fixed top-0 left-0 right-0 z-[100] bg-white/40 dark:bg-[#000000]/40 backdrop-blur-[15px] border-b ${isScrolled ? 'border-primary-500/30 dark:border-primary-500/50' : 'border-white/20 dark:border-white/10'}`}
             style={{
                 boxShadow: isScrolled
                     ? '0 10px 40px rgba(0,0,0,0.1), 0 0 20px rgba(0,229,255,0.1), 0 0 20px rgba(108,99,255,0.1)'
@@ -112,7 +112,7 @@ const Navbar = () => {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -20 }}
                         transition={{ duration: 0.25, ease: 'easeOut' }}
-                        className="absolute top-[76px] left-0 w-full bg-white/80 dark:bg-[#1E1F3A]/90 backdrop-blur-2xl border-b border-slate-200/50 dark:border-white/10 overflow-hidden xl:hidden shadow-2xl p-4"
+                        className="absolute top-[76px] left-0 w-full bg-white/80 dark:bg-[#000000]/90 backdrop-blur-2xl border-b border-slate-200/50 dark:border-white/10 overflow-hidden xl:hidden shadow-2xl p-4"
                         style={{ boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
                     >
                         <div className="flex flex-col gap-2">
