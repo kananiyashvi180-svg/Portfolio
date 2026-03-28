@@ -139,7 +139,7 @@ const Contact = () => {
                     <div className="space-y-12 lg:space-y-16">
                         <ScrollReveal>
                             <div className="section-label">Availability: Open</div>
-                            <h2 className="text-4xl sm:text-6xl md:text-8xl font-black mb-8 leading-[0.9] sm:leading-[0.85]">
+                            <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black mb-[clamp(1.5rem,4vw,2.5rem)] leading-[0.9] sm:leading-[0.85]">
                                 LET'S START <br />
                                 <span className="gradient-text italic">SOMETHING.</span>
                             </h2>

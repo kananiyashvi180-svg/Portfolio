@@ -41,8 +41,9 @@ const ExhibitCard = ({ item, index, type = 'project' }) => {
             onClick={handleCardClick}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={handleMouseLeave}
-            style={{ willChange: 'transform' }}
-            className="group relative h-[500px] sm:h-[520px] rounded-[2rem] sm:rounded-[2.5rem] bg-white dark:bg-black/60 backdrop-blur-xl border border-slate-200 dark:border-primary-500/30 shadow-3xl shadow-black/5 overflow-hidden cursor-pointer"
+            onMouseMove={handleMouseMove}
+            style={{ rotateX: rx, rotateY: ry, willChange: 'transform' }}
+            className="group relative h-[clamp(400px,60vh,520px)] rounded-[2rem] sm:rounded-[2.5rem] bg-white dark:bg-black/60 backdrop-blur-xl border border-slate-200 dark:border-primary-500/30 shadow-3xl shadow-black/5 overflow-hidden cursor-pointer"
         >
             {/* Holographic Overlay */}
             <motion.div
@@ -148,7 +149,7 @@ const CloneCard = ({ item, index }) => {
             ref={cardRef}
             onMouseMove={(e) => { const r = cardRef.current.getBoundingClientRect(); mx.set(e.clientX - r.left); my.set(e.clientY - r.top); setHovered(true); }}
             onMouseLeave={() => { setHovered(false); mx.set(200); my.set(150); }}
-            style={{ willChange: 'transform' }}
+            style={{ rotateX: rx, rotateY: ry, willChange: 'transform' }}
             className="group relative rounded-[2rem] bg-white dark:bg-black/60 border border-slate-200 dark:border-primary-500/30 shadow-xl overflow-hidden cursor-pointer"
         >
             {/* Glow overlay */}
@@ -185,13 +186,13 @@ const CloneCard = ({ item, index }) => {
                 <div className="flex gap-3">
                     <Magnetic strength={0.2}>
                         <a href={item.github} target="_blank" rel="noreferrer"
-                            className="w-10 h-10 rounded-xl bg-slate-900 dark:bg-[#111111] flex items-center justify-center text-white hover:bg-primary-500 transition-colors">
+                            className="w-11 h-11 rounded-xl bg-slate-900 dark:bg-[#111111] flex items-center justify-center text-white hover:bg-primary-500 transition-colors">
                             <Github size={16} />
                         </a>
                     </Magnetic>
                     <Magnetic strength={0.2}>
                         <a href={item.live} target="_blank" rel="noreferrer"
-                            className="flex-1 h-10 rounded-xl border border-slate-200 dark:border-primary-500/20 flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                            className="flex-1 h-11 rounded-xl border border-slate-200 dark:border-primary-500/20 flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
                             <ExternalLink size={13} /> Live Demo
                         </a>
                     </Magnetic>
@@ -213,7 +214,7 @@ const Projects = () => {
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-10">
                     <ScrollReveal>
                         <div className="section-label">Projects</div>
-                        <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter">
+                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter">
                             Creative <br />
                             <span className="gradient-text italic">Exhibit.</span>
                         </h2>
@@ -234,7 +235,7 @@ const Projects = () => {
                         <h3 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400">UI/UX Design Layer</h3>
                         <div className="h-px bg-slate-200 dark:bg-white/10 flex-1" />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-[clamp(2rem,5vw,3rem)]">
                         {portfolioData.uiux.map((item, i) => (
                             <ScrollReveal key={item.title} direction="scale" delay={i * 0.1} className="h-full">
                                 <ExhibitCard item={item} index={i} type="uiux" />
@@ -250,7 +251,7 @@ const Projects = () => {
                         <h3 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400">Frontend Layer</h3>
                         <div className="h-px bg-slate-200 dark:bg-white/10 flex-1" />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[clamp(1.5rem,4vw,2.5rem)]">
                         {portfolioData.projects.map((item, i) => (
                             <ScrollReveal key={item.title} direction="scale" delay={i * 0.1} className="h-full">
                                 <ExhibitCard item={item} index={i} type="project" />
@@ -269,7 +270,7 @@ const Projects = () => {
                     <p className="text-center text-slate-400 dark:text-slate-500 text-sm font-medium mb-12">
                         Pixel-perfect replicas of popular platforms — built to sharpen UI skills and master layout precision.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[clamp(1.5rem,4vw,2rem)]">
                         {portfolioData.clones.map((item, i) => (
                             <ScrollReveal key={item.title} direction="scale" delay={i * 0.1} className="h-full">
                                 <CloneCard item={item} index={i} />

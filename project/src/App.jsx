@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import ParticleNetwork from './components/ParticleNetwork';
 import FloatingParticles from './components/FloatingParticles';
 import CustomCursor from './components/CustomCursor';
+import TouchInteraction from './components/TouchInteraction';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const App = () => {
@@ -42,7 +43,7 @@ const App = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="min-h-screen bg-black text-white selection:bg-primary-500/30 relative"
+            className="min-h-screen w-full overflow-x-hidden bg-black text-white selection:bg-primary-500/30 relative"
           >
             <div className="fixed inset-0 z-0 pointer-events-none">
               <ParticleNetwork />
@@ -52,6 +53,7 @@ const App = () => {
             <CustomCursor />
             
             <div className="relative z-10 flex flex-col min-h-screen">
+              <TouchInteraction />
               <Navbar />
               <main className="pt-[76px] flex-1">
                 <Hero />
@@ -59,8 +61,8 @@ const App = () => {
                 <Impact />
                 <Skills />
                 <Projects />
-                <Education />
                 <Certificates />
+                <Education />
                 <Resume />
                 <Contact />
               </main>

@@ -70,7 +70,7 @@ const SocialBadge = ({ href, label, children }) => (
             rel="noreferrer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 flex items-center justify-center border-2 border-slate-800 dark:border-primary-400/50 rounded text-slate-800 dark:text-primary-300 hover:bg-primary-500/10 transition-all duration-200"
+            className="w-11 h-11 flex items-center justify-center border-2 border-slate-800 dark:border-primary-400/50 rounded text-slate-800 dark:text-primary-300 hover:bg-primary-500/10 transition-all duration-200"
             title={label}
         >
             {children}
@@ -116,8 +116,8 @@ const Hero = () => {
         <section id="home" className="relative min-h-screen flex flex-col overflow-hidden bg-transparent">
 
             {/* Main Layout Grid */}
-            <div className="flex-1 flex items-center px-4 sm:px-6 md:px-12 lg:px-20 pt-24 pb-12 z-20">
-                <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1.1fr_1fr_0.9fr] gap-10 xl:gap-12 items-center">
+            <div className="flex-1 flex items-center px-[clamp(1rem,5vw,5rem)] pt-[clamp(6rem,15vh,8rem)] pb-[clamp(3rem,8vh,4rem)] z-20 w-full overflow-hidden">
+                <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1.1fr_1fr_0.9fr] gap-[clamp(2.5rem,5vw,3rem)] items-center">
 
                     {/* Left Column - Name & CTA */}
                     <div className="flex flex-col justify-center md:col-span-2 xl:col-span-1">
@@ -131,11 +131,11 @@ const Hero = () => {
                             </span>
                         </motion.div>
 
-                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] sm:leading-[1] uppercase text-slate-900 dark:text-white mb-8 tracking-tighter">
+                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-[clamp(3rem,10vw,8rem)] leading-[1.1] sm:leading-[1] uppercase text-slate-900 dark:text-white mb-8 tracking-tighter">
                             <motion.span variants={itemVariants} className="block">Yashvi</motion.span>
                             <motion.span variants={itemVariants} className="block gradient-text italic">Kanani</motion.span>
-                            <motion.div variants={itemVariants} className="flex items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
-                                <span className="block whitespace-nowrap text-2xl sm:text-3xl lg:text-4xl text-slate-500 dark:text-slate-400 tracking-normal">Right here</span>
+                            <motion.div variants={itemVariants} className="flex items-center gap-[clamp(0.75rem,2vw,1rem)] mt-[clamp(1.5rem,4vw,2rem)]">
+                                <span className="block whitespace-nowrap text-[clamp(1.5rem,4vw,2.5rem)] text-slate-500 dark:text-slate-400 tracking-normal">Right here</span>
                                 <span className="flex-1 h-px sm:h-0.5 bg-primary-500 rounded-full" />
                             </motion.div>
                         </motion.div>

@@ -55,7 +55,7 @@ const BentoCard = ({ children, className = '', glowColor = 'rgba(139,92,246,0.15
             onMouseMove={handleMove}
             onMouseLeave={reset}
             style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000, willChange: 'transform' }}
-            className={`relative rounded-[2rem] p-8 border border-slate-200 dark:border-primary-500/30 bg-white dark:bg-black/60 backdrop-blur-xl shadow-2xl overflow-hidden group ${className}`}
+            className={`relative rounded-[2rem] p-[clamp(1.25rem,4vw,2rem)] border border-slate-200 dark:border-primary-500/30 bg-white dark:bg-black/60 backdrop-blur-xl shadow-2xl overflow-hidden group ${className}`}
         >
             <motion.div
                 className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -80,7 +80,7 @@ const About = () => {
                 <div className="flex flex-col mb-16">
                     <ScrollReveal>
                         <div className="section-label">Identity</div>
-                        <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
+                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black mb-[clamp(1.5rem,4vw,2.5rem)] leading-tight">
                             BEYOND THE <br />
                             <span className="gradient-text italic">PIXELS.</span>
                         </h2>

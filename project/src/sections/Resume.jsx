@@ -245,7 +245,7 @@ const Resume = () => {
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">
                     <ScrollReveal>
                         <div className="section-label">Career Archive</div>
-                        <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter">
+                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter">
                             Curriculum <br />
                             <span className="gradient-text italic">Vitae.</span>
                         </h2>

@@ -102,7 +102,7 @@ const Certificates = () => {
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-10">
                     <ScrollReveal>
                         <div className="section-label">Achievements</div>
-                        <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter">
+                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter">
                             Awards & <br />
                             <span className="gradient-text italic">Certifs.</span>
                         </h2>
@@ -115,7 +115,7 @@ const Certificates = () => {
                     </ScrollReveal>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[clamp(1.5rem,4vw,2.5rem)]">
                     {portfolioData.certificates.map((cert, index) => (
                         <ScrollReveal key={index} direction="scale" delay={index * 0.1} className="h-full">
                             <CertificateCard cert={cert} index={index} onOpen={setSelectedCert} />
@@ -127,7 +127,7 @@ const Certificates = () => {
             {/* Modal */}
             <AnimatePresence>
                 {selectedCert && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-[clamp(1rem,4vw,2rem)]">
                         <motion.div
                             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                             onClick={() => setSelectedCert(null)}
@@ -143,9 +143,9 @@ const Certificates = () => {
                             >
                                 <X size={20} />
                             </button>
-                            <div className="p-6 sm:p-10">
+                            <div className="p-[clamp(1.5rem,5vw,2.5rem)]">
                                 <img src={selectedCert.image} className="w-full h-auto rounded-2xl sm:rounded-3xl mb-6 sm:mb-8 shadow-2xl" alt="" />
-                                <h3 className="text-2xl sm:text-3xl font-black mb-2 uppercase">{selectedCert.title}</h3>
+                                <h3 className="text-[clamp(1.5rem,4vw,2rem)] font-black mb-2 uppercase">{selectedCert.title}</h3>
                                 <p className="text-primary-500 font-bold mb-6 tracking-widest">{selectedCert.issuer}</p>
                                 <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{selectedCert.description}</p>
                             </div>

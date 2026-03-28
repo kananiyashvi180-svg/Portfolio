@@ -116,7 +116,7 @@ const Footer = () => {
                                         title={label}
                                         whileHover={{ y: -5, scale: 1.12, boxShadow: `0 12px 24px ${color}33` }}
                                         whileTap={{ scale: 0.9 }}
-                                        className="w-10 h-10 glass-card rounded-xl flex items-center justify-center transition-colors"
+                                        className="w-11 h-11 glass-card rounded-xl flex items-center justify-center transition-colors"
                                         style={{ color }}
                                     >
                                         <Icon size={17} />
