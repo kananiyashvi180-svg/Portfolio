@@ -5,8 +5,10 @@ import { portfolioData } from '../data/portfolio';
 import { motion } from 'framer-motion';
 import YouTubeIcon from './YouTubeIcon';
 import Magnetic from './Magnetic';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+    const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
     const socials = [
         { Icon: Github, href: portfolioData.socials.github, color: '#6C63FF', label: 'GitHub' },
@@ -21,6 +23,7 @@ const Footer = () => {
         { name: 'About', to: 'about' },
         { name: 'Skills', to: 'skills' },
         { name: 'Projects', to: 'projects' },
+        { name: 'Certificates', to: 'certificates' },
         { name: 'Education', to: 'education' },
         { name: 'Contact', to: 'contact' },
     ];
@@ -93,6 +96,7 @@ const Footer = () => {
                                         <Link
                                             to={link.to}
                                             smooth
+                                            onClick={() => navigate(`/${link.to}`, { state: { preventScroll: true } })}
                                             className="text-sm text-slate-500 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 cursor-pointer transition-colors flex items-center gap-2 group"
                                         >
                                             <span className="w-0 h-px bg-primary-500 group-hover:w-4 transition-all duration-300 inline-block" />
@@ -124,7 +128,7 @@ const Footer = () => {
                                 ))}
                             </div>
 
-                            <Link to="home" smooth>
+                            <Link to="home" smooth onClick={() => navigate('/home', { state: { preventScroll: true } })}>
                                 <motion.div
                                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-bold cursor-pointer"
                                     style={{ background: 'linear-gradient(135deg, #6C63FF, #FF6EC7)' }}

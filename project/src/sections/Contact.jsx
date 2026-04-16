@@ -97,15 +97,27 @@ const Contact = () => {
         setIsSubmitting(true);
 
         try {
-            const email = "yashvi.kanani.cg@gmail.com";
-            const subject = encodeURIComponent(`New Portfolio Contact from ${formData.name}`);
-            const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+            const response = await fetch("https://formsubmit.co/ajax/yashvi.kanani.cg@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    message: formData.message,
+                    _subject: `New Portfolio Message from ${formData.name}`
+                })
+            });
 
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-
-            setIsSuccess(true);
-            setFormData({ name: '', email: '', message: '' });
-            setTimeout(() => setIsSuccess(false), 5000);
+            if (response.ok) {
+                setIsSuccess(true);
+                setFormData({ name: '', email: '', message: '' });
+                setTimeout(() => setIsSuccess(false), 5000);
+            } else {
+                throw new Error("Form submission failed");
+            }
         } catch (error) {
             console.error("Error:", error);
             alert("An error occurred. Please try again.");

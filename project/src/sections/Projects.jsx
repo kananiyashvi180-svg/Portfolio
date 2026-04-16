@@ -1,212 +1,198 @@
-import React, { useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Github, ExternalLink, ArrowUpRight, Figma, Layout } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Github, ExternalLink, ArrowUpRight, Figma, Layout, X } from 'lucide-react';
 import { portfolioData } from '../data/portfolio';
-import Magnetic from '../components/Magnetic';
 import ScrollReveal from '../components/ScrollReveal';
 
-/* ─── 3D Hover Card (Shared Physics) ─────────────────────────────────────── */
-const ExhibitCard = ({ item, index, type = 'project' }) => {
-    const cardRef = useRef(null);
-    const [hovered, setHovered] = useState(false);
+const scrollbarCSS = `
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 243, 255, 0.2); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(0, 243, 255, 0.5); }
+`;
 
-    const mx = useMotionValue(200);
-    const my = useMotionValue(240);
-
-    const rx = useSpring(useTransform(my, [0, 480], [10, -10]), { stiffness: 200, damping: 15 });
-    const ry = useSpring(useTransform(mx, [0, 400], [-10, 10]), { stiffness: 200, damping: 15 });
-
-    const handleMouseMove = (e) => {
-        const rect = cardRef.current.getBoundingClientRect();
-        mx.set(e.clientX - rect.left);
-        my.set(e.clientY - rect.top);
-    };
-
-    const handleMouseLeave = () => {
-        setHovered(false);
-        mx.set(200);
-        my.set(240);
-    };
-
-    const handleCardClick = (e) => {
-        // Prevent double opening if they clicked the button directly
-        if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('a')) return;
-        const url = type === 'project' ? item.live : item.figma;
-        if (url) window.open(url, '_blank', 'noopener,noreferrer');
-    };
-
+/* ─── Grid Item (Collapsed State) ────────────────────────────────────────── */
+const ProjectGridCard = ({ item, id, type, onClick }) => {
     return (
         <motion.div
-            ref={cardRef}
-            onClick={handleCardClick}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
-            style={{ rotateX: rx, rotateY: ry, willChange: 'transform' }}
-            className="group relative h-[clamp(400px,60vh,520px)] rounded-[2rem] sm:rounded-[2.5rem] bg-white dark:bg-black/60 backdrop-blur-xl border border-slate-200 dark:border-primary-500/30 shadow-3xl shadow-black/5 overflow-hidden cursor-pointer"
+            layoutId={`card-container-${id}`}
+            onClick={() => onClick(item, id, type)}
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="relative w-full h-[360px] rounded-[2rem] bg-slate-900/40 dark:bg-black/40 backdrop-blur-xl border border-slate-200 dark:border-white/10 overflow-hidden cursor-pointer shadow-lg group"
         >
-            {/* Holographic Overlay */}
-            <motion.div
-                className="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                    background: `radial-gradient(circle at ${mx}px ${my}px, rgba(139,92,246,0.15), transparent 60%)`
-                }}
-            />
-
-            {/* Image Wrap */}
-            <div className="relative h-1/2 overflow-hidden">
-                <motion.img
-                    src={item.image}
-                    alt={item.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-                    animate={{ scale: hovered ? 1.05 : 1.1 }}
+            {/* Dark gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 transition-opacity duration-150 group-hover:opacity-80" />
+            
+            <motion.div className="absolute inset-0 w-full h-full overflow-hidden rounded-[2rem]">
+                <motion.img 
+                    layoutId={`card-image-${id}`}
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover origin-center transition-transform duration-150 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#07051a] via-transparent to-transparent" />
-
-                {/* Badges */}
-                <div className="absolute bottom-6 left-6 flex flex-wrap gap-2">
-                    {type === 'project' ? (
-                        item.tech.map((t, i) => (
-                            <span key={i} className="px-3 py-1 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-widest text-white">
+            </motion.div>
+            
+            <div className="absolute inset-0 z-20 p-6 sm:p-8 flex flex-col justify-between pointer-events-none">
+                <div className="flex justify-between items-start">
+                    <div className="flex flex-wrap gap-2 max-w-[70%]">
+                        {(type === 'project' || type === 'clone' ? item.tech.slice(0, 3) : [item.category]).map((t, i) => (
+                            <span key={i} className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[9px] font-black uppercase tracking-widest text-white shadow-lg">
                                 {t}
                             </span>
-                        ))
-                    ) : (
-                        <span className="px-3 py-1 rounded-lg bg-primary-500/20 backdrop-blur-md border border-primary-500/30 text-[10px] font-black uppercase tracking-widest text-white">
-                            {item.category}
-                        </span>
-                    )}
-                </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-6 sm:p-8 h-1/2 flex flex-col">
-                <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-2xl sm:text-3xl font-black leading-tight group-hover:text-primary-500 transition-colors">
-                        {item.title.split(' ').length <= 3 ? (
-                            item.title.split(' ').map((word, i) => (
-                                <span key={i} className="block">{word}</span>
-                            ))
-                        ) : (
-                            <span className="block line-clamp-2">{item.title}</span>
-                        )}
-                    </h3>
-                    <div className="p-3 rounded-2xl bg-slate-50 dark:bg-black/60 text-primary-500">
-                        {type === 'project' ? <ArrowUpRight size={24} /> : <Figma size={24} />}
+                        ))}
+                    </div>
+                    <div className="p-3 rounded-full bg-black/50 text-white border border-white/10 backdrop-blur-md group-hover:bg-cyan-500 group-hover:border-cyan-400 shadow-xl transition-all duration-150">
+                        {type === 'project' || type === 'clone' ? <ArrowUpRight size={18} /> : <Figma size={18} />}
                     </div>
                 </div>
 
-                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium line-clamp-3 mb-6">
-                    {item.description}
-                </p>
-
-                <div className="mt-auto flex gap-4">
-                    {type === 'project' ? (
-                        <>
-                            <Magnetic strength={0.25}>
-                                <a href={item.github} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-slate-900 dark:bg-[#111111] flex items-center justify-center text-white hover:bg-primary-500 transition-colors">
-                                    <Github size={20} />
-                                </a>
-                            </Magnetic>
-                            <Magnetic strength={0.25}>
-                                <a href={item.live} target="_blank" rel="noreferrer" className="flex-1 h-12 rounded-2xl border border-slate-200 dark:border-primary-500/20 flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                                    <ExternalLink size={16} /> Live Demo
-                                </a>
-                            </Magnetic>
-                        </>
-                    ) : (
-                        <>
-                            <Magnetic strength={0.25}>
-                                <a href={item.figma} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-black/60 flex items-center justify-center text-primary-500 hover:bg-primary-500 hover:text-white transition-all duration-300">
-                                    <Figma size={20} />
-                                </a>
-                            </Magnetic>
-                            <Magnetic strength={0.25}>
-                                <a href={item.figma} target="_blank" rel="noreferrer" className="flex-1 h-12 rounded-2xl bg-slate-900 dark:bg-[#111111] flex items-center justify-center gap-3 text-white hover:bg-[#F24E1E] transition-colors font-black text-xs uppercase tracking-widest">
-                                    <Layout size={18} /> View Project
-                                </a>
-                            </Magnetic>
-                        </>
-                    )}
+                <div>
+                    <motion.h3 layoutId={`card-title-${id}`} className="text-2xl sm:text-3xl font-black text-white leading-tight mb-2 drop-shadow-lg">
+                        {item.title}
+                    </motion.h3>
+                    <p className="text-cyan-400 font-black text-[10px] uppercase tracking-[0.2em] drop-shadow-md flex items-center gap-2 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-150">
+                        Click to view details <span className="w-12 h-px bg-cyan-400/50 block"></span>
+                    </p>
                 </div>
             </div>
         </motion.div>
     );
 };
 
-/* ─── Clone Card (Compact) ───────────────────────────────────────────────── */
-const CloneCard = ({ item, index }) => {
-    const cardRef = useRef(null);
-    const [hovered, setHovered] = useState(false);
-    const mx = useMotionValue(200);
-    const my = useMotionValue(150);
-    const rx = useSpring(useTransform(my, [0, 300], [8, -8]), { stiffness: 200, damping: 15 });
-    const ry = useSpring(useTransform(mx, [0, 400], [-8, 8]), { stiffness: 200, damping: 15 });
+/* ─── Expanded Modal State ─────────────────────────────────────────────── */
+const ExpandedModal = ({ data, onClose }) => {
+    const { item, id, type } = data;
 
     return (
-        <motion.div
-            ref={cardRef}
-            onMouseMove={(e) => { const r = cardRef.current.getBoundingClientRect(); mx.set(e.clientX - r.left); my.set(e.clientY - r.top); setHovered(true); }}
-            onMouseLeave={() => { setHovered(false); mx.set(200); my.set(150); }}
-            style={{ rotateX: rx, rotateY: ry, willChange: 'transform' }}
-            className="group relative rounded-[2rem] bg-white dark:bg-black/60 border border-slate-200 dark:border-primary-500/30 shadow-xl overflow-hidden cursor-pointer"
-        >
-            {/* Glow overlay */}
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 md:p-12">
+            {/* Backdrop */}
             <motion.div
-                className="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ background: `radial-gradient(circle at ${mx}px ${my}px, rgba(139,92,246,0.12), transparent 60%)` }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                onClick={onClose}
+                className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
             />
 
-            {/* Image */}
-            <div className="relative h-44 overflow-hidden">
-                <motion.img
-                    src={item.image} alt={item.title}
-                    className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700"
-                    animate={{ scale: hovered ? 1.05 : 1.1 }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#07051a] via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
-                    {item.tech.map((t, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded-md bg-white/10 backdrop-blur-md border border-white/20 text-[9px] font-black uppercase tracking-widest text-white">
-                            {t}
-                        </span>
-                    ))}
-                </div>
-            </div>
+            {/* Modal Container */}
+            <motion.div
+                layoutId={`card-container-${id}`}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="relative w-full max-w-5xl bg-slate-900 border border-slate-700 dark:bg-[#0a0a0f] dark:border-white/10 rounded-[2rem] sm:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row z-10"
+                style={{ maxHeight: '90vh' }}
+            >
+                {/* Close Button */}
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 rounded-full bg-black/50 hover:bg-cyan-500 text-white border border-white/10 hover:border-cyan-400 backdrop-blur-md transition-all z-50 shadow-lg"
+                >
+                    <X size={20} />
+                </button>
 
-            {/* Content */}
-            <div className="p-6">
-                <h3 className="text-xl font-black mb-2 group-hover:text-primary-500 transition-colors uppercase tracking-tight">
-                    {item.title}
-                </h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium line-clamp-2 mb-5">
-                    {item.description}
-                </p>
-                <div className="flex gap-3">
-                    <Magnetic strength={0.2}>
-                        <a href={item.github} target="_blank" rel="noreferrer"
-                            className="w-11 h-11 rounded-xl bg-slate-900 dark:bg-[#111111] flex items-center justify-center text-white hover:bg-primary-500 transition-colors">
-                            <Github size={16} />
-                        </a>
-                    </Magnetic>
-                    <Magnetic strength={0.2}>
-                        <a href={item.live} target="_blank" rel="noreferrer"
-                            className="flex-1 h-11 rounded-xl border border-slate-200 dark:border-primary-500/20 flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                            <ExternalLink size={13} /> Live Demo
-                        </a>
-                    </Magnetic>
+                {/* Left Side: Image (Fix to fit inside modal) */}
+                <div className="w-full md:w-1/2 h-[300px] md:h-auto relative shrink-0 overflow-hidden">
+                    <motion.img
+                        layoutId={`card-image-${id}`}
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 dark:from-[#0a0a0f] to-transparent md:hidden" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-slate-900 dark:to-[#0a0a0f] hidden md:block" />
                 </div>
-            </div>
-        </motion.div>
+
+                {/* Right Side: Scrollable Content */}
+                <div className="w-full md:w-1/2 flex flex-col flex-grow relative bg-slate-900 dark:bg-[#0a0a0f] z-20">
+                    <div className="p-6 sm:p-8 md:p-10 flex-col flex h-full overflow-y-auto custom-scrollbar">
+                        <motion.h3 layoutId={`card-title-${id}`} className="text-3xl sm:text-4xl font-black text-white leading-tight mb-6">
+                            {item.title}
+                        </motion.h3>
+
+                        <div className="mb-6 space-y-4">
+                            <p className="text-slate-300 text-sm sm:text-base font-medium leading-relaxed">
+                                {item.description}
+                            </p>
+                        </div>
+
+                        <div className="mb-8">
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400 mb-4 flex items-center gap-3">
+                                Technology Stack <span className="flex-1 h-px bg-cyan-400/20"></span>
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                                {(type === 'project' || type === 'clone' ? item.tech : [item.category]).map((t, i) => (
+                                    <span key={i} className="px-3 py-1.5 rounded-lg bg-black/40 border border-white/5 text-[11px] text-slate-300 font-bold uppercase tracking-widest shadow-inner">
+                                        {t}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Push actions to bottom */}
+                        <div className="mt-auto pt-6 flex gap-4 shrink-0 border-t border-white/5">
+                            {type === 'project' || type === 'clone' ? (
+                                <>
+                                    <a href={item.live} target="_blank" rel="noreferrer" className="flex-1 h-14 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(0,243,255,0.3)] transition-all">
+                                        <ExternalLink size={18} /> Live Demo
+                                    </a>
+                                    <a href={item.github} target="_blank" rel="noreferrer" className="w-14 h-14 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white transition-all shadow-md">
+                                        <Github size={22} />
+                                    </a>
+                                </>
+                            ) : (
+                                <>
+                                    <a href={item.figma} target="_blank" rel="noreferrer" className="flex-1 h-14 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all">
+                                        <Layout size={18} /> View Design
+                                    </a>
+                                    <a href={item.figma} target="_blank" rel="noreferrer" className="w-14 h-14 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white transition-all shadow-md">
+                                        <Figma size={22} />
+                                    </a>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+        </div>
     );
 };
 
+/* ─── Main Projects Component ────────────────────────────────────────────── */
 const Projects = () => {
+    const [selectedData, setSelectedData] = useState(null);
+
+    // Lock body scroll when modal is open
+    useEffect(() => {
+        if (selectedData) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => { document.body.style.overflow = 'auto'; };
+    }, [selectedData]);
+
+    const handleCardClick = (item, id, type) => {
+        setSelectedData({ item, id, type });
+    };
+
+    const handleClose = () => {
+        setSelectedData(null);
+    };
+
+    const orderedSections = [
+        { key: 'uiux', title: 'UI/UX Design Layer' },
+        { key: 'projects', title: 'Frontend Layer' },
+        { key: 'clones', title: 'Clone Lab' }
+    ];
+
     return (
-        <section id="projects" className="section-padding bg-transparent relative overflow-hidden">
-            {/* Background Narrative */}
-            <div className="absolute top-20 right-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase whitespace-nowrap">
+        <section id="projects" className="section-padding bg-transparent relative min-h-screen py-24">
+            <style>{scrollbarCSS}</style>
+            
+            <div className="absolute inset-0 bg-black/10 pointer-events-none z-0" />
+
+            <div className="absolute top-20 right-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase whitespace-nowrap z-0">
                 EXHIBIT
             </div>
 
@@ -214,75 +200,68 @@ const Projects = () => {
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-10">
                     <ScrollReveal>
                         <div className="section-label">Projects</div>
-                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter">
-                            Creative <br />
-                            <span className="gradient-text italic">Exhibit.</span>
+                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+                            FEATURED <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 drop-shadow-[0_0_30px_rgba(6,182,212,0.4)] italic">PROJECTS.</span>
                         </h2>
                     </ScrollReveal>
 
                     <ScrollReveal delay={0.1}>
                         <p className="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed font-outfit max-w-md lg:max-w-sm">
-                            Merging high-fidelity user experiences with robust technical implementations. A dual-threat display of design and logic.
+                            Click on any project to dive deep into the architecture, design layers, and technical stack.
                         </p>
                     </ScrollReveal>
                 </div>
 
-
-                {/* ── UI/UX Figma Designs ────────────────────────────────────────── */}
-                <div className="mb-32">
-                    <div className="flex items-center gap-4 mb-12">
-                        <div className="h-px bg-slate-200 dark:bg-white/10 flex-1" />
-                        <h3 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400">UI/UX Design Layer</h3>
-                        <div className="h-px bg-slate-200 dark:bg-white/10 flex-1" />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-[clamp(2rem,5vw,3rem)]">
-                        {portfolioData.uiux.map((item, i) => (
-                            <ScrollReveal key={item.title} direction="scale" delay={i * 0.1} className="h-full">
-                                <ExhibitCard item={item} index={i} type="uiux" />
-                            </ScrollReveal>
-                        ))}
-                    </div>
-                </div>
-
-                {/* ── Development Projects ────────────────────────────────────────── */}
-                <div className="mb-32">
-                    <div className="flex items-center gap-4 mb-12">
-                        <div className="h-px bg-slate-200 dark:bg-white/10 flex-1" />
-                        <h3 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400">Frontend Layer</h3>
-                        <div className="h-px bg-slate-200 dark:bg-white/10 flex-1" />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[clamp(1.5rem,4vw,2.5rem)]">
-                        {portfolioData.projects.map((item, i) => (
-                            <ScrollReveal key={item.title} direction="scale" delay={i * 0.1} className="h-full">
-                                <ExhibitCard item={item} index={i} type="project" />
-                            </ScrollReveal>
-                        ))}
-                    </div>
-                </div>
-
-                {/* ── Clone Lab ────────────────────────────────────────────────────── */}
-                <div>
-                    <div className="flex items-center gap-4 mb-6">
-                        <div className="h-px bg-slate-200 dark:bg-white/10 flex-1" />
-                        <h3 className="text-xs font-black uppercase tracking-[0.4em] text-slate-400">Clone Lab</h3>
-                        <div className="h-px bg-slate-200 dark:bg-white/10 flex-1" />
-                    </div>
-                    <p className="text-center text-slate-400 dark:text-slate-500 text-sm font-medium mb-12">
-                        Pixel-perfect replicas of popular platforms — built to sharpen UI skills and master layout precision.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[clamp(1.5rem,4vw,2rem)]">
-                        {portfolioData.clones.map((item, i) => (
-                            <ScrollReveal key={item.title} direction="scale" delay={i * 0.1} className="h-full">
-                                <CloneCard item={item} index={i} />
-                            </ScrollReveal>
-                        ))}
-                    </div>
-                </div>
-
+                {orderedSections.map(({ key, title }) => {
+                    const items = portfolioData[key];
+                    if (!items || items.length === 0) return null;
+                    
+                    return (
+                        <div key={key} className="mb-32 last:mb-12">
+                            <div className="flex items-center gap-6 mb-12 opacity-80 hover:opacity-100 transition-opacity">
+                                <div className="h-px bg-gradient-to-r from-transparent to-slate-300 dark:to-white/20 flex-1" />
+                                <h3 className="text-xs font-black uppercase tracking-[0.4em] text-cyan-500 drop-shadow-[0_0_10px_rgba(0,243,255,0.4)]">
+                                    {title}
+                                </h3>
+                                <div className="h-px bg-gradient-to-l from-transparent to-slate-300 dark:to-white/20 flex-1" />
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+                                {items.map((item, i) => {
+                                    const typeStr = key === 'uiux' ? 'uiux' : key === 'projects' ? 'project' : 'clone';
+                                    const id = `${key}-${i}`;
+                                    // Make sure we only render the grid item if it's not currently open as a modal!
+                                    // Wait, Framer Motion handles it if layoutId acts as the single source.
+                                    // Actually, it's safer to always render the grid card, but framer-motion will visually hide it.
+                                    return (
+                                        <ScrollReveal key={i} direction="scale" delay={i * 0.1}>
+                                            <ProjectGridCard 
+                                                item={item} 
+                                                id={id} 
+                                                type={typeStr} 
+                                                onClick={handleCardClick} 
+                                            />
+                                        </ScrollReveal>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
+
+            {/* Render the Modal Overlay via AnimatePresence */}
+            <AnimatePresence>
+                {selectedData && (
+                    <ExpandedModal 
+                        data={selectedData} 
+                        onClose={handleClose} 
+                    />
+                )}
+            </AnimatePresence>
         </section>
     );
 };
 
 export default Projects;
-

@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { Download, Mail, Github, MapPin, GraduationCap, Award, Loader2 } from 'lucide-react';
+import { Download, Mail, Github, MapPin, GraduationCap, Award, Loader2, Eye } from 'lucide-react';
 import { portfolioData } from '../data/portfolio';
 import jsPDF from 'jspdf';
 import ScrollReveal from '../components/ScrollReveal';
+import ResumeDocument from '../components/ResumeDocument';
 
 /* ── PDF Generator ──────────────────────────────────────────────────────── */
 const generateResumePDF = () => {
@@ -221,8 +222,8 @@ const Resume = () => {
         await new Promise(r => setTimeout(r, 600));
 
         const link = document.createElement('a');
-        link.href = '/Yashvi_Kanani_Resume.png';
-        link.download = 'Yashvi_Kanani_Resume.png';
+        link.href = '/Yashvi_Resume.pdf';
+        link.download = 'Yashvi_Kanani_Resume.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -258,147 +259,43 @@ const Resume = () => {
                     </ScrollReveal>
                 </div>
 
-                <div className="flex flex-col items-center gap-12">
-                    {/* 3D Interactive Resume Display with Floating & Glow */}
-                    <ScrollReveal direction="scale" delay={0.2}>
-                        <motion.div
-                            ref={containerRef}
-                            onMouseMove={handleMove}
-                            onMouseEnter={() => setHovered(true)}
-                            onMouseLeave={handleLeave}
-                            animate={{
-                                y: hovered ? 0 : [-3, 3, -3],
-                                boxShadow: hovered
-                                    ? "0 0 40px rgba(108, 99, 255, 0.3)"
-                                    : "0 0 20px rgba(108, 99, 255, 0.1)"
-                            }}
-                            transition={{
-                                y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                                boxShadow: { duration: 2, repeat: Infinity, repeatType: "reverse" }
-                            }}
-                            style={{ rotateX: rx, rotateY: ry, transformPerspective: 1500, willChange: 'transform' }}
-                            className="relative w-full max-w-4xl rounded-[2.5rem] bg-white dark:bg-[#000000] border border-slate-200 dark:border-primary-500/20 shadow-3xl overflow-hidden group cursor-pointer flex flex-col md:flex-row transition-colors"
+                <div className="flex flex-col items-center gap-12 mt-8">
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-6 w-full">
+                        {/* ── View Button ── */}
+                        <a href="/Yashvi_Resume.pdf" target="_blank" rel="noopener noreferrer">
+                            <motion.button
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="group/btn px-12 py-6 rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-cyan-400 hover:from-blue-500 hover:via-cyan-400 hover:to-cyan-300 text-white font-black text-sm uppercase tracking-widest shadow-[0_0_20px_rgba(6,182,212,0.4)] flex items-center gap-4 hover:scale-105 active:scale-95 transition-all"
+                            >
+                                <Eye size={20} className="group-hover/btn:-translate-y-0.5 transition-transform" />
+                                View Resume
+                            </motion.button>
+                        </a>
+
+                        {/* ── Download Button ── */}
+                        <motion.button
                             onClick={handleDownload}
+                            disabled={downloading}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="group/btn px-12 py-6 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black text-sm uppercase tracking-widest shadow-2xl flex items-center gap-4 hover:scale-105 active:scale-95 transition-all disabled:opacity-70"
                         >
-                            {/* Sidebar Column */}
-                            <div className="w-full md:w-[35%] bg-slate-100 dark:bg-black/60 p-8 md:p-10 border-r border-slate-200 dark:border-white/5 flex flex-col gap-10">
-                                {/* Profile Photo */}
-                                <div className="relative aspect-square rounded-2xl overflow-hidden border-2 border-primary-500/20 shadow-xl">
-                                    <img src="/profile.jpg" className="w-full h-full object-cover" alt="Profile" />
-                                </div>
-
-                                {/* Profile Text */}
-                                <div>
-                                    <h4 className="text-xs font-black uppercase tracking-[0.3em] text-primary-500 mb-4">Profile</h4>
-                                    <p className="text-slate-800 dark:text-slate-200 text-xs font-bold leading-relaxed">
-                                        {portfolioData.about.summary}
-                                    </p>
-                                </div>
-
-                                {/* Skills */}
-                                <div>
-                                    <h4 className="text-xs font-black uppercase tracking-[0.3em] text-primary-500 mb-4">Skills</h4>
-                                    <ul className="space-y-2">
-                                        {portfolioData.skills.slice(0, 6).map((skill, i) => (
-                                            <li key={i} className="flex items-center gap-3 text-slate-800 dark:text-slate-200 text-xs font-black uppercase tracking-widest">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-primary-500" />
-                                                {skill.name}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                {/* Awards */}
-                                <div>
-                                    <h4 className="text-xs font-black uppercase tracking-[0.3em] text-primary-500 mb-4">Awards</h4>
-                                    <ul className="space-y-2">
-                                        {portfolioData.certificates.slice(0, 3).map((cert, i) => (
-                                            <li key={i} className="flex items-start gap-3 text-slate-800 dark:text-slate-200 text-[10px] font-black uppercase tracking-tight leading-tight">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-1 flex-shrink-0" />
-                                                {cert.title}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-
-                            {/* Main Column */}
-                            <div className="flex-1 p-8 sm:p-12 md:p-16 flex flex-col">
-                                {/* Header */}
-                                <div className="mb-12">
-                                    <h3 className="text-5xl font-black uppercase tracking-tighter mb-2">{portfolioData.name.split(' ')[0]} {portfolioData.name.split(' ')[1]?.charAt(0)}.</h3>
-                                    <div className="text-sm font-black text-slate-400 uppercase tracking-[0.4em]">Full Stack Developer</div>
-                                </div>
-
-                                {/* Projects Section */}
-                                <div className="mb-12">
-                                    <h4 className="text-xs font-black uppercase tracking-[0.4em] text-primary-500 mb-6 border-b border-primary-500/10 pb-2 inline-block">Projects</h4>
-                                    <div className="space-y-8">
-                                        <div>
-                                            <h5 className="text-sm font-black uppercase tracking-tight mb-1">Frontend Project</h5>
-                                            <p className="text-xs font-bold italic text-slate-500 mb-2">Click Counter game</p>
-                                            <p className="text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
-                                                A simple interactive game where users increase their score by clicking a button as many times as possible within a set time.
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <h5 className="text-sm font-black uppercase tracking-tight mb-1">Backend Project</h5>
-                                            <p className="text-xs font-bold italic text-slate-500 mb-2">Github Portfolio Analyzer</p>
-                                            <p className="text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
-                                                A smart web tool that analyzes a GitHub profile to generate insights on repositories, languages, activity, and overall developer performance.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Educational History */}
-                                <div>
-                                    <h4 className="text-xs font-black uppercase tracking-[0.4em] text-primary-500 mb-6 border-b border-primary-500/10 pb-2 inline-block">Educational History</h4>
-                                    <div className="space-y-8">
-                                        {portfolioData.education.slice(0, 2).map((edu, i) => (
-                                            <div key={i}>
-                                                <h5 className="text-sm font-black uppercase tracking-tight mb-1">{edu.degree}</h5>
-                                                <p className="text-xs font-bold italic text-slate-500 mb-2">{edu.institution} {edu.period ? `| ${edu.period}` : ""}</p>
-                                                <p className="text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
-                                                    {edu.description || "Pursuing advanced studies with a focus on core engineering principles and academic excellence."}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Holographic Glow */}
-                            <motion.div
-                                className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                                style={{
-                                    background: `radial-gradient(1000px circle at ${x}px ${y}px, rgba(139,92,246,0.06), transparent 60%)`
-                                }}
-                            />
-                        </motion.div>
-                    </ScrollReveal>
-
-                    {/* ── Download Button ── */}
-                    <motion.button
-                        onClick={handleDownload}
-                        disabled={downloading}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="group/btn px-12 py-6 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black text-sm uppercase tracking-widest shadow-2xl flex items-center gap-4 hover:scale-105 active:scale-95 transition-all disabled:opacity-70"
-                    >
-                        {downloading ? (
-                            <>
-                                <Loader2 size={20} className="animate-spin" />
-                                Processing…
-                            </>
-                        ) : (
-                            <>
-                                <Download size={20} className="group-hover/btn:translate-y-0.5 transition-transform" />
-                                Download Full Resume
-                            </>
-                        )}
-                    </motion.button>
+                            {downloading ? (
+                                <>
+                                    <Loader2 size={20} className="animate-spin" />
+                                    Processing…
+                                </>
+                            ) : (
+                                <>
+                                    <Download size={20} className="group-hover/btn:translate-y-0.5 transition-transform" />
+                                    Download Resume
+                                </>
+                            )}
+                        </motion.button>
+                    </div>
                 </div>
             </div>
         </section>

@@ -7,6 +7,7 @@ import YouTubeIcon from '../components/YouTubeIcon';
 import { portfolioData } from '../data/portfolio';
 import { Link } from 'react-scroll';
 import Magnetic from '../components/Magnetic';
+import { useNavigate } from 'react-router-dom';
 
 /* ─── Skill Accordion ────────────────────────────────────────────────────── */
 const skills = [
@@ -80,6 +81,7 @@ const SocialBadge = ({ href, label, children }) => (
 
 /* ─── Main Hero ──────────────────────────────────────────────────────────── */
 const Hero = () => {
+    const navigate = useNavigate();
 
     const tiltX = useMotionValue(0);
     const tiltY = useMotionValue(0);
@@ -116,7 +118,7 @@ const Hero = () => {
         <section id="home" className="relative min-h-screen flex flex-col overflow-hidden bg-transparent">
 
             {/* Main Layout Grid */}
-            <div className="flex-1 flex items-center px-[clamp(1rem,5vw,5rem)] pt-[clamp(6rem,15vh,8rem)] pb-[clamp(3rem,8vh,4rem)] z-20 w-full overflow-hidden">
+            <div className="flex-1 flex items-center px-[clamp(1rem,5vw,5rem)] pt-[clamp(6rem,15vh,8rem)] pb-[clamp(3rem,8vh,4rem)] z-20 w-full relative">
                 <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1.1fr_1fr_0.9fr] gap-[clamp(2.5rem,5vw,3rem)] items-center">
 
                     {/* Left Column - Name & CTA */}
@@ -131,9 +133,9 @@ const Hero = () => {
                             </span>
                         </motion.div>
 
-                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-[clamp(3rem,10vw,8rem)] leading-[1.1] sm:leading-[1] uppercase text-slate-900 dark:text-white mb-8 tracking-tighter">
+                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-[clamp(2.5rem,8vw,7rem)] leading-[1.1] sm:leading-[1] uppercase text-slate-900 dark:text-white mb-8 tracking-tighter">
                             <motion.span variants={itemVariants} className="block">Yashvi</motion.span>
-                            <motion.span variants={itemVariants} className="block gradient-text italic">Kanani</motion.span>
+                            <motion.span variants={itemVariants} className="block gradient-text italic pr-4 sm:pr-8">Kanani</motion.span>
                             <motion.div variants={itemVariants} className="flex items-center gap-[clamp(0.75rem,2vw,1rem)] mt-[clamp(1.5rem,4vw,2rem)]">
                                 <span className="block whitespace-nowrap text-[clamp(1.5rem,4vw,2.5rem)] text-slate-500 dark:text-slate-400 tracking-normal">Right here</span>
                                 <span className="flex-1 h-px sm:h-0.5 bg-primary-500 rounded-full" />
@@ -142,7 +144,7 @@ const Hero = () => {
 
                         <div className="mt-4 self-start">
                             <Magnetic strength={0.4}>
-                                <Link to="projects" smooth offset={-80}>
+                                <Link to="projects" smooth offset={-80} onClick={() => navigate('/projects', { state: { preventScroll: true } })}>
                                     <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-slate-800 dark:border-primary-400/40 flex items-center justify-center cursor-pointer text-slate-800 dark:text-primary-300 bg-white/5 backdrop-blur-sm group">
                                         <ArrowUpRight className="w-8 h-8 sm:w-10 sm:h-10 group-hover:rotate-45 transition-transform duration-300" />
                                     </motion.div>
@@ -194,7 +196,7 @@ const Hero = () => {
                         </div>
 
                         <Magnetic strength={0.3}>
-                            <Link to="resume" smooth offset={-80}>
+                            <Link to="resume" smooth offset={-80} onClick={() => navigate('/resume', { state: { preventScroll: true } })}>
                                 <motion.div
                                     className="group relative px-8 py-4 bg-primary-500 text-white rounded-2xl font-black text-xs uppercase tracking-widest overflow-hidden shadow-2xl shadow-primary-500/40 inline-flex items-center gap-2 cursor-pointer"
                                     whileTap={{ scale: 0.95 }}

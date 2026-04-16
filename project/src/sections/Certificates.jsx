@@ -29,18 +29,16 @@ const CertificateCard = ({ cert, onOpen, index }) => {
             ref={cardRef}
             onMouseMove={handleMove}
             onMouseLeave={reset}
-            className="group relative rounded-[2.5rem] bg-white dark:bg-[#25213d] border border-slate-200 dark:border-primary-500/30 shadow-3xl overflow-hidden cursor-pointer"
+            className="group relative rounded-3xl bg-white/90 dark:bg-black/60 backdrop-blur-lg border border-slate-200 dark:border-white/10 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl dark:hover:shadow-[0_10px_40px_rgba(255,255,255,0.05)] flex flex-col h-full"
         >
             {/* Image Preview */}
             <div className="relative aspect-video overflow-hidden">
                 <motion.img
                     src={cert.image}
                     alt={cert.title}
-                    className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-                    animate={{ scale: 1.1 }}
-                    whileHover={{ scale: 1.05 }}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#25213d] via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
 
                 <div className="absolute top-4 left-4 h-8 px-3 rounded-lg bg-white/20 backdrop-blur-md border border-white/30 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white">
                     <BadgeCheck size={12} /> Verified
@@ -48,40 +46,40 @@ const CertificateCard = ({ cert, onOpen, index }) => {
             </div>
 
             {/* Content */}
-            <div className="p-6 sm:p-8">
+            <div className="p-6 sm:p-7 flex flex-col flex-grow relative">
                 <div className="flex justify-between items-start mb-4">
                     <motion.div
-                        className="w-12 h-12 rounded-2xl flex items-center justify-center bg-slate-50 dark:bg-black/60 text-primary-500 shadow-inner -mt-14 relative z-10"
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center bg-slate-100 dark:bg-black/40 text-primary-500 shadow-inner -mt-14 relative z-10 border border-slate-200 dark:border-white/10 backdrop-blur-md"
                         whileHover={{ rotate: 15 }}
                     >
                         <Award size={24} />
                     </motion.div>
                 </div>
 
-                <h3 className="text-2xl font-black mb-1 group-hover:text-primary-500 transition-colors uppercase leading-tight">
+                <h3 className="text-xl sm:text-2xl font-black mb-1 text-slate-900 dark:text-white group-hover:text-primary-500 transition-colors uppercase leading-tight">
                     {cert.title}
                 </h3>
-                <p className="text-primary-600 dark:text-primary-400 font-bold text-xs uppercase tracking-[0.2em] mb-4">
+                <p className="text-slate-600 dark:text-[#B0B0B0] font-bold text-xs uppercase tracking-[0.2em] mb-4">
                     {cert.issuer}
                 </p>
 
-                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium line-clamp-2 mb-6">
+                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium line-clamp-3 mb-6 flex-grow">
                     {cert.description}
                 </p>
 
                 <motion.button
                     onClick={() => onOpen(cert)}
-                    className="w-full py-4 rounded-2xl border border-slate-200 dark:border-primary-500/30 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
+                    className="mt-auto w-full py-4 rounded-2xl border border-slate-300 dark:border-white/20 flex items-center justify-center gap-2 text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300"
                 >
-                    <Eye size={14} /> Full View Details
+                    <Eye size={16} /> Full View Details
                 </motion.button>
             </div>
 
             {/* Holographic Glow */}
             <motion.div
-                className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-screen"
                 style={{
-                    background: `radial-gradient(400px circle at ${mx}px ${my}px, rgba(139,92,246,0.08), transparent 40%)`
+                    background: `radial-gradient(400px circle at ${mx}px ${my}px, rgba(139,92,246,0.15), transparent 40%)`
                 }}
             />
         </motion.div>
@@ -93,8 +91,11 @@ const Certificates = () => {
 
     return (
         <section id="certificates" className="section-padding bg-transparent relative overflow-hidden">
+            {/* Soft Background Dimming Overlay */}
+            <div className="absolute inset-0 bg-black/10 pointer-events-none z-0" />
+
             {/* BG Narrative */}
-            <div className="absolute top-20 left-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase">
+            <div className="absolute top-20 left-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase z-0">
                 HONORS
             </div>
 

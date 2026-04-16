@@ -5,291 +5,309 @@ const ParticleNetwork = () => {
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d', { alpha: false }); // Optimize for no transparency on base canvas
+        const ctx = canvas.getContext('2d');
         let animationFrameId;
-
-        // Configuration Arrays (RGB strings for high-performance rgba() injections)
-        const colorStrings = [
-            '0, 243, 255',   // Cyan
-            '188, 19, 254',  // Purple
-            '255, 0, 127',   // Pink
-            '125, 42, 232',  // Deep Purple
-            '0, 71, 255',    // Blue
-            '255, 0, 212'    // Neon Pink
-        ];
-
         let particles = [];
-        let particleCount = 100;
-        let baseConnectionDistance = 150;
-        const mouseRadius = 200;
-        
-        let mouse = { x: null, y: null };
-        
-        const resize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            
-            // Dense network: 1 particle per 6000px^2 area (approx 345 on 1080p, 50-70 on mobile)
-            const area = canvas.width * canvas.height;
-            particleCount = Math.floor(area / 6000);
-            particleCount = Math.min(Math.max(particleCount, 40), 450); // Hard cap for extreme resolutions
-            
-            if (canvas.width < 768) {
-                baseConnectionDistance = 90; // tighter on mobile
-            } else {
-                baseConnectionDistance = 140; // Desktop
+        let w, h;
+        const dpr = window.devicePixelRatio || 1;
+        let time = 0;
+
+        // Premium Configuration
+        const config = {
+            particleCount: 150, // Dense enough but optimized
+            minDistance: 130, // Max distance for connection
+            mouseRadius: 250,
+            pulseFrequency: 0.005, // How often rare energy pulses happen
+            colors: {
+                cyan: [0, 243, 255],
+                purple: [188, 19, 254],
+                blue: [0, 112, 255]
             }
+        };
+
+        const mouse = { x: null, y: null };
+        const colorKeys = Object.keys(config.colors);
+
+        const resize = () => {
+            w = window.innerWidth;
+            h = window.innerHeight;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
             
-            init();
+            // Re-calc density based on screen size
+            const density = (w * h) / 20000;
+            const finalCount = Math.min(Math.max(density, 50), 80);
+            init(finalCount);
         };
 
         class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
+            constructor(id) {
+                this.id = id;
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
                 
-                // 3D Parallax Layering: 
-                // 0 = Background (small, blur, slow, low opacity)
-                // 1 = Midground (medium, normal speed)
-                // 2 = Foreground (large, fast, glow, high opacity)
-                const layerRand = Math.random();
-                if (layerRand < 0.5) this.layer = 0; // 50% in back
-                else if (layerRand < 0.85) this.layer = 1; // 35% in mid
-                else this.layer = 2; // 15% in front
+                // Parallax depth (0 to 1) 
+                // 1 = front (fast, big), 0 = back (slow, small)
+                this.z = Math.random();
                 
-                switch (this.layer) {
-                    case 0:
-                        this.size = Math.random() * 0.8 + 0.5;
-                        this.parallax = 0.3;
-                        this.opacityMultiplier = 0.25;
-                        break;
-                    case 1:
-                        this.size = Math.random() * 1.5 + 1;
-                        this.parallax = 0.7;
-                        this.opacityMultiplier = 0.6;
-                        break;
-                    case 2:
-                        this.size = Math.random() * 2 + 2;
-                        this.parallax = 1.3;
-                        this.opacityMultiplier = 1.0;
-                        break;
-                    default:
-                        this.size = 1;
-                        this.parallax = 1;
-                        this.opacityMultiplier = 1;
-                }
+                // Base properties influenced by depth
+                this.baseSize = 0.5 + (this.z * 3);
+                this.size = this.baseSize;
                 
-                const speed = (Math.random() * 0.2 + 0.05) * this.parallax; 
-                const angle = Math.random() * Math.PI * 2;
+                // Gentle organic drift velocities
+                const speed = 0.05 + (this.z * 0.1);
+                this.angle = Math.random() * Math.PI * 2;
+                this.baseVx = Math.cos(this.angle) * speed;
+                this.baseVy = Math.sin(this.angle) * speed;
                 
-                this.vx = Math.cos(angle) * speed;
-                this.vy = Math.sin(angle) * speed;
+                // Wave movement state
+                this.wavePhaseX = Math.random() * Math.PI * 2;
+                this.wavePhaseY = Math.random() * Math.PI * 2;
+                this.waveSpeedX = 0.005 + (Math.random() * 0.005);
+                this.waveSpeedY = 0.005 + (Math.random() * 0.005);
+
+                // Orbital mechanics
+                this.isOrbiter = Math.random() > 0.85; // 15% are orbiters
+                this.orbitAngle = Math.random() * Math.PI * 2;
+                this.orbitSpeed = 0.01 + Math.random() * 0.02;
+
+                // Visuals
+                const colorKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
+                this.rgb = config.colors[colorKey];
+                this.baseOpacity = 0.3 + (this.z * 0.5);
                 
-                this.baseVx = this.vx;
-                this.baseVy = this.vy;
-                
-                this.colorString = colorStrings[Math.floor(Math.random() * colorStrings.length)];
-                
-                this.pulsePhase = Math.random() * Math.PI * 2;
-                this.pulseSpeed = 0.01 + Math.random() * 0.02;
+                // Rare Energy Pulse State
+                this.energyPulse = 0;
             }
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+            update(particles) {
+                // Occasional random energy pulse
+                if (Math.random() < config.pulseFrequency) {
+                    this.energyPulse = 1.0;
+                }
 
-                // Infinite wrap-around bounds for continuous visual flow
-                if (this.x < -20) this.x = canvas.width + 20;
-                if (this.x > canvas.width + 20) this.x = -20;
-                if (this.y < -20) this.y = canvas.height + 20;
-                if (this.y > canvas.height + 20) this.y = -20;
+                // Decay energy pulse gracefully
+                if (this.energyPulse > 0) {
+                    this.energyPulse -= 0.01;
+                }
 
-                // Mouse interaction - gentle push
-                if (mouse.x !== null && mouse.y !== null) {
+                // Organic wave drifting
+                this.wavePhaseX += this.waveSpeedX;
+                this.wavePhaseY += this.waveSpeedY;
+                
+                let currentVx = this.baseVx + (Math.sin(this.wavePhaseX) * 0.1);
+                let currentVy = this.baseVy + (Math.cos(this.wavePhaseY) * 0.1);
+
+                // Mouse Interaction: Gentle repulse & attract
+                if (mouse.x !== null) {
                     const dx = mouse.x - this.x;
                     const dy = mouse.y - this.y;
-                    const distSq = dx * dx + dy * dy;
-                    const mouseRadiusSq = mouseRadius * mouseRadius;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
                     
-                    if (distSq < mouseRadiusSq) {
-                        const distance = Math.sqrt(distSq);
-                        const force = (mouseRadius - distance) / mouseRadius; // 0 to 1
-                        const angle = Math.atan2(dy, dx);
-                        
-                        // Push away relative to parallax layer (foreground moves more)
-                        const repelX = Math.cos(angle) * force * 1.5 * this.parallax;
-                        const repelY = Math.sin(angle) * force * 1.5 * this.parallax;
-                        
-                        this.vx -= repelX * 0.03;
-                        this.vy -= repelY * 0.03;
+                    if (dist < config.mouseRadius) {
+                        const force = (config.mouseRadius - dist) / config.mouseRadius;
+                        // Outer edge attracts, inner repulses slightly to create a physical displacement field
+                        if (dist > config.mouseRadius * 0.3) {
+                            currentVx += dx * force * 0.001 * this.z;
+                            currentVy += dy * force * 0.001 * this.z;
+                        } else {
+                            currentVx -= dx * force * 0.002 * this.z;
+                            currentVy -= dy * force * 0.002 * this.z;
+                        }
                     }
                 }
-                
-                // Elastic return to base speed
-                this.vx += (this.baseVx - this.vx) * 0.03;
-                this.vy += (this.baseVy - this.vy) * 0.03;
 
-                // Update node pulsing
-                this.pulsePhase += this.pulseSpeed;
+                // If this is an orbiter, find nearest particle and orbit it slightly
+                if (this.isOrbiter && this.z > 0.5) {
+                    this.orbitAngle += this.orbitSpeed;
+                    const ox = Math.cos(this.orbitAngle) * 0.5;
+                    const oy = Math.sin(this.orbitAngle) * 0.5;
+                    currentVx += ox;
+                    currentVy += oy;
+                }
+
+                this.x += currentVx;
+                this.y += currentVy;
+
+                // Wrap-around boundaries (soft edge return)
+                const margin = 100;
+                if (this.x < -margin) this.x = w + margin;
+                if (this.x > w + margin) this.x = -margin;
+                if (this.y < -margin) this.y = h + margin;
+                if (this.y > h + margin) this.y = -margin;
+                
+                // Pulse modifies size
+                this.size = this.baseSize * (1 + this.energyPulse * 1.5);
             }
 
             draw() {
-                // Organic pulse size mapping
-                const currentSize = this.size + Math.sin(this.pulsePhase) * 0.3 * this.size;
-                const opacity = (0.5 + Math.sin(this.pulsePhase) * 0.5) * this.opacityMultiplier;
-                
-                // High-performance double-fill glow instead of shadowBlur (maintains 60fps at high density)
-                if (this.layer > 0) { // Mid and Foreground get glow
+                const currentOpacity = this.baseOpacity + (this.energyPulse * 0.5);
+                const rgbString = this.rgb.join(',');
+
+                // Core Node
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${rgbString}, ${currentOpacity})`;
+                ctx.fill();
+
+                // Subtle Glowing Halo
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 3.5, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${rgbString}, ${currentOpacity * 0.15})`;
+                ctx.fill();
+
+                // Energy Flare if pulsing
+                if (this.energyPulse > 0.1) {
                     ctx.beginPath();
-                    ctx.arc(this.x, this.y, currentSize * 3, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${this.colorString}, ${opacity * 0.25})`;
+                    ctx.arc(this.x, this.y, this.size * 6, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.energyPulse * 0.2})`;
                     ctx.fill();
                 }
-                
-                // Draw Solid Core
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, Math.max(0.1, currentSize), 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${this.colorString}, ${opacity})`;
-                ctx.fill();
             }
         }
 
-        const init = () => {
+        const init = (count) => {
             particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(i));
             }
         };
 
         const drawConnections = () => {
             ctx.lineCap = 'round';
-            const mouseRadiusSq = mouseRadius * mouseRadius;
-
-            // Heavily optimized O(n^2) loop using distSq short-circuits
             for (let i = 0; i < particles.length; i++) {
-                const p1 = particles[i];
                 for (let j = i + 1; j < particles.length; j++) {
+                    const p1 = particles[i];
                     const p2 = particles[j];
-                    
-                    // Layer restriction: Only connect adjacent or same layers to enforce 3D Depth
-                    if (Math.abs(p1.layer - p2.layer) > 1) continue;
-
                     const dx = p1.x - p2.x;
                     const dy = p1.y - p2.y;
                     const distSq = dx * dx + dy * dy;
-                    
-                    // Dynamic distance based on layers - foreground connects further out
-                    let maxDist = baseConnectionDistance;
-                    if (p1.layer === 0 && p2.layer === 0) maxDist *= 0.7; // Tighter mesh in background
-                    else if (p1.layer === 2 || p2.layer === 2) maxDist *= 1.25; // Wider mesh in foreground
-                    
-                    const maxDistSq = maxDist * maxDist;
+                    const minSq = config.minDistance * config.minDistance;
 
-                    if (distSq < maxDistSq) {
-                        const distance = Math.sqrt(distSq);
-                        const distanceRatio = 1 - (distance / maxDist);
+                    if (distSq < minSq) {
+                        const dist = Math.sqrt(distSq);
+                        let proximity = 1 - (dist / config.minDistance);
                         
-                        // Check distance to mouse to surge brightness across the neural net
-                        let mouseBonus = 0;
-                        if (mouse.x !== null && mouse.y !== null) {
-                            const midX = (p1.x + p2.x) / 2;
-                            const midY = (p1.y + p2.y) / 2;
-                            const mouseDistSq = (mouse.x - midX) ** 2 + (mouse.y - midY) ** 2;
-                            if (mouseDistSq < mouseRadiusSq) {
-                                mouseBonus = 1 - (Math.sqrt(mouseDistSq) / mouseRadius);
+                        // Z-depth awareness - only connect nodes loosely on the same depth layer
+                        const zDiff = Math.abs(p1.z - p2.z);
+                        if (zDiff > 0.4) continue; 
+
+                        // Mouse brighten effect
+                        let mouseSurge = 0;
+                        if (mouse.x !== null) {
+                            const mx = (p1.x + p2.x) / 2;
+                            const my = (p1.y + p2.y) / 2;
+                            const mDist = Math.sqrt((mouse.x - mx)**2 + (mouse.y - my)**2);
+                            if (mDist < config.mouseRadius) {
+                                mouseSurge = Math.pow((config.mouseRadius - mDist) / config.mouseRadius, 2);
                             }
                         }
 
-                        // Layer rules apply to line opacity
-                        const maxLayerOpacity = Math.max(p1.opacityMultiplier, p2.opacityMultiplier);
-                        const opacity = (distanceRatio * 0.35 + mouseBonus * 0.65) * maxLayerOpacity;
+                        // Shared energy pulses flash the connecting line
+                        const lineEnergy = Math.max(p1.energyPulse, p2.energyPulse);
                         
-                        if (opacity > 0.02) { 
+                        // Formulate colors & opacity
+                        const baseOpp = 0.25 * proximity * (1 - zDiff);
+                        const finalOpp = baseOpp + (mouseSurge * 0.3) + (lineEnergy * 0.4);
+                        
+                        // Use gradient line to smoothly blend between particle colors
+                        if (finalOpp > 0.02) {
+                            const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+                            grad.addColorStop(0, `rgba(${p1.rgb.join(',')}, ${finalOpp})`);
+                            grad.addColorStop(1, `rgba(${p2.rgb.join(',')}, ${finalOpp})`);
+                            
                             ctx.beginPath();
-                            // For massive density, sharing a single color per line is drastically faster than gradients
-                            ctx.strokeStyle = `rgba(${p1.colorString}, ${opacity})`;
-                            ctx.lineWidth = (distanceRatio * 1.5 + mouseBonus * 2) * maxLayerOpacity + 0.1;
+                            ctx.strokeStyle = grad;
+                            ctx.lineWidth = 0.8 + (mouseSurge * 2) + (lineEnergy * 1.5);
+                            
+                            // Draw an elastic, curved neural bezier path instead of a straight line
+                            // Control point offset by perpendicular angle & time
+                            const mx = (p1.x + p2.x) / 2;
+                            const my = (p1.y + p2.y) / 2;
+                            const perpX = -dy / dist;
+                            const perpY = dx / dist;
+                            
+                            // Slower oscillation for elegant organic curves
+                            const curveOffset = Math.sin((time * 0.5) + (i * j * 0.1)) * (dist * 0.15); 
+                            const cx = mx + (perpX * curveOffset);
+                            const cy = my + (perpY * curveOffset);
+                            
                             ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
+                            ctx.quadraticCurveTo(cx, cy, p2.x, p2.y);
                             ctx.stroke();
+
+                            // Temporary polygon formations (triangles) logic injection
+                            // Drawing rare geometric web patches if extremely close
+                            if (proximity > 0.8 && Math.random() > 0.98) {
+                                ctx.fillStyle = `rgba(${p1.rgb.join(',')}, ${finalOpp * 0.15})`;
+                                ctx.fill(); 
+                            }
                         }
                     }
                 }
             }
         };
-        
-        // Huge subtle ambient fog nebulas
-        const drawNebulas = () => {
-            const nebulas = [
-                { x: canvas.width * 0.2, y: canvas.height * 0.3, radius: canvas.width * 0.5, color: 'rgba(125, 42, 232, 0.04)' },
-                { x: canvas.width * 0.8, y: canvas.height * 0.7, radius: canvas.width * 0.6, color: 'rgba(0, 243, 255, 0.04)' },
-                { x: canvas.width * 0.5, y: canvas.height * 0.5, radius: canvas.width * 0.7, color: 'rgba(255, 0, 127, 0.03)' }
-            ];
-            
-            nebulas.forEach(n => {
-                const gradient = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.radius);
-                gradient.addColorStop(0, n.color);
-                gradient.addColorStop(1, 'rgba(0,0,0,0)');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            });
+
+        const drawBackgroundLayer = (isDark) => {
+            // Elegant linear gradient background
+            const bgGradient = ctx.createLinearGradient(0, 0, 0, h);
+            if (isDark) {
+                bgGradient.addColorStop(0, '#000000'); // Deep Black 
+                bgGradient.addColorStop(0.5, '#020617'); // Dark Slate/Navy
+                bgGradient.addColorStop(1, '#110524'); // Subtle deep purple glow at bottom
+            } else {
+                bgGradient.addColorStop(0, '#ffffff');
+                bgGradient.addColorStop(1, '#f1f5f9');
+            }
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, w, h);
         };
 
         const animate = () => {
-            // Base clears to pure jet black
+            time += 0.02;
+            const isDark = document.documentElement.classList.contains('dark');
+            
             ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            drawNebulas();
+            drawBackgroundLayer(isDark);
 
-            // Set to "lighter" blend mode! Overlapping lines/dots physically brighten to glowing white
-            ctx.globalCompositeOperation = 'lighter';
+            // Screen/Lighter blending mode for neon digital universe feel
+            ctx.globalCompositeOperation = isDark ? 'screen' : 'multiply';
             
-            drawConnections(); // draw mesh connecting web first
-            particles.forEach(p => p.draw()); // draw luminous nodes on top
-            particles.forEach(p => p.update()); // step physics
+            // Render lines first so nodes sit on top
+            drawConnections();
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(particles);
+                particles[i].draw();
+            }
 
             animationFrameId = requestAnimationFrame(animate);
         };
 
-        const handleMouseMove = (e) => {
+        const onMove = (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
         };
 
-        const handleMouseLeave = () => {
-            mouse.x = null;
-            mouse.y = null;
-        };
-        
-        const handleTouchMove = (e) => {
-            if (e.touches.length > 0) {
-                mouse.x = e.touches[0].clientX;
-                mouse.y = e.touches[0].clientY;
-            }
-        };
-        
-        const handleTouchEnd = () => {
+        const onLeave = () => {
             mouse.x = null;
             mouse.y = null;
         };
 
         window.addEventListener('resize', resize);
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseleave', handleMouseLeave);
-        window.addEventListener('touchmove', handleTouchMove, { passive: true });
-        window.addEventListener('touchend', handleTouchEnd);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseleave', onLeave);
         
         resize();
         animate();
 
         return () => {
             window.removeEventListener('resize', resize);
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseleave', handleMouseLeave);
-            window.removeEventListener('touchmove', handleTouchMove);
-            window.removeEventListener('touchend', handleTouchEnd);
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('mouseleave', onLeave);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
@@ -297,11 +315,11 @@ const ParticleNetwork = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="fixed inset-0 w-full h-full pointer-events-none z-0"
-            style={{ display: 'block' }}
+            id="particle-network-creative"
+            className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+            style={{ position: 'fixed', zIndex: 0 }}
         />
     );
 };
 
 export default ParticleNetwork;
-

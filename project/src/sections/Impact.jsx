@@ -78,9 +78,8 @@ const Impact = () => {
     return (
         <section id="impact" className="section-padding relative overflow-hidden group/section min-h-screen flex items-center">
             
-            {/* Global Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.85)_0%,rgba(0,0,0,0.5)_100%)] z-0 pointer-events-none backdrop-blur-[2px]" />
+            {/* Soft Dark Overlay for Readability */}
+            <div className="absolute inset-0 bg-black/10 z-0 pointer-events-none" />
 
             <div className="max-w-7xl mx-auto w-full relative z-10">
                 <div className="flex flex-col mb-16 md:mb-20">

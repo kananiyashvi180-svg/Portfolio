@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import ykLogo from '../assets/Yashvi-logo.jpeg';
 
 const navLinks = [
     { name: 'Home', to: 'home' },
     { name: 'About', to: 'about' },
     { name: 'Skills', to: 'skills' },
     { name: 'Projects', to: 'projects' },
+    { name: 'Certificates', to: 'certificates' },
     { name: 'Education', to: 'education' },
     { name: 'Contact', to: 'contact' },
 ];
@@ -16,6 +20,8 @@ const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -28,75 +34,121 @@ const Navbar = () => {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`h-[76px] w-full flex items-center transition-all duration-500 fixed top-0 left-0 right-0 z-[100] bg-white/40 dark:bg-[#000000]/40 backdrop-blur-[15px] border-b ${isScrolled ? 'border-primary-500/30 dark:border-primary-500/50' : 'border-white/20 dark:border-white/10'}`}
-            style={{
-                boxShadow: isScrolled
-                    ? '0 10px 40px rgba(0,0,0,0.1), 0 0 20px rgba(0,229,255,0.1), 0 0 20px rgba(108,99,255,0.1)'
-                    : 'none'
-            }}
+            className={`h-[72px] w-full flex items-center transition-all duration-500 fixed top-0 left-0 right-0 z-[100] 
+                bg-gradient-to-b from-black/80 to-black/60 
+                backdrop-blur-xl border-b 
+                ${isScrolled 
+                    ? 'border-cyan-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.5),0_0_30px_rgba(6,182,212,0.1)]' 
+                    : 'border-white/5'}`}
         >
-            <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 xl:px-12 flex justify-between items-center h-full gap-4">
-                {/* Logo */}
-                <Link to="home" smooth className="cursor-pointer shrink-0">
-                    <motion.div className="flex items-center gap-2" whileHover={{ scale: 1.04 }}>
-                        <motion.div
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-black font-outfit shadow-md shadow-primary-500/30"
-                            style={{ background: 'linear-gradient(135deg, #6C63FF, #00E5FF)' }}
-                            animate={{ rotate: [0, 5, -5, 0] }}
-                            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            {/* Subtle gradient overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-cyan-500/5 pointer-events-none" />
+            
+            <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center h-full gap-6 relative z-10">
+                
+                {/* Logo - Left Side completely redesigned with CSS */}
+                <Link to="home" smooth className="cursor-pointer shrink-0" onClick={() => navigate('/home', { state: { preventScroll: true } })}>
+                    <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.98 }}
+                        animate={{ y: [-2, 2, -2] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                        className="relative w-12 h-12 flex items-center justify-center group"
+                    >
+                        {/* 1) Dynamic Neon Glow (Bloom) behind the logo */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500 via-purple-500 to-blue-500 blur-xl opacity-40 group-hover:opacity-80 transition-opacity duration-500 rounded-full" />
+                        <div className="absolute inset-2 bg-gradient-to-r from-cyan-400 to-purple-400 blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+
+                        {/* 2) Outer Container isolates the screen blending */}
+                        <div 
+                            className="relative w-full h-full bg-black flex items-center justify-center z-10"
+                            style={{ mixBlendMode: 'screen' }}
                         >
-                            YK
-                        </motion.div>
-                        <span className="text-xl font-black font-outfit gradient-text tracking-tight hidden xl:block">
-                            Yashvi.
-                        </span>
+                            {/* The Original Logo - Grayscale and boosted to create a crisp mask */}
+                            <img
+                                src={ykLogo}
+                                alt="YK Logo"
+                                className="w-full h-full object-contain scale-[1.1] filter grayscale contrast-[1.2] brightness-[1.1]"
+                            />
+                            
+                            {/* Colorizing Gradient using Multiply. This colors ONLY the light parts of the logo! */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-cyan-300 via-purple-500 to-blue-600 mix-blend-multiply pointer-events-none" />
+                        </div>
                     </motion.div>
                 </Link>
 
-                {/* Desktop Nav */}
-                <div className="hidden xl:flex items-center gap-0.5 h-full overflow-hidden">
+                {/* Desktop Nav - Center */}
+                <div className="hidden xl:flex items-center gap-1 h-full">
                     {navLinks.map((link) => (
                         <Link
                             key={link.to}
                             to={link.to}
                             smooth
                             spy
-                            offset={-100}
-                            onSetActive={() => setActiveSection(link.to)}
+                            offset={-90}
+                            onSetActive={() => {
+                                setActiveSection(link.to);
+                                if (location.pathname !== `/${link.to}`) {
+                                    navigate(`/${link.to}`, { replace: true, state: { preventScroll: true } });
+                                }
+                            }}
+                            onClick={() => navigate(`/${link.to}`, { state: { preventScroll: true } })}
                             activeClass="active-nav-link"
-                            className="relative px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-[#00E5FF] cursor-pointer transition-colors hover:bg-white/10 dark:hover:bg-black/10 rounded-full group mx-0.5 flex items-center justify-center h-[40px] whitespace-nowrap"
+                            className="relative px-5 py-2.5 text-base font-medium text-slate-400 hover:text-white cursor-pointer transition-all duration-300 rounded-lg group"
                         >
-                            <span className="relative z-10 transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#6C63FF] group-hover:to-[#00E5FF]">
+                            <span className="relative z-10 transition-all duration-300 group-hover:text-cyan-300">
                                 {link.name}
                             </span>
-                            <span className="absolute bottom-[4px] left-1/2 -translate-x-1/2 w-0 h-[2px] rounded-full bg-gradient-to-r from-[#6C63FF] to-[#00E5FF] group-hover:w-[calc(100%-1.5rem)] transition-all duration-300 opacity-0 group-hover:opacity-100" />
+                            
+                            {/* Hover glow effect */}
+                            <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-all duration-300 blur-sm" />
+                            
+                            {/* Active underline indicator */}
+                            <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-[2px] rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-4/5 transition-all duration-300 shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
                         </Link>
                     ))}
                 </div>
 
-                {/* Gradient Pill CTA (Desktop only) */}
-                <div className="hidden xl:block shrink-0">
-                    <Link to="contact" smooth offset={-100}>
+                {/* Desktop Controls - Right Side */}
+                <div className="hidden xl:flex items-center gap-6 shrink-0">
+                    <a href="/Yashvi_Resume.pdf" target="_blank" rel="noopener noreferrer">
                         <motion.button
-                            className="px-5 py-2 rounded-full text-xs font-black text-white shadow-lg tracking-wide border border-white/20 whitespace-nowrap"
-                            style={{ background: 'linear-gradient(135deg, #6C63FF, #00E5FF)' }}
-                            whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(108,99,255,0.4), 0 0 20px rgba(0,229,255,0.4)' }}
-                            whileTap={{ scale: 0.96 }}
+                            className="relative px-6 py-2.5 rounded-full text-base font-semibold text-white overflow-hidden group"
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
                         >
-                            Let's Work Together
+                            {/* Gradient background */}
+                            <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-cyan-500 to-cyan-400 transition-all duration-300 group-hover:from-blue-500 group-hover:via-cyan-400 group-hover:to-cyan-300" />
+                            
+                            {/* Glow effect on hover */}
+                            <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-blue-500/50 via-cyan-400/50 to-cyan-300/50 blur-xl" />
+                            
+                            {/* Subtle border */}
+                            <span className="absolute inset-0 rounded-full border border-white/20" />
+                            
+                            {/* Button text */}
+                            <span className="relative z-10 tracking-wide">
+                                Resume
+                            </span>
                         </motion.button>
-                    </Link>
+                    </a>
                 </div>
 
                 {/* Mobile Toggle */}
-                <div className="xl:hidden flex items-center gap-3">
+                <div className="xl:hidden flex items-center gap-4">
                     <motion.button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="p-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10"
+                        className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
                         whileTap={{ scale: 0.9 }}
                     >
                         <AnimatePresence mode="wait">
-                            <motion.div key={isMobileMenuOpen ? 'x' : 'menu'} initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                            <motion.div 
+                                key={isMobileMenuOpen ? 'x' : 'menu'} 
+                                initial={{ rotate: -90, opacity: 0 }} 
+                                animate={{ rotate: 0, opacity: 1 }} 
+                                exit={{ rotate: 90, opacity: 0 }} 
+                                transition={{ duration: 0.15 }}
+                            >
                                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                             </motion.div>
                         </AnimatePresence>
@@ -108,14 +160,14 @@ const Navbar = () => {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: -20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                        transition={{ duration: 0.25, ease: 'easeOut' }}
-                        className="absolute top-[76px] left-0 w-full bg-white/80 dark:bg-[#000000]/90 backdrop-blur-2xl border-b border-slate-200/50 dark:border-white/10 overflow-hidden xl:hidden shadow-2xl p-4"
-                        style={{ boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className="absolute top-[72px] left-0 w-full bg-black/95 backdrop-blur-2xl border-b border-cyan-500/20 overflow-hidden xl:hidden shadow-2xl"
+                        style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(6,182,212,0.1)' }}
                     >
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-1 p-4">
                             {navLinks.map((link, i) => (
                                 <motion.div
                                     key={link.to}
@@ -127,14 +179,21 @@ const Navbar = () => {
                                         to={link.to}
                                         smooth
                                         spy
-                                        offset={-70}
-                                        activeClass="!text-primary-500 !bg-primary-500/10 !border-primary-500/20"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                        className="block px-6 py-4 rounded-2xl text-base font-black text-slate-700 dark:text-slate-200 hover:bg-white/50 dark:hover:bg-white/5 cursor-pointer transition-all border border-transparent hover:border-primary-500/20"
+                                        offset={-80}
+                                        onSetActive={() => {
+                                            setActiveSection(link.to);
+                                            if (location.pathname !== `/${link.to}`) {
+                                                navigate(`/${link.to}`, { replace: true, state: { preventScroll: true } });
+                                            }
+                                        }}
+                                        activeClass="!text-cyan-400 !bg-cyan-500/10"
+                                        onClick={() => {
+                                            setIsMobileMenuOpen(false);
+                                            navigate(`/${link.to}`, { state: { preventScroll: true } });
+                                        }}
+                                        className="block px-6 py-4 rounded-xl text-lg font-medium text-slate-400 hover:text-white hover:bg-white/5 cursor-pointer transition-all border border-transparent hover:border-cyan-500/20"
                                     >
-                                        <span className="bg-clip-text">
-                                            {link.name}
-                                        </span>
+                                        {link.name}
                                     </Link>
                                 </motion.div>
                             ))}
@@ -142,16 +201,15 @@ const Navbar = () => {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: navLinks.length * 0.05 }}
-                                className="mt-4"
+                                className="mt-4 px-4"
                             >
-                                <Link to="contact" smooth offset={-100} onClick={() => setIsMobileMenuOpen(false)}>
+                                <a href="/Yashvi_Resume.pdf" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
                                     <button
-                                        className="w-full px-6 py-4 rounded-2xl text-base font-black text-white shadow-lg tracking-wide border border-white/20"
-                                        style={{ background: 'linear-gradient(135deg, #6C63FF, #00E5FF)' }}
+                                        className="w-full px-6 py-4 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-blue-600 via-cyan-500 to-cyan-400 hover:from-blue-500 hover:via-cyan-400 hover:to-cyan-300 transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.3)]"
                                     >
-                                        Let's Work Together
+                                        Resume
                                     </button>
-                                </Link>
+                                </a>
                             </motion.div>
                         </div>
                     </motion.div>

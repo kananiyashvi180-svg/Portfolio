@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yashvi Resume</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @page { size: A4; margin: 0; }
+
+  @media print {
+    html, body { width: 210mm; height: 297mm; }
+    .print-btn { display: none !important; }
+    .page { box-shadow: none !important; }
+  }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 9pt;
+    background: #f0f0f0;
+    color: #000;
+    line-height: 1.45;
+  }
+
+  .print-btn {
+    display: block;
+    margin: 14px auto;
+    padding: 8px 22px;
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .print-btn:hover { background: #333; }
+
+  /* ── PAGE ── */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ══════════════════════════════
+     HEADER
+  ══════════════════════════════ */
+  .header {
+    padding: 18px 24px 10px 24px;
+    border-bottom: 3px solid #888;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .header-name {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 26pt;
+    font-weight: 900;
+    letter-spacing: 0px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .header-contacts {
+    text-align: right;
+    font-family: Arial, sans-serif;
+    font-size: 8.5pt;
+    line-height: 2;
+    color: #000;
+  }
+  .header-contacts div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+  .icon-circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #555;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 6pt;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+  .header-role {
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+    color: #333;
+    margin-top: 4px;
+    border-bottom: 1.5px solid #000;
+    padding-bottom: 6px;
+    width: fit-content;
+    min-width: 200px;
+  }
+  .header-links {
+    display: flex;
+    gap: 14px;
+    margin-top: 7px;
+    font-family: Arial, sans-serif;
+    font-size: 8.5pt;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-links .left-links { display: flex; gap: 14px; }
+  .header-links a {
+    color: #000;
+    text-decoration: underline;
+    font-weight: normal;
+  }
+  .header-links .location {
+    font-size: 8.5pt;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ══════════════════════════════
+     SUMMARY (full width)
+  ══════════════════════════════ */
+  .summary-band {
+    padding: 10px 30px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+  .summary-band .sec-title {
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1.5px solid #000;
+    display: inline-block;
+    padding-bottom: 2px;
+    margin-bottom: 7px;
+  }
+  .summary-band p {
+    font-size: 8.5pt;
+    line-height: 1.6;
+    color: #111;
+    text-align: center;
+  }
+
+  /* ══════════════════════════════
+     BODY: LEFT + RIGHT
+  ══════════════════════════════ */
+  .body {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    width: 100%;
+    flex: 1;
+    align-items: stretch;
+  }
+
+  /* LEFT */
+  .col-left {
+    padding: 14px 10px 14px 16px;
+    border-right: 1.5px solid #bbb;
+    min-height: 100%;
+  }
+
+  /* RIGHT */
+  .col-right {
+    padding: 14px 20px 14px 16px;
+    min-height: 100%;
+  }
+
+  /* ── SECTION TITLE (left) ── */
+  .sec-head {
+    font-family: Arial, sans-serif;
+    font-size: 10.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 2px;
+    margin-bottom: 6px;
+    margin-top: 12px;
+  }
+  .col-left .sec-head:first-child { margin-top: 0; }
+
+  /* ── SKILLS (left) ── */
+  .skills-list {
+    list-style: none;
+    padding: 0;
+  }
+  .skills-list li {
+    font-size: 8pt;
+    padding: 2px 0 2px 10px;
+    position: relative;
+    font-family: Arial, sans-serif;
+  }
+  .skills-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    font-size: 9pt;
+  }
+  .currently-exploring {
+    font-size: 8pt;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
+  .exploring-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px 4px;
+    font-size: 7.5pt;
+    font-family: Arial, sans-serif;
+    color: #222;
+  }
+
+  /* ── HACKATHON / ACHIEVEMENT / CERT (left) ── */
+  .left-link-list {
+    list-style: none;
+    padding: 0;
+  }
+  .left-link-list li {
+    font-size: 8pt;
+    font-family: Arial, sans-serif;
+    padding: 2px 0;
+  }
+  .left-link-list li a, .left-link-list li span {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  /* ══════════════════════════════
+     RIGHT — SECTION TITLE
+  ══════════════════════════════ */
+  .r-sec-head {
+    font-family: Arial, sans-serif;
+    font-size: 10.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 2px;
+    margin-bottom: 8px;
+    margin-top: 12px;
+  }
+  .col-right .r-sec-head:first-child { margin-top: 0; }
+
+  /* ── EXPERIENCE ── */
+  .exp-item { margin-bottom: 10px; }
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .exp-title {
+    font-family: Arial, sans-serif;
+    font-size: 9.5pt;
+    font-weight: bold;
+  }
+  .exp-date {
+    font-family: Arial, sans-serif;
+    font-size: 8pt;
+    color: #333;
+    font-style: italic;
+  }
+  .key-features-label {
+    font-family: Arial, sans-serif;
+    font-size: 8pt;
+    font-style: italic;
+    margin: 4px 0 2px 0;
+    color: #222;
+  }
+  .exp-bullets {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 4px;
+  }
+  .exp-bullets li {
+    font-size: 8pt;
+    font-family: Arial, sans-serif;
+    padding: 1.5px 0 1.5px 10px;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+  }
+  .tech-line {
+    font-size: 7.8pt;
+    font-family: Arial, sans-serif;
+    margin-top: 3px;
+  }
+  .tech-line strong { font-weight: bold; }
+  .repo-line {
+    font-size: 7.8pt;
+    font-family: Arial, sans-serif;
+    margin-top: 1px;
+  }
+  .repo-line a { color: #000; text-decoration: underline; }
+
+  /* ── PROJECTS ── */
+  .proj-category {
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .proj-category-date {
+    font-size: 8pt;
+    font-weight: normal;
+    font-style: italic;
+    color: #333;
+  }
+  .proj-name {
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 3px;
+  }
+  .proj-item { margin-bottom: 9px; }
+
+  /* divider between projects */
+  .proj-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 8px 0;
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Download / Print as PDF</button>
+
+<div class="page">
+
+  <!-- ════════════ HEADER ════════════ -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="header-name">Yashvi Kanani</div>
+        <div class="header-role">Full-Stack Developer</div>
+      </div>
+      <div class="header-contacts">
+        <div><span>+91 91064 54707</span><span class="icon-circle">☎</span></div>
+        <div><span>yashvi.kanani.cg&#64;gmail.com</span><span class="icon-circle">✉</span></div>
+        <div><span>Kalol, Gujarat, India</span><span class="icon-circle">⌂</span></div>
+      </div>
+    </div>
+    <div class="header-links">
+      <div class="left-links">
+        <a href="https://github.com/kananiyashvi180-svg" target="_blank">Github</a>
+        <a href="https://www.linkedin.com/in/yashvi-kanani-8539a738a/" target="_blank">LinkedIn</a>
+        <a href="https://leetcode.com/u/YashviKanani257/" target="_blank">LeetCode</a>
+        <a href="https://www.sololearn.com/en/profile/34907179" target="_blank">Sololearn</a>
+      </div>
+      <div class="location"></div>
+    </div>
+  </div>
+
+  <!-- ════════════ SUMMARY ════════════ -->
+  <div class="summary-band">
+    <div class="sec-title">Summary</div>
+    <p>Computer Science undergraduate with hands-on experience in building and deploying full-stack web applications.<br>
+    Skilled in frontend and backend development using React.js, Node.js, Express.js, and MongoDB.<br>
+    Currently exploring cloud deployment, database optimization, and scalable backend architecture.</p>
+  </div>
+
+  <!-- ════════════ BODY ════════════ -->
+  <div class="body">
+
+    <!-- ══ LEFT COLUMN ══ -->
+    <div class="col-left">
+
+      <!-- SKILLS -->
+      <div class="sec-head">Skills</div>
+      <div style="font-family:Arial,sans-serif;">
+        <div style="margin-bottom:7px;">
+          <div style="font-size:8.5pt;font-weight:bold;">Languages &amp; Frameworks:</div>
+          <div style="font-size:8pt;">JavaScript (ES6+), C++, React.js, Tailwind CSS, HTML5, CSS3</div>
+        </div>
+        <div style="margin-bottom:7px;">
+          <div style="font-size:8.5pt;font-weight:bold;">Databases &amp; Backend:</div>
+          <div style="font-size:8pt;">MongoDB, Mongoose, REST APIs, Cloudinary, Node.js, Express.js</div>
+        </div>
+        <div style="margin-bottom:7px;">
+          <div style="font-size:8.5pt;font-weight:bold;">Tools &amp; Platforms:</div>
+          <div style="font-size:8pt;">Git, GitHub, Postman, npm, Vercel, Netlify, Render, Figma, Hostinger</div>
+        </div>
+        <div style="margin-bottom:7px;">
+          <div style="font-size:8.5pt;font-weight:bold;">UI/UX Design:</div>
+          <div style="font-size:8pt;">Figma, Wireframing, Prototyping</div>
+        </div>
+      </div>
+      <div class="currently-exploring">Currently Exploring</div>
+      <div class="exploring-grid">
+        <span>Next.js</span><span>TypeScript</span>
+        <span>AWS basics</span><span>Backend Scalability</span>
+      </div>
+
+      <!-- INTERESTS -->
+      <div class="sec-head">Interests</div>
+      <div style="font-family:Arial,sans-serif;font-size:8pt;line-height:1.6;color:#111;">
+        <p style="margin-bottom:5px;">— <strong>Problem Solving &amp; Learning New Technologies</strong> — I have a strong passion for coding and enjoy building solutions through logical thinking and problem-solving. I continuously explore new technologies to enhance my technical skills.</p>
+        <p style="margin-bottom:5px;">In my free time, I enjoy playing badminton, which helps me stay active and maintain focus. It also improves my discipline and teamwork abilities.</p>
+        <p><strong>Coding &amp; Building Web Applications</strong> &nbsp;|&nbsp; <strong>Playing Badminton (Teamwork &amp; Fitness)</strong></p>
+      </div>
+
+      <!-- CERTIFICATIONS -->
+      <div class="sec-head">Certifications</div>
+      <ul class="left-link-list">
+        <li><a href="https://www.sololearn.com/certificates/CC-BRS73VE3" target="_blank">Javascript Intermediate</a></li>
+        <li><a href="https://www.sololearn.com/certificates/CC-DQPR4GTK" target="_blank">Javascript Basic</a></li>
+        <li><a href="https://www.sololearn.com/certificates/CC-LARACUY7" target="_blank">Introduction to C++</a></li>
+        <li><a href="https://www.sololearn.com/certificates/CC-ZLVMOOEC" target="_blank">C Intermediate</a></li>
+      </ul>
+
+      <!-- EDUCATION -->
+      <div class="sec-head">Education</div>
+      <div style="font-family:Arial,sans-serif;">
+        <div style="margin-bottom:8px;">
+          <div style="font-size:8.5pt;font-weight:bold;">Swaminarayan University</div>
+          <div style="font-size:8pt;">B.E. (Bachelor of Engineering)</div>
+          <div style="font-size:7.8pt;font-style:italic;">2025 – 2029 | Kalol, Gujarat</div>
+        </div>
+        <div style="margin-bottom:8px;">
+          <div style="font-size:8.5pt;font-weight:bold;">Dream International School</div>
+          <div style="font-size:8pt;">Higher Secondary Education (GSEB)</div>
+          <div style="font-size:7.8pt;font-style:italic;">2023 – 2025 | Dhoraji, Gujarat</div>
+        </div>
+        <div style="margin-bottom:8px;">
+          <div style="font-size:8.5pt;font-weight:bold;">St. Ann's High School</div>
+          <div style="font-size:8pt;">Secondary Education</div>
+          <div style="font-size:7.8pt;font-style:italic;">2021 – 2023 | Dwarka, Gujarat</div>
+        </div>
+      </div>
+
+    </div><!-- /col-left -->
+
+    <!-- ══ RIGHT COLUMN ══ -->
+    <div class="col-right">
+
+      <!-- FULL STACK PROJECT -->
+      <div class="r-sec-head">Full Stack Project</div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-title">MediGuide – AI Healthcare Platform</span>
+          <span class="exp-date">Mar 2026</span>
+        </div>
+        <div class="key-features-label">Key Features:</div>
+        <ul class="exp-bullets">
+          <li>Built a full-stack healthcare platform with hospital discovery, comparison, and map-based navigation.</li>
+          <li>Designed REST APIs to manage hospital data, user queries, and geolocation-based search results.</li>
+          <li>Implemented user authentication and secure session handling with JWT.</li>
+          <li>Deployed frontend on Vercel and backend on Render with CI/CD pipeline integration.</li>
+        </ul>
+        <div class="tech-line"><strong>Tech Stack:</strong> React.js, Node.js, Express.js, MongoDB, Maps API, Tailwind CSS</div>
+        <div class="repo-line">GitHub Repository: <a href="https://github.com/kananiyashvi180-svg/mediguide" target="_blank">Link</a> &nbsp;|&nbsp; Live Demo: <a href="https://mediguide-p7.vercel.app/" target="_blank">Link</a></div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="r-sec-head">Projects</div>
+
+      <!-- Hackathon Projects -->
+      <div class="proj-category">
+        <span>Hackathone Projects</span>
+      </div>
+      <div class="proj-name" style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span>GitHub Portfolio Analyzer</span>
+        <span class="exp-date">Jan 2026</span>
+      </div>
+      <div class="proj-item">
+        <div class="key-features-label">Key Features:</div>
+        <ul class="exp-bullets">
+          <li>Built a developer analytics dashboard inspired by real-world GitHub profile tools.</li>
+          <li>Implemented repository scanning, language detection, commit tracking, stars and forks display.</li>
+          <li>Integrated dynamic charts and responsive layout for instant profile visualization.</li>
+        </ul>
+        <div class="tech-line"><strong>Tech Stack:</strong> React.js, Node.js, GitHub REST API, MongoDB, Tailwind CSS</div>
+        <div class="repo-line">Live Demo: <a href="https://github-portfolio-analyzer-pi.vercel.app/" target="_blank">Link</a> &nbsp;|&nbsp; GitHub Repository: <a href="https://github.com/kananiyashvi180-svg/Github-Portfolio-Analyzer-Hackathon" target="_blank">Link</a></div>
+      </div>
+
+      <hr class="proj-divider"/>
+
+      <!-- MERN Stack Projects -->
+      <div class="proj-category">
+        <span>MERN Stack Projects</span>
+      </div>
+
+      <div class="proj-name" style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span>Aurexo Shopping App : <span style="font-weight:normal;">E-Commerce Platform</span></span>
+        <span class="exp-date">Feb 2026</span>
+      </div>
+      <div class="proj-item">
+        <div class="key-features-label">Key Features:</div>
+        <ul class="exp-bullets">
+          <li>Built a modern e-commerce app fetching real-time product data from a third-party REST API.</li>
+          <li>Product browsing, detail views, and dynamic cart with full state management.</li>
+          <li>Responsive UI using React and Tailwind CSS with optimized loading states and error handling.</li>
+        </ul>
+        <div class="tech-line"><strong>Tech Stack:</strong> React.js, Node.js, REST API, MongoDB, Tailwind CSS</div>
+        <div class="repo-line">Live Demo: <a href="https://yashvi-react-project.netlify.app/" target="_blank">Link</a> &nbsp;|&nbsp; GitHub Repository: <a href="https://github.com/kananiyashvi180-svg/react-task" target="_blank">Link</a></div>
+      </div>
+
+      <div class="proj-name" style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px;">
+        <span>Pixel Perfect Website Clone : <span style="font-weight:normal;">Frontend Precision</span></span>
+        <span class="exp-date">Dec 2025</span>
+      </div>
+      <div class="proj-item">
+        <div class="key-features-label">Key Features:</div>
+        <ul class="exp-bullets">
+          <li>Recreated an existing website with pixel-accurate layout, typography, spacing, and colors.</li>
+          <li>Responsive UI using React and Tailwind CSS across all screen sizes with zero layout shifts.</li>
+        </ul>
+        <div class="tech-line"><strong>Tech Stack:</strong> React.js, Node.js, Express.js, MongoDB, Tailwind CSS</div>
+        <div class="repo-line">Live Link: <a href="https://kananiyashviwebsiteclone.netlify.app/pixelperfect" target="_blank">Link</a> &nbsp;|&nbsp; GitHub Repository: <a href="https://github.com/kananiyashvi180-svg/Website-Assignments" target="_blank">Link</a></div>
+      </div>
+
+    </div><!-- /col-right -->
+  </div><!-- /body -->
+
+</div><!-- /page -->
+
+</body>
+</html>
