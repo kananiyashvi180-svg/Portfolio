@@ -29,6 +29,16 @@ export const portfolioData = {
         { name: "Git", category: "Tools", level: 85, icon: "GitBranch" },
         { name: "Postman", category: "Tools", level: 80, icon: "Send" }
     ],
+    fullstack: [
+        {
+            title: "MediGuide",
+            description: "A comprehensive full-stack healthcare platform that connects patients with doctors, enabling appointment booking, real-time chat, medical records management, and AI-powered symptom analysis. Built with React, Node.js, Express, and MongoDB — deployed on Vercel.",
+            image: "/mediguide.png",
+            tech: ["React", "Node.js", "Express", "MongoDB", "Vite", "Tailwind CSS"],
+            github: "https://github.com/kananiyashvi180-svg/mediguide",
+            live: "https://mediguide-p7.vercel.app/"
+        }
+    ],
     projects: [
         {
             title: "Click Counter Game",
@@ -60,7 +70,7 @@ export const portfolioData = {
             title: "Ethereum Website Clone",
             description: "A detailed clone of the official Ethereum website, replicating its modern layout, smooth scroll sections, and responsive design using HTML & CSS.",
             image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=800&q=80",
-            tech: ["HTML", "CSS", "JavaScript"],
+            tech: ["HTML", "CSS"],
             github: "https://github.com/kananiyashvi180-svg/Website-5",
             live: "https://yashviwebsite5.netlify.app/"
         },
@@ -68,7 +78,7 @@ export const portfolioData = {
             title: "Pixel Perfect Clone",
             description: "A pixel-perfect clone of a professional web design agency landing page — featuring a clean hero, services grid, and call-to-action sections built with HTML & CSS.",
             image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80",
-            tech: ["HTML", "CSS", "JavaScript"],
+            tech: ["HTML", "CSS"],
             github: "https://github.com/kananiyashvi180-svg/Website-Assignments",
             live: "https://kananiyashviwebsiteclone.netlify.app/pixelperfect"
         },
@@ -76,7 +86,7 @@ export const portfolioData = {
             title: "Instacart App Clone",
             description: "A comprehensive clone of the Instacart grocery delivery platform, featuring a responsive layout and product grid system.",
             image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80",
-            tech: ["HTML", "CSS", "JavaScript"],
+            tech: ["HTML", "CSS"],
             github: "https://github.com/kananiyashvi180-svg/Website-2",
             live: "https://websiteclone3.netlify.app/instacart"
         },
