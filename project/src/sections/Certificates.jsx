@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { Award, Eye, X, Calendar, BadgeCheck } from 'lucide-react';
+import { Award, Eye, X, Calendar, BadgeCheck, ExternalLink } from 'lucide-react';
 import { portfolioData } from '../data/portfolio';
 import ScrollReveal from '../components/ScrollReveal';
 
@@ -63,9 +63,13 @@ const CertificateCard = ({ cert, onOpen, index }) => {
                     {cert.issuer}
                 </p>
 
-                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium line-clamp-3 mb-6 flex-grow">
+                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium line-clamp-2 mb-4 flex-grow">
                     {cert.description}
                 </p>
+
+                <div className="flex items-center gap-2 mb-6 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                    <Calendar size={12} /> {cert.date}
+                </div>
 
                 <motion.button
                     onClick={() => onOpen(cert)}
@@ -148,6 +152,21 @@ const Certificates = () => {
                                 <img src={selectedCert.image} className="w-full h-auto rounded-2xl sm:rounded-3xl mb-6 sm:mb-8 shadow-2xl" alt="" />
                                 <h3 className="text-[clamp(1.5rem,4vw,2rem)] font-black mb-2 uppercase">{selectedCert.title}</h3>
                                 <p className="text-primary-500 font-bold mb-6 tracking-widest">{selectedCert.issuer}</p>
+                                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                                    <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest">
+                                        <Calendar size={14} className="text-primary-500" /> {selectedCert.date}
+                                    </div>
+                                    {selectedCert.link && (
+                                        <a 
+                                            href={selectedCert.link} 
+                                            target="_blank" 
+                                            rel="noreferrer" 
+                                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary-500/30 hover:bg-primary-600 hover:scale-105 transition-all"
+                                        >
+                                            <ExternalLink size={14} /> Verify Online
+                                        </a>
+                                    )}
+                                </div>
                                 <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{selectedCert.description}</p>
                             </div>
                         </motion.div>

@@ -123,6 +123,22 @@ export const portfolioData = {
     ],
     certificates: [
         {
+            title: "C Intermediate",
+            issuer: "Sololearn",
+            date: "8th March 2026",
+            description: "Advanced certification in C programming, covering low-level memory management, complex data structures, and optimized algorithm implementation.",
+            image: "/sololearn_c_intermediate.png",
+            link: "https://www.sololearn.com/certificates/CC-ZLVMOOEC"
+        },
+        {
+            title: "JavaScript Intermediate",
+            issuer: "Sololearn",
+            date: "5th March 2026",
+            description: "Successfully completed the JavaScript Intermediate course, mastering advanced concepts like ES6+, asynchronous programming, and object-oriented JavaScript.",
+            image: "/sololearn_js_intermediate.png",
+            link: "https://www.sololearn.com/certificates/CC-BRS73VE3"
+        },
+        {
             title: "Gemini for Google Workspace",
             issuer: "Google Cloud | Simplilearn",
             date: "10th February 2026",
