@@ -29,7 +29,7 @@ const CertificateCard = ({ cert, onOpen, index }) => {
             ref={cardRef}
             onMouseMove={handleMove}
             onMouseLeave={reset}
-            className="group relative rounded-3xl bg-white/90 dark:bg-black/60 backdrop-blur-lg border border-slate-200 dark:border-white/10 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl dark:hover:shadow-[0_10px_40px_rgba(255,255,255,0.05)] flex flex-col h-full"
+            className="group relative rounded-3xl bg-black/40 backdrop-blur-lg border border-[#B2A5FF]/30 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl flex flex-col h-full"
         >
             {/* Image Preview */}
             <div className="relative aspect-video overflow-hidden">
@@ -49,31 +49,31 @@ const CertificateCard = ({ cert, onOpen, index }) => {
             <div className="p-6 sm:p-7 flex flex-col flex-grow relative">
                 <div className="flex justify-between items-start mb-4">
                     <motion.div
-                        className="w-12 h-12 rounded-2xl flex items-center justify-center bg-slate-100 dark:bg-black/40 text-primary-500 shadow-inner -mt-14 relative z-10 border border-slate-200 dark:border-white/10 backdrop-blur-md"
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center bg-white/5 dark:bg-black/40 text-primary-500 shadow-inner -mt-14 relative z-10 border border-white/10 dark:border-white/10 backdrop-blur-md"
                         whileHover={{ rotate: 15 }}
                     >
                         <Award size={24} />
                     </motion.div>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-black mb-1 text-slate-900 dark:text-white group-hover:text-primary-500 transition-colors uppercase leading-tight">
+                <h3 className="text-xl sm:text-2xl font-black mb-1 text-white group-hover:text-primary-500 transition-colors uppercase leading-tight">
                     {cert.title}
                 </h3>
-                <p className="text-slate-600 dark:text-[#B0B0B0] font-bold text-xs uppercase tracking-[0.2em] mb-4">
+                <p className="text-slate-400 dark:text-[#B0B0B0] font-bold text-xs uppercase tracking-[0.2em] mb-4">
                     {cert.issuer}
                 </p>
 
-                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium line-clamp-2 mb-4 flex-grow">
+                <p className="text-slate-400 dark:text-slate-400 text-sm font-medium line-clamp-2 mb-4 flex-grow">
                     {cert.description}
                 </p>
 
-                <div className="flex items-center gap-2 mb-6 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                <div className="flex items-center gap-2 mb-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
                     <Calendar size={12} /> {cert.date}
                 </div>
 
                 <motion.button
                     onClick={() => onOpen(cert)}
-                    className="mt-auto w-full py-4 rounded-2xl border border-slate-300 dark:border-white/20 flex items-center justify-center gap-2 text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300"
+                    className="mt-auto w-full py-4 rounded-2xl border border-white/10 dark:border-white/20 flex items-center justify-center gap-2 text-[10px] sm:text-xs font-black uppercase tracking-widest text-white hover:bg-white/5 dark:hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300"
                 >
                     <Eye size={16} /> Full View Details
                 </motion.button>
@@ -99,17 +99,17 @@ const Certificates = () => {
             <div className="absolute inset-0 bg-black/10 pointer-events-none z-0" />
 
             {/* BG Narrative */}
-            <div className="absolute top-20 left-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase z-0">
-                HONORS
+            <div className="absolute top-20 left-[-5%] text-[15vw] font-black text-white/5 select-none pointer-events-none tracking-tighter uppercase z-0">
+                CREDENTIALS
             </div>
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-10">
                     <ScrollReveal>
                         <div className="section-label">Achievements</div>
-                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter">
+                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter text-white">
                             Awards & <br />
-                            <span className="gradient-text italic">Certifs.</span>
+                            <span className="gradient-text italic">Honors.</span>
                         </h2>
                     </ScrollReveal>
 
@@ -140,11 +140,11 @@ const Certificates = () => {
                         />
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                            className="relative w-full max-w-3xl rounded-[3rem] overflow-hidden glass-card bg-white dark:bg-[#000000] border border-white/20"
+                            className="relative w-full max-w-3xl rounded-[3rem] overflow-hidden glass-card bg-black/90 dark:bg-[#000000] border border-white/20 shadow-2xl"
                         >
                             <button
                                 onClick={() => setSelectedCert(null)}
-                                className="absolute top-6 right-6 p-3 rounded-2xl bg-slate-100 dark:bg-black/60 hover:bg-primary-500 hover:text-white transition-all z-20"
+                                className="absolute top-6 right-6 p-3 rounded-2xl bg-white/5 dark:bg-black/60 hover:bg-primary-500 hover:text-white transition-all z-20"
                             >
                                 <X size={20} />
                             </button>

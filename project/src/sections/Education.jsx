@@ -15,33 +15,33 @@ const Education = () => {
                 {/* ── Section Header ─────────────────────────────────── */}
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">
                     <ScrollReveal>
-                        <div className="section-label text-primary-600 dark:text-primary-400 font-black">My Journey</div>
-                        <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter text-slate-950 dark:text-white drop-shadow-md">
+                        <div className="section-label text-primary-500 font-black">My Journey</div>
+                        <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] sm:leading-[0.85] uppercase tracking-tighter text-white drop-shadow-md">
                             Educational<br />
                             <span className="gradient-text italic">Hub.</span>
                         </h2>
                     </ScrollReveal>
 
                     <ScrollReveal delay={0.15}>
-                        <p className="text-slate-800 dark:text-slate-200 text-lg font-bold leading-relaxed max-w-md lg:max-w-sm">
+                        <p className="text-slate-200 text-lg font-bold leading-relaxed max-w-md lg:max-w-sm">
                             The academic backbone that shaped my thinking and technical toolkit.
                         </p>
                     </ScrollReveal>
                 </div>
 
                 {/* ── Rows ───────────────────────────────────────────── */}
-                <div className="border-t border-slate-200 dark:border-white/20">
+                <div className="border-t border-[#B2A5FF]/30">
                     {portfolioData.education.map((edu, i) => (
                         <ScrollReveal key={i} delay={i * 0.1} direction="up" className="w-full">
-                            <div className="education-card group border-b border-slate-200 dark:border-white/10 py-10 transition-all duration-300 hover:bg-white/80 dark:hover:bg-white/[0.05] px-4 rounded-2xl -mx-4 relative overflow-hidden">
+                            <div className="education-card group border-b border-[#B2A5FF]/20 py-10 transition-all duration-300 hover:bg-white/[0.05] px-4 rounded-2xl -mx-4 relative overflow-hidden">
                                 {/* Subtle internal overlay for text clarity */}
-                                <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-white/95 dark:from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                                <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-black/20 dark:from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                                 
                                 {/* Row grid: index | period | details */}
                                 <div className="grid grid-cols-[30px_1fr] md:grid-cols-[40px_160px_1fr] gap-x-4 sm:gap-x-8 gap-y-4 items-start relative z-10">
 
                                     {/* Index number */}
-                                    <span className="text-sm font-black text-primary-600 dark:text-primary-500 tracking-widest pt-1 tabular-nums">
+                                    <span className="text-sm font-black text-primary-500 dark:text-primary-500 tracking-widest pt-1 tabular-nums">
                                         0{i + 1}
                                     </span>
 
@@ -51,7 +51,7 @@ const Education = () => {
                                             <Calendar size={9} />
                                             {edu.period}
                                         </span>
-                                        <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-slate-200">
+                                        <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-200 dark:text-slate-200">
                                             <MapPin size={9} className="text-primary-500" /> India
                                         </span>
                                     </div>
@@ -66,19 +66,19 @@ const Education = () => {
                                         </div>
 
                                         <div>
-                                            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight leading-snug text-slate-950 dark:text-white group-hover:text-primary-600 transition-colors duration-300 drop-shadow-sm">
+                                            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight leading-snug text-white dark:text-white group-hover:text-primary-500 transition-colors duration-300 drop-shadow-sm">
                                                 {edu.degree}
                                             </h3>
-                                            <p className="text-primary-600 dark:text-primary-400 font-black text-[11px] uppercase tracking-[0.2em] mt-1.5">
+                                            <p className="text-primary-500 dark:text-primary-400 font-black text-[11px] uppercase tracking-[0.2em] mt-1.5">
                                                 {edu.institution}
                                             </p>
                                         </div>
 
-                                        <p className="text-slate-900 dark:text-slate-100 text-base leading-relaxed font-bold max-w-xl">
+                                        <p className="text-slate-200 dark:text-slate-100 text-base leading-relaxed font-bold max-w-xl">
                                             {edu.description || "Focused on mastering advanced algorithmic patterns, complex system architectures, and modern development methodologies."}
                                         </p>
 
-                                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.25em] text-slate-900 dark:text-slate-200 group-hover:text-primary-600 transition-all duration-300 pt-1.5">
+                                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.25em] text-slate-300 dark:text-slate-200 group-hover:text-primary-500 transition-all duration-300 pt-1.5">
                                             <GraduationCap size={13} className="text-primary-500" />
                                             <span>Academic Excellence</span>
                                             <ArrowRight size={11} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />

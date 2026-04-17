@@ -31,7 +31,7 @@ const FullStackHeroCard = ({ item }) => {
 
                 {/* Background Ambient Glow */}
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-cyan-500/10 blur-[120px] pointer-events-none" />
-                
+
                 <div className="flex flex-col lg:flex-row min-h-[500px] relative z-10">
                     {/* Left side: Project Info */}
                     <div className="w-full lg:w-2/5 p-8 sm:p-12 md:p-16 flex flex-col justify-center">
@@ -82,8 +82,8 @@ const FullStackHeroCard = ({ item }) => {
                                         project-preview.app
                                     </div>
                                 </div>
-                                <img 
-                                    src={item.image} 
+                                <img
+                                    src={item.image}
                                     alt={item.title}
                                     className="w-full h-auto object-cover opacity-90 group-hover/mockup:opacity-100 transition-opacity"
                                 />
@@ -104,20 +104,20 @@ const ProjectGridCard = ({ item, id, type, onClick }) => {
             onClick={() => onClick(item, id, type)}
             whileHover={{ scale: 1.03 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="relative w-full h-[320px] sm:h-[360px] rounded-[2rem] bg-slate-900/40 dark:bg-black/40 backdrop-blur-xl border border-slate-200 dark:border-white/10 overflow-hidden cursor-pointer shadow-lg group"
+            className="relative w-full h-[320px] sm:h-[360px] rounded-[2rem] bg-black/40 dark:bg-black/40 backdrop-blur-xl border border-white/5 dark:border-white/10 overflow-hidden cursor-pointer shadow-lg group"
         >
             {/* Dark gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent z-10 transition-opacity duration-150 group-hover:opacity-80" />
-            
+
             <motion.div className="absolute inset-0 w-full h-full overflow-hidden rounded-[2rem]">
-                <motion.img 
+                <motion.img
                     layoutId={`card-image-${id}`}
-                    src={item.image} 
-                    alt={item.title} 
+                    src={item.image}
+                    alt={item.title}
                     className="w-full h-full object-cover origin-center transition-transform duration-150 group-hover:scale-105"
                 />
             </motion.div>
-            
+
             <div className="absolute inset-0 z-20 p-5 sm:p-8 flex flex-col justify-between pointer-events-none">
                 <div className="flex justify-between items-start">
                     <div className="flex flex-wrap gap-2 max-w-[75%]">
@@ -139,7 +139,7 @@ const ProjectGridCard = ({ item, id, type, onClick }) => {
                     <p className="text-cyan-400 font-black text-[9px] sm:text-[10px] uppercase tracking-[0.2rem] sm:tracking-[0.2em] drop-shadow-md flex items-center gap-2 opacity-100 sm:opacity-0 sm:-translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 transition-all duration-150 mb-4 sm:mb-3">
                         Details <span className="w-8 sm:w-12 h-px bg-cyan-400/50 block"></span>
                     </p>
-                    
+
                     {/* Quick-access links: Always visible or partially visible on mobile */}
                     {(type === 'project' || type === 'clone') && (
                         <div className="flex flex-wrap gap-2 opacity-100 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 transition-all duration-200 pointer-events-auto">
@@ -193,7 +193,7 @@ const ExpandedModal = ({ data, onClose }) => {
             <motion.div
                 layoutId={`card-container-${id}`}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="relative w-full max-w-5xl bg-slate-900 border border-slate-700 dark:bg-[#0a0a0f] dark:border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row z-10"
+                className="relative w-full max-w-5xl bg-black/95 border border-white/5 dark:bg-[#0a0a0f] dark:border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row z-10"
                 style={{ maxHeight: '92vh' }}
             >
                 {/* Close Button */}
@@ -303,10 +303,10 @@ const Projects = () => {
     return (
         <section id="projects" className="section-padding bg-transparent relative min-h-screen py-24">
             <style>{scrollbarCSS}</style>
-            
+
             <div className="absolute inset-0 bg-black/10 pointer-events-none z-0" />
 
-            <div className="absolute top-20 right-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase whitespace-nowrap z-0">
+            <div className="absolute top-20 right-[-5%] text-[15vw] font-black text-white/5 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase whitespace-nowrap z-0">
                 EXHIBIT
             </div>
 
@@ -330,7 +330,7 @@ const Projects = () => {
                 {orderedSections.map(({ key, title }) => {
                     const items = portfolioData[key];
                     if (!items || items.length === 0) return null;
-                    
+
                     return (
                         <div key={key} className="mb-32 last:mb-12">
                             <div className="flex items-center gap-6 mb-12 opacity-80 hover:opacity-100 transition-opacity">
@@ -340,7 +340,7 @@ const Projects = () => {
                                 </h3>
                                 <div className="h-px bg-gradient-to-l from-transparent to-slate-300 dark:to-white/20 flex-1" />
                             </div>
-                            
+
                             {key === 'fullstack' ? (
                                 <div className="w-full">
                                     {items.map((item, i) => (
@@ -354,11 +354,11 @@ const Projects = () => {
                                         const id = `${key}-${i}`;
                                         return (
                                             <ScrollReveal key={i} direction="scale" delay={i * 0.1}>
-                                                <ProjectGridCard 
-                                                    item={item} 
-                                                    id={id} 
-                                                    type={typeStr} 
-                                                    onClick={handleCardClick} 
+                                                <ProjectGridCard
+                                                    item={item}
+                                                    id={id}
+                                                    type={typeStr}
+                                                    onClick={handleCardClick}
                                                 />
                                             </ScrollReveal>
                                         );
@@ -373,9 +373,9 @@ const Projects = () => {
             {/* Render the Modal Overlay via AnimatePresence */}
             <AnimatePresence>
                 {selectedData && (
-                    <ExpandedModal 
-                        data={selectedData} 
-                        onClose={handleClose} 
+                    <ExpandedModal
+                        data={selectedData}
+                        onClose={handleClose}
                     />
                 )}
             </AnimatePresence>

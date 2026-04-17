@@ -33,7 +33,7 @@ const SkillItem = ({ title, detail, index }) => {
             onClick={() => setOpen(o => !o)}
         >
             <div className="flex items-center justify-between">
-                <span className="font-outfit font-bold text-[10px] sm:text-xs uppercase tracking-widest text-slate-800 dark:text-slate-100 group-hover:text-primary-500 transition-colors">
+                <span className="font-outfit font-bold text-[10px] sm:text-xs uppercase tracking-widest text-slate-200 group-hover:text-primary-500 transition-colors">
                     {title}
                 </span>
                 <motion.div
@@ -52,7 +52,7 @@ const SkillItem = ({ title, detail, index }) => {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className="overflow-hidden text-xs text-slate-500 dark:text-slate-400 pt-2 leading-relaxed"
+                        className="overflow-hidden text-[13px] text-slate-300 dark:text-slate-300 pt-2 leading-relaxed"
                     >
                         {detail}
                     </motion.p>
@@ -71,7 +71,7 @@ const SocialBadge = ({ href, label, children }) => (
             rel="noreferrer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="w-11 h-11 flex items-center justify-center border-2 border-slate-800 dark:border-primary-400/50 rounded text-slate-800 dark:text-primary-300 hover:bg-primary-500/10 transition-all duration-200"
+            className="w-11 h-11 flex items-center justify-center border-2 border-white/10 dark:border-[#B2A5FF]/30 rounded text-[#B2A5FF] dark:text-[#B2A5FF] hover:bg-[#B2A5FF]/10 hover:border-[#B2A5FF] transition-all duration-300"
             title={label}
         >
             {children}
@@ -128,16 +128,16 @@ const Hero = () => {
                             animate={{ opacity: 1, x: 0 }}
                             className="inline-flex self-start mb-6"
                         >
-                            <span className="bg-white/80 dark:bg-[#111111]/80 backdrop-blur-md text-slate-900 dark:text-slate-100 font-outfit font-black text-xs uppercase tracking-[0.3em] px-5 py-2.5 rounded-full shadow-lg border border-primary-500/20 flex items-center gap-2">
-                                <Sparkles size={14} className="text-primary-500" /> Hi, there!
+                            <span className="bg-[#111111]/80 backdrop-blur-md text-slate-100 font-outfit font-black text-xs uppercase tracking-[0.3em] px-5 py-2.5 rounded-full shadow-lg border border-[#B2A5FF]/30 flex items-center gap-2">
+                                <Sparkles size={14} className="text-[#B2A5FF]" /> Hi, there!
                             </span>
                         </motion.div>
 
-                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-[clamp(2.5rem,8vw,7rem)] leading-[1.1] sm:leading-[1] uppercase text-slate-900 dark:text-white mb-8 tracking-tighter">
+                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-[clamp(2.5rem,8vw,7rem)] leading-[1.1] sm:leading-[1] uppercase text-white mb-8 tracking-tighter">
                             <motion.span variants={itemVariants} className="block">Yashvi</motion.span>
                             <motion.span variants={itemVariants} className="block gradient-text italic pr-4 sm:pr-8">Kanani</motion.span>
                             <motion.div variants={itemVariants} className="flex items-center gap-[clamp(0.75rem,2vw,1rem)] mt-[clamp(1.5rem,4vw,2rem)]">
-                                <span className="block whitespace-nowrap text-[clamp(1.5rem,4vw,2.5rem)] text-slate-500 dark:text-slate-400 tracking-normal">Right here</span>
+                                <span className="block whitespace-nowrap text-[clamp(1.5rem,4vw,2.5rem)] text-slate-400 tracking-normal">Right here</span>
                                 <span className="flex-1 h-px sm:h-0.5 bg-primary-500 rounded-full" />
                             </motion.div>
                         </motion.div>
@@ -145,7 +145,7 @@ const Hero = () => {
                         <div className="mt-4 self-start">
                             <Magnetic strength={0.4}>
                                 <Link to="projects" smooth offset={-80} onClick={() => navigate('/projects', { state: { preventScroll: true } })}>
-                                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-slate-800 dark:border-primary-400/40 flex items-center justify-center cursor-pointer text-slate-800 dark:text-primary-300 bg-white/5 backdrop-blur-sm group">
+                                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#B2A5FF]/30 flex items-center justify-center cursor-pointer text-[#B2A5FF] bg-white/5 backdrop-blur-sm group">
                                         <ArrowUpRight className="w-8 h-8 sm:w-10 sm:h-10 group-hover:rotate-45 transition-transform duration-300" />
                                     </motion.div>
                                 </Link>
@@ -162,10 +162,10 @@ const Hero = () => {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        <div className="relative w-full max-w-xs lg:max-w-sm aspect-[3.5/5] rounded-[2.5rem] overflow-hidden border-2 border-primary-500/50 shadow-[0_0_30px_rgba(108,99,255,0.3)] bg-slate-100 dark:bg-[#111111] z-10 transition-shadow duration-500 hover:shadow-[0_0_50px_rgba(108,99,255,0.5)]">
+                        <div className="relative w-full max-w-xs lg:max-w-sm aspect-[3.5/5] rounded-[2.5rem] overflow-hidden border-2 border-[#B2A5FF]/50 shadow-[0_0_30px_rgba(178,165,255,0.3)] bg-[#0A0A0A] z-10 transition-shadow duration-500 hover:shadow-[0_0_50px_rgba(178,165,255,0.5)]">
                             <img src="/profile.jpg" alt={portfolioData.name} className="w-full h-full object-cover object-top" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 px-6 py-2.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white text-[10px] font-black tracking-[0.2em] uppercase whitespace-nowrap">
+                            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 px-6 py-2.5 bg-white/10 backdrop-blur-xl border border-[#B2A5FF]/30 rounded-full text-white text-[10px] font-black tracking-[0.2em] uppercase whitespace-nowrap">
                                 <Typewriter words={portfolioData.roles} loop={0} cursor cursorStyle="_" typeSpeed={80} />
                             </div>
                         </div>
@@ -178,7 +178,7 @@ const Hero = () => {
                         animate={{ opacity: 1, x: 0 }}
                     >
                         <div className="flex flex-col gap-4">
-                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500">connectivity</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400/90">connectivity</span>
                             <div className="flex items-center gap-3">
                                 <SocialBadge href={portfolioData.socials.github} label="GitHub"><Github size={16} /></SocialBadge>
                                 <SocialBadge href={portfolioData.socials.linkedin} label="LinkedIn"><Linkedin size={16} /></SocialBadge>
@@ -190,7 +190,7 @@ const Hero = () => {
 
                         <div className="relative">
                             <span className="absolute -top-6 -left-4 text-6xl text-primary-500/10 font-serif">"</span>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                            <p className="text-base text-white/90 leading-relaxed font-medium">
                                 {portfolioData.about.summary}
                             </p>
                         </div>

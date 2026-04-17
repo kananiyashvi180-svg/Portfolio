@@ -25,7 +25,7 @@ const CategoryPill = ({ label, active, onClick, count }) => (
         onClick={onClick}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`relative px-5 sm:px-6 py-2.5 rounded-full text-[11px] sm:text-xs font-black uppercase tracking-widest transition-all duration-300 z-10 ${active ? 'text-white shadow-[0_0_20px_rgba(0,243,255,0.4)]' : 'text-slate-400 hover:text-cyan-400 backdrop-blur-md bg-white/5 border border-white/5'}`}
+        className={`relative px-5 sm:px-6 py-2.5 rounded-full text-[11px] sm:text-xs font-black uppercase tracking-widest transition-all duration-300 z-10 ${active ? 'text-white shadow-[0_0_20px_rgba(0,243,255,0.4)]' : 'text-slate-300 hover:text-cyan-400 backdrop-blur-md bg-black/40 border border-[#B2A5FF]/30'}`}
     >
         {active && (
             <motion.span
@@ -80,7 +80,7 @@ const SkillGridCard = ({ skill, index, onClick }) => {
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200 }}
-            className="relative h-full p-6 sm:p-8 rounded-[2rem] bg-slate-900/40 dark:bg-black/40 backdrop-blur-3xl border border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden group cursor-pointer transition-all duration-150 hover:shadow-[0_20px_40px_rgba(0,243,255,0.15)] flex flex-col items-center justify-center gap-6"
+            className="relative h-full p-6 sm:p-8 rounded-[2rem] bg-black/40 backdrop-blur-3xl border border-[#B2A5FF]/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden group cursor-pointer transition-all duration-150 hover:shadow-[0_20px_40px_rgba(0,243,255,0.15)] flex flex-col items-center justify-center gap-6"
         >
             <motion.div
                 className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-0"
@@ -93,13 +93,13 @@ const SkillGridCard = ({ skill, index, onClick }) => {
             <div className="relative z-10 flex flex-col items-center text-center gap-5 w-full pointer-events-none">
                 <motion.div
                     layoutId={`skill-icon-${skill.name}`}
-                    className="relative w-24 h-24 rounded-3xl flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_10px_20px_rgba(0,0,0,0.6)] group-hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_0_30px_rgba(0,243,255,0.4)] transition-all duration-150 gap-3"
+                    className="relative w-24 h-24 rounded-3xl flex items-center justify-center bg-gradient-to-br from-white/5 to-black/40 border border-[#B2A5FF]/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_10px_20px_rgba(0,0,0,0.6)] group-hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_0_30px_rgba(0,243,255,0.4)] transition-all duration-150 gap-3"
                 >
                     <div className="relative z-10 flex items-center justify-center w-full h-full p-2">
                         <img 
                             src={`https://skillicons.dev/icons?i=${slug}&theme=dark`} 
                             alt={`${skill.name} logo`} 
-                            className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] opacity-100 transition-all duration-150 max-h-full max-w-full hover:scale-110"
+                            className="object-contain drop-shadow-[0_0_15px_rgba(0,0,0,0.5)] opacity-100 transition-all duration-150 max-h-full max-w-full hover:scale-110"
                         />
                     </div>
                 </motion.div>
@@ -138,7 +138,7 @@ const ExpandedSkillModal = ({ skill, onClose }) => {
             <motion.div
                 layoutId={`skill-container-${skill.name}`}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="relative w-full max-w-lg bg-slate-900 dark:bg-[#0a0a0f] border border-cyan-500/30 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,243,255,0.15)] p-8 sm:p-12 overflow-hidden z-10 flex flex-col items-center text-center"
+                className="relative w-full max-w-lg bg-[#0a0a0f] border border-[#B2A5FF]/40 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,243,255,0.15)] p-8 sm:p-12 overflow-hidden z-10 flex flex-col items-center text-center"
             >
                 {/* Close Button */}
                 <button

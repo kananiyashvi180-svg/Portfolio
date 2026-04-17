@@ -4,28 +4,18 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
     // Check local storage or prefer color scheme
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            return savedTheme === 'dark';
-        }
-        return true; // Default to dark mode
-    });
+    // Always default to dark mode for a premium consistent experience
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-            document.body.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            document.body.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-        }
+        // Force dark mode classes consistently
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
         
-        // Update CSS variables dynamically
-        document.documentElement.style.setProperty('--bg-color', isDarkMode ? '#000000' : '#ffffff');
-        document.documentElement.style.setProperty('--text-color', isDarkMode ? '#ffffff' : '#0f172a');
+        // Update CSS variables for full coverage
+        document.documentElement.style.setProperty('--bg-color', '#000000');
+        document.documentElement.style.setProperty('--text-color', '#ffffff');
         
     }, [isDarkMode]);
 

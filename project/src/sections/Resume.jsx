@@ -237,7 +237,7 @@ const Resume = () => {
             <motion.div
                 animate={{ y: [-5, 5, -5] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-20 right-[-5%] text-[15vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none tracking-tighter uppercase whitespace-nowrap"
+                className="absolute top-20 right-[-5%] text-[15vw] font-black text-white/5 select-none pointer-events-none tracking-tighter uppercase whitespace-nowrap"
             >
                 RESUME
             </motion.div>
@@ -253,7 +253,7 @@ const Resume = () => {
                     </ScrollReveal>
 
                     <ScrollReveal delay={0.1}>
-                        <p className="text-slate-800 dark:text-slate-200 text-lg font-medium leading-relaxed font-outfit max-w-md lg:max-w-sm">
+                        <p className="text-slate-200 dark:text-slate-200 text-lg font-medium leading-relaxed font-outfit max-w-md lg:max-w-sm">
                             A dual-column interactive timeline showcasing engineering precision and academic background.
                         </p>
                     </ScrollReveal>
@@ -281,7 +281,7 @@ const Resume = () => {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="group/btn px-12 py-6 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black text-sm uppercase tracking-widest shadow-2xl flex items-center gap-4 hover:scale-105 active:scale-95 transition-all disabled:opacity-70"
+                            className="group/btn px-12 py-6 rounded-full bg-white/5 hover:bg-white/10 dark:bg-white text-white dark:text-slate-950 font-black text-sm uppercase tracking-widest shadow-2xl border border-white/10 flex items-center gap-4 hover:scale-105 active:scale-95 transition-all disabled:opacity-70"
                         >
                             {downloading ? (
                                 <>

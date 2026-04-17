@@ -1,273 +1,185 @@
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Send, CheckCircle2, Github, Linkedin, Mail, Twitter, MessageCircle, Phone, ArrowUpRight, MapPin } from 'lucide-react';
-import { portfolioData } from '../data/portfolio';
-import Magnetic from '../components/Magnetic';
-import YouTubeIcon from '../components/YouTubeIcon';
-import ScrollReveal from '../components/ScrollReveal';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Send, Mail, MapPin, Phone, CheckCircle2, ArrowUpRight } from 'lucide-react';
 
-
-/* ─── Floating Label Input ───────────────────────────────────────────────── */
-const FloatingInput = ({ label, type = 'text', placeholder, value, onChange, required, as: Tag = 'input', rows }) => {
-    const [focused, setFocused] = useState(false);
-    const active = focused || value.length > 0;
-
-    return (
-        <div className="relative group w-full overflow-hidden">
-            <Tag
-                required={required}
-                type={type}
-                placeholder={active ? placeholder : ''}
-                value={value}
-                onChange={onChange}
-                rows={rows}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-                className="peer w-full px-6 sm:px-8 pt-9 pb-4 rounded-[1.5rem] sm:rounded-[2rem] bg-white dark:bg-black/40 border-2 border-slate-200 dark:border-white/20 outline-none transition-all resize-none text-slate-900 dark:text-white focus:bg-white dark:focus:bg-white/[0.08] focus:border-primary-500 dark:focus:border-primary-500 shadow-sm focus:shadow-2xl focus:shadow-primary-500/20 placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm sm:text-base"
-            />
-            <motion.label
-                initial={false}
-                animate={{
-                    top: active ? '14px' : '50%',
-                    fontSize: active ? '10px' : '13px',
-                    color: focused ? '#6C63FF' : active ? '#ffffff' : '#cbd5e1',
-                    y: active ? 0 : '-50%',
-                }}
-                transition={{ duration: 0.3, ease: 'backOut' }}
-                className="absolute left-6 sm:left-8 font-black uppercase tracking-[0.2em] sm:tracking-widest pointer-events-none transition-colors whitespace-nowrap"
-            >
-                {label}
-            </motion.label>
-        </div>
-    );
-};
-
-/* ─── Contact info tile ──────────────────────────────────────────────────── */
-const InfoTile = ({ icon, label, secondaryLabel, value, href, delay }) => {
-    const isExternal = href && (href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel'));
-
-    return (
-        <motion.a
-            href={href}
-            target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noreferrer" : undefined}
-            className="block p-5 sm:p-6 rounded-[2rem] bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-white/5 hover:border-primary-500/30 transition-all group relative overflow-hidden shadow-2xl shadow-black/5 max-w-md"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay, type: 'spring', stiffness: 50 }}
-        >
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-            <div className="flex items-center gap-3 mb-3">
-                {icon && <div className="text-primary-500 group-hover:scale-110 transition-transform">{React.cloneElement(icon, { size: 16 })}</div>}
-                <span className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500 group-hover:text-primary-500 transition-colors">{label}</span>
+/* ─── Modern Info Card ─────────────────────────────────────────────────── */
+const InfoCard = ({ label, subLabel, value, icon: Icon, href }) => (
+    <motion.a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className="block p-6 sm:p-8 rounded-[2rem] bg-black/40 border border-[#B2A5FF]/10 hover:border-[#B2A5FF]/40 transition-all group relative overflow-hidden"
+        whileHover={{ y: -5, scale: 1.02 }}
+    >
+        <div className="flex justify-between items-start relative z-10">
+            <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                    {Icon && <Icon size={14} className="text-[#B2A5FF]/60" />}
+                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#B2A5FF]/60">{label}</span>
+                </div>
+                {subLabel && (
+                    <span className="block text-[8px] font-black uppercase tracking-[0.2em] text-slate-500">{subLabel}</span>
+                )}
+                <p className="text-sm sm:text-lg font-black text-white tracking-tight">{value}</p>
             </div>
+            <ArrowUpRight size={18} className="text-[#B2A5FF]/40 group-hover:text-[#B2A5FF] transition-colors" />
+        </div>
+        {/* Glow */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[#B2A5FF]/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-[#B2A5FF]/10 transition-colors" />
+    </motion.a>
+);
 
-            {secondaryLabel && (
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">{secondaryLabel}</p>
+/* ─── Futuristic Input ─────────────────────────────────────────────────── */
+const FuturisticInput = ({ label, placeholder, value, onChange, type = "text", textarea = false }) => (
+    <div className="relative group w-full">
+        <div className={`w-full ${textarea ? 'min-h-[160px]' : 'h-24 sm:h-28'} rounded-[2rem] sm:rounded-[2.5rem] bg-black/40 border border-[#B2A5FF]/10 focus-within:border-[#B2A5FF]/50 transition-all overflow-hidden flex flex-col justify-center px-8 sm:px-12`}>
+            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] text-[#B2A5FF]/60 mb-2">{label}</span>
+            {textarea ? (
+                <textarea
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                    rows={3}
+                    className="w-full bg-transparent border-none outline-none text-white text-base sm:text-lg font-bold placeholder:text-slate-700 resize-none pt-1"
+                />
+            ) : (
+                <input
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                    className="w-full bg-transparent border-none outline-none text-white text-base sm:text-lg font-bold placeholder:text-slate-700"
+                />
             )}
-
-            <p className="font-black text-lg sm:text-xl text-slate-800 dark:text-white group-hover:text-primary-400 transition-colors leading-tight truncate">
-                {value}
-            </p>
-
-            {href && (
-                <ArrowUpRight size={18} className="absolute top-6 right-6 text-slate-300 dark:text-slate-700 group-hover:text-primary-500 transition-colors" />
-            )}
-        </motion.a>
-    );
-};
+        </div>
+        {/* Focus Glow */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-[#B2A5FF] scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 origin-center" />
+    </div>
+);
 
 const Contact = () => {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const containerRef = useRef(null);
-
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
-    });
-
-    const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-
         try {
             const response = await fetch("https://formsubmit.co/ajax/yashvi.kanani.cg@gmail.com", {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    message: formData.message,
-                    _subject: `New Portfolio Message from ${formData.name}`
-                })
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ ...formData, _subject: `Project Inquiry from ${formData.name}` })
             });
-
             if (response.ok) {
                 setIsSuccess(true);
                 setFormData({ name: '', email: '', message: '' });
                 setTimeout(() => setIsSuccess(false), 5000);
-            } else {
-                throw new Error("Form submission failed");
             }
         } catch (error) {
-            console.error("Error:", error);
             alert("An error occurred. Please try again.");
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const socials = [
-        { Icon: Github, href: portfolioData.socials.github, color: '#6C63FF', label: 'GitHub' },
-        { Icon: Linkedin, href: portfolioData.socials.linkedin, color: '#00E5FF', label: 'LinkedIn' },
-        { Icon: Twitter, href: portfolioData.socials.twitter, color: '#FF6EC7', label: 'Twitter' },
-        { Icon: YouTubeIcon, href: portfolioData.socials.youtube, color: '#FF0000', label: 'YouTube' },
-        { Icon: Mail, href: portfolioData.socials.email, color: '#6C63FF', label: 'Email' },
-    ];
-
     return (
-        <section id="contact" ref={containerRef} className="section-padding bg-transparent relative overflow-hidden transition-colors duration-500">
-            {/* Background Text Parallax */}
-            <motion.div
-                style={{ y: yParallax }}
-                className="absolute top-0 right-0 text-[20vw] font-black text-slate-200 dark:text-white/5 select-none pointer-events-none"
-            >
+        <section id="contact" className="section-padding bg-transparent relative overflow-hidden py-32">
+            {/* Background Decorative Text */}
+            <div className="absolute top-20 right-[-5%] text-[18vw] font-black text-white/5 select-none pointer-events-none tracking-tighter uppercase whitespace-nowrap z-0">
                 CONTACT
-            </motion.div>
+            </div>
 
-            <div className="max-w-7xl mx-auto relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-20 items-start">
-
-                    {/* ── Left: Copy & Contact Cards ──────────────────────────────────── */}
-                    <div className="space-y-12 lg:space-y-16">
-                        <ScrollReveal>
-                            <div className="section-label">Availability: Open</div>
-                            <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black mb-[clamp(1.5rem,4vw,2.5rem)] leading-[0.9] sm:leading-[0.85]">
+            <div className="max-w-7xl mx-auto relative z-10 px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    
+                    {/* ── Left Side ─────────────────────────────────────────────────── */}
+                    <div className="space-y-16">
+                        <div>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="h-px w-8 bg-[#B2A5FF]/40" />
+                                <span className="text-[9px] font-black uppercase tracking-[0.4em] text-[#B2A5FF]">Availability: Open</span>
+                            </div>
+                            <h2 className="text-[clamp(2.5rem,7vw,4.5rem)] xl:text-7xl font-black leading-[0.9] text-white tracking-tighter uppercase">
                                 LET'S START <br />
                                 <span className="gradient-text italic">SOMETHING.</span>
                             </h2>
-                        </ScrollReveal>
-
-                        <div className="flex flex-col gap-6">
-                            <InfoTile
-                                label="Official Registry"
-                                value="yashvi.kanani.cg@gmail.com"
-                                href={`mailto:${portfolioData.email}`}
-                                delay={0.1}
-                            />
-                            <InfoTile
-                                icon={<Phone />}
-                                label="Voice Portal"
-                                secondaryLabel="Direct Line"
-                                value={portfolioData.socials.phone}
-                                href={`tel:${portfolioData.socials.phone}`}
-                                delay={0.2}
-                            />
-                            <InfoTile
-                                icon={<MapPin />}
-                                label="Physical Node"
-                                secondaryLabel="Deployment Zone"
-                                value="Gujarat, India"
-                                delay={0.3}
-                            />
                         </div>
 
-                        <div className="flex flex-wrap gap-4 pt-8">
-                            {socials.map((s, i) => (
-                                <Magnetic key={i} strength={0.2}>
-                                    <motion.a
-                                        href={s.href}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white dark:bg-[#25213d] border border-slate-200 dark:border-primary-500/30 flex items-center justify-center text-slate-900 dark:text-white shadow-xl shadow-black/5 hover:bg-slate-900 hover:text-white dark:hover:bg-primary-500 transition-all duration-300"
-                                    >
-                                        <s.Icon size={22} />
-                                    </motion.a>
-                                </Magnetic>
-                            ))}
+                        <div className="flex flex-col gap-6 w-full lg:max-w-md">
+                            <InfoCard 
+                                label="Official Registry"
+                                value="yashvi.kanani.cg@gmail.com"
+                                href="mailto:yashvi.kanani.cg@gmail.com"
+                            />
+                            <InfoCard 
+                                label="Voice Portal"
+                                subLabel="Direct Line"
+                                value="+91 91064 54707"
+                                icon={Phone}
+                                href="tel:+919106454707"
+                            />
+                            <InfoCard 
+                                label="Physical Node"
+                                subLabel="Deployment Zone"
+                                value="Gujarat, India"
+                                icon={MapPin}
+                                href="#"
+                            />
                         </div>
                     </div>
 
-                    {/* ── Right: Form ──────────────────────────────────────────────────── */}
-                    <ScrollReveal direction="scale" delay={0.2} className="relative lg:pt-24">
-                        <div className="relative bg-white dark:bg-slate-900/50 p-6 sm:p-10 md:p-14 rounded-[2.5rem] sm:rounded-[3.5rem] border border-slate-200 dark:border-white/20 shadow-3xl backdrop-blur-xl">
-                            <form onSubmit={handleSubmit} className="space-y-10">
-                                <div className="space-y-8">
-                                    <FloatingInput
-                                        label="Full Name"
-                                        placeholder="Your name here..."
-                                        value={formData.name}
-                                        required
-                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    />
-                                    <FloatingInput
-                                        label="Email Address"
-                                        type="email"
-                                        placeholder="name@example.com"
-                                        value={formData.email}
-                                        required
-                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    />
-                                    <FloatingInput
-                                        label="Project Brief"
-                                        as="textarea"
-                                        rows={4}
-                                        placeholder="What's on your mind?"
-                                        value={formData.message}
-                                        required
-                                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    />
-                                </div>
+                    {/* ── Right Side: Form ────────────────────────────────────────────── */}
+                    <div className="relative w-full">
+                        <div className="bg-black/20 backdrop-blur-3xl border border-[#B2A5FF]/10 p-8 sm:p-10 rounded-[3rem] shadow-2xl relative z-10">
+                            <form onSubmit={handleSubmit} className="space-y-12">
+                                <FuturisticInput 
+                                    label="Full Name"
+                                    placeholder="Enter your name"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                />
+                                <FuturisticInput 
+                                    label="Email Address"
+                                    type="email"
+                                    placeholder="name@company.com"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                />
+                                <FuturisticInput 
+                                    label="Project Brief"
+                                    textarea
+                                    placeholder="Briefly describe your vision..."
+                                    value={formData.message}
+                                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                                />
 
-                                <Magnetic strength={0.15}>
-                                    <motion.button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className="w-full h-20 rounded-[2rem] bg-slate-900 dark:bg-gradient-to-r dark:from-primary-600 dark:to-primary-500 text-white font-black text-sm uppercase tracking-[0.4em] flex items-center justify-center gap-4 group overflow-hidden relative shadow-xl shadow-primary-500/20 hover:shadow-primary-500/40 transition-shadow"
-                                    >
-                                        <AnimatePresence mode="wait">
-                                            {isSubmitting ? (
-                                                <motion.div
-                                                    key="loading"
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    exit={{ opacity: 0 }}
-                                                    className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin"
-                                                />
-                                            ) : isSuccess ? (
-                                                <motion.div
-                                                    key="success"
-                                                    initial={{ y: 20, opacity: 0 }}
-                                                    animate={{ y: 0, opacity: 1 }}
-                                                    className="flex items-center gap-2"
-                                                >
-                                                    Sent Successfully <CheckCircle2 size={10} />
-                                                </motion.div>
-                                            ) : (
-                                                <motion.div
-                                                    key="default"
-                                                    initial={{ y: 0 }}
-                                                    className="flex items-center gap-4"
-                                                    whileHover={{ x: 5 }}
-                                                >
-                                                    Transmit Message <Send size={10} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </motion.button>
-                                </Magnetic>
+                                <motion.button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="w-full h-24 sm:h-28 rounded-full bg-gradient-to-r from-[#B2A5FF] to-[#6C63FF] text-white font-black text-sm sm:text-lg uppercase tracking-[0.5em] flex items-center justify-center gap-6 group relative overflow-hidden shadow-[0_20px_50px_rgba(178,165,255,0.3)] transition-all"
+                                    whileHover={{ y: -5, scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <AnimatePresence mode="wait">
+                                        {isSubmitting ? (
+                                            <motion.div key="l" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                                        ) : isSuccess ? (
+                                            <motion.div key="s" initial={{y:20,opacity:0}} animate={{y:0,opacity:1}} className="flex items-center gap-2">Success <CheckCircle2 size={16} /></motion.div>
+                                        ) : (
+                                            <div className="flex items-center gap-4">
+                                                Transmit Message
+                                                <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                            </div>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.button>
                             </form>
                         </div>
-                    </ScrollReveal>
+                        {/* Shadow decoration */}
+                        <div className="absolute -bottom-10 -right-10 text-[15rem] font-black text-white/5 select-none pointer-events-none z-0">01</div>
+                    </div>
+
                 </div>
             </div>
         </section>

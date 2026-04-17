@@ -55,7 +55,7 @@ const BentoCard = ({ children, className = '', glowColor = 'rgba(139,92,246,0.15
             onMouseMove={handleMove}
             onMouseLeave={reset}
             style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000, willChange: 'transform' }}
-            className={`relative rounded-[2rem] p-[clamp(1.25rem,4vw,2rem)] border border-slate-200 dark:border-primary-500/30 bg-white dark:bg-black/60 backdrop-blur-xl shadow-2xl overflow-hidden group ${className}`}
+            className={`relative rounded-[2rem] p-[clamp(1.25rem,4vw,2rem)] border border-[#B2A5FF]/30 bg-black/40 backdrop-blur-xl shadow-2xl overflow-hidden group ${className}`}
         >
             <motion.div
                 className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -95,28 +95,28 @@ const About = () => {
                                 <div className="flex items-start justify-between">
                                     <div className="space-y-4 max-w-lg">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-16 h-16 rounded-full bg-primary-500 flex items-center justify-center text-white text-2xl font-black shrink-0">YK</div>
+                                            <div className="w-16 h-16 rounded-full bg-primary-500 flex items-center justify-center text-white text-2xl font-black shrink-0 shadow-[0_0_20px_rgba(108,99,255,0.4)]">YK</div>
                                             <div>
-                                                <h3 className="text-2xl font-black">{portfolioData.name}</h3>
-                                                <p className="text-slate-500 text-sm font-bold flex items-center gap-2">
+                                                <h3 className="text-2xl font-black text-white">{portfolioData.name}</h3>
+                                                <p className="text-slate-400 text-sm font-bold flex items-center gap-2">
                                                     <MapPin size={14} className="text-primary-500" /> Gujarat, India
                                                 </p>
                                             </div>
                                         </div>
-                                        <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                                        <p className="text-lg text-slate-300 leading-relaxed font-medium">
                                             Full-Stack Developer focused on building scalable, high-performance web applications. My approach combines rigorous logic with aesthetic precision, ensuring every line of code serves a purpose.
                                         </p>
                                     </div>
                                 </div>
 
                                 <div className="mt-8">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-4 block">Engine Room</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 mb-4 block">Engine Room</span>
                                     <div className="flex flex-wrap gap-2">
                                         {techs.map((t, i) => (
                                             <motion.span
                                                 key={t}
                                                 whileHover={{ scale: 1.1, y: -2 }}
-                                                className="px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-black uppercase tracking-widest bg-slate-100 dark:bg-black/60 border border-slate-200 dark:border-white/20 rounded-xl text-slate-600 dark:text-slate-300"
+                                                className="px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-black uppercase tracking-widest bg-white/5 border border-white/10 rounded-xl text-slate-300 shadow-lg"
                                             >
                                                 {t}
                                             </motion.span>
@@ -129,13 +129,13 @@ const About = () => {
 
                     {/* Side Activities Block */}
                     <ScrollReveal className="lg:col-span-2" delay={0.2} direction="right">
-                        <BentoCard className="h-full bg-primary-500 text-white border-none group" glowColor="rgba(255,255,255,0.2)">
+                        <BentoCard className="h-full bg-black/40 border border-white/5 group" glowColor="rgba(255,255,255,0.1)">
                             <div className="flex flex-col h-full justify-start gap-4 -mt-2">
                                 <div className="flex items-center gap-3">
-                                    <Sparkles size={32} className="group-hover:rotate-12 transition-transform" />
-                                    <h4 className="text-3xl font-black leading-tight italic uppercase tracking-tighter">Side Quests</h4>
+                                    <Sparkles size={32} className="text-primary-500 group-hover:rotate-12 transition-transform" />
+                                    <h4 className="text-3xl font-black leading-tight italic uppercase tracking-tighter text-white">Side Quests</h4>
                                 </div>
-                                <ul className="text-primary-100 text-base leading-relaxed font-medium space-y-4 list-disc pl-5 mt-2">
+                                <ul className="text-slate-200 text-base leading-relaxed font-medium space-y-4 list-disc pl-5 mt-2">
                                     <li>Implementing modern UI/UX design systems</li>
                                     <li>Practicing advanced data structures & algorithms</li>
                                     <li>Exploring performance optimization techniques</li>
