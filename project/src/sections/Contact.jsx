@@ -30,12 +30,14 @@ const InfoCard = ({ label, subLabel, value, icon: Icon, href }) => (
 );
 
 /* ─── Futuristic Input ─────────────────────────────────────────────────── */
-const FuturisticInput = ({ label, placeholder, value, onChange, type = "text", textarea = false }) => (
+const FuturisticInput = ({ label, placeholder, value, onChange, id, name, type = "text", textarea = false }) => (
     <div className="relative group w-full">
         <div className={`w-full ${textarea ? 'min-h-[160px]' : 'h-24 sm:h-28'} rounded-[2rem] sm:rounded-[2.5rem] bg-black/40 border border-[#B2A5FF]/10 focus-within:border-[#B2A5FF]/50 transition-all overflow-hidden flex flex-col justify-center px-8 sm:px-12`}>
-            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] text-[#B2A5FF]/60 mb-2">{label}</span>
+            <label htmlFor={id} className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] text-[#B2A5FF]/60 mb-2">{label}</label>
             {textarea ? (
                 <textarea
+                    id={id}
+                    name={name}
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
@@ -44,6 +46,8 @@ const FuturisticInput = ({ label, placeholder, value, onChange, type = "text", t
                 />
             ) : (
                 <input
+                    id={id}
+                    name={name}
                     type={type}
                     placeholder={placeholder}
                     value={value}
@@ -134,12 +138,16 @@ const Contact = () => {
                         <div className="bg-black/20 backdrop-blur-3xl border border-[#B2A5FF]/10 p-8 sm:p-10 rounded-[3rem] shadow-2xl relative z-10">
                             <form onSubmit={handleSubmit} className="space-y-12">
                                 <FuturisticInput 
+                                    id="contact-name"
+                                    name="name"
                                     label="Full Name"
                                     placeholder="Enter your name"
                                     value={formData.name}
                                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                                 />
                                 <FuturisticInput 
+                                    id="contact-email"
+                                    name="email"
                                     label="Email Address"
                                     type="email"
                                     placeholder="name@company.com"
@@ -147,6 +155,8 @@ const Contact = () => {
                                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                                 />
                                 <FuturisticInput 
+                                    id="contact-message"
+                                    name="message"
                                     label="Project Brief"
                                     textarea
                                     placeholder="Briefly describe your vision..."

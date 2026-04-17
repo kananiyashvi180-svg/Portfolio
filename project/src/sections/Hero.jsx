@@ -133,14 +133,14 @@ const Hero = () => {
                             </span>
                         </motion.div>
 
-                        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-[clamp(2.5rem,8vw,7rem)] leading-[1.1] sm:leading-[1] uppercase text-white mb-8 tracking-tighter">
+                        <motion.h1 variants={containerVariants} initial="hidden" animate="visible" className="font-outfit font-black text-[clamp(2.5rem,8vw,7rem)] leading-[1.1] sm:leading-[1] uppercase text-white mb-8 tracking-tighter">
                             <motion.span variants={itemVariants} className="block">Yashvi</motion.span>
                             <motion.span variants={itemVariants} className="block gradient-text italic pr-4 sm:pr-8">Kanani</motion.span>
                             <motion.div variants={itemVariants} className="flex items-center gap-[clamp(0.75rem,2vw,1rem)] mt-[clamp(1.5rem,4vw,2rem)]">
                                 <span className="block whitespace-nowrap text-[clamp(1.5rem,4vw,2.5rem)] text-slate-400 tracking-normal">Right here</span>
                                 <span className="flex-1 h-px sm:h-0.5 bg-primary-500 rounded-full" />
                             </motion.div>
-                        </motion.div>
+                        </motion.h1>
 
                         <div className="mt-4 self-start">
                             <Magnetic strength={0.4}>

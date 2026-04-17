@@ -113,6 +113,7 @@ const Navbar = () => {
                 <div className="hidden xl:flex items-center gap-6 shrink-0">
                     <a href="/Yashvi_Resume.pdf" target="_blank" rel="noopener noreferrer">
                         <motion.button
+                            aria-label="View Resume"
                             className="relative px-6 py-2.5 rounded-full text-base font-semibold text-white overflow-hidden group"
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
@@ -138,6 +139,7 @@ const Navbar = () => {
                 <div className="xl:hidden flex items-center gap-4">
                     <motion.button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                         className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
                         whileTap={{ scale: 0.9 }}
                     >
