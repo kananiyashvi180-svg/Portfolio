@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const FloatingParticles = () => {
     // Generate an array of random particles with complex floating paths
     const particles = useMemo(() => {
-        return Array.from({ length: 120 }).map((_, i) => {
+        return Array.from({ length: 50 }).map((_, i) => {
             const isLarge = Math.random() > 0.8;
             return {
                 id: i,
@@ -27,10 +27,10 @@ const FloatingParticles = () => {
                 ],
                 duration: isLarge ? Math.random() * 30 + 40 : Math.random() * 15 + 20, 
                 delay: Math.random() * -50,
-                glowColor: i % 4 === 0 ? 'rgba(0, 229, 255, 0.3)' : 
-                           i % 4 === 1 ? 'rgba(108, 99, 255, 0.3)' : 
-                           i % 4 === 2 ? 'rgba(255, 110, 199, 0.3)' : 
-                           'rgba(255, 255, 255, 0.2)',
+                glowColor: i % 4 === 0 ? 'rgba(0, 255, 243, 0.4)' : // Hyper Cyan
+                           i % 4 === 1 ? 'rgba(157, 0, 255, 0.4)' : // Electric Purple
+                           i % 4 === 2 ? 'rgba(255, 0, 135, 0.4)' : // Cyber Pink
+                           'rgba(0, 184, 255, 0.3)',               // Deep Neon Blue
                 blur: isLarge ? '6px' : '1px',
             };
         });
@@ -54,7 +54,7 @@ const FloatingParticles = () => {
                     animate={{
                         x: p.xPaths,
                         y: p.yPaths,
-                        opacity: [0.2, 0.7, 0.4, 0.8, 0.2],
+                        opacity: [0.3, 0.5, 0.4, 0.6, 0.3],
                         scale: [1, 1.3, 0.8, 1.2, 1],
                         rotate: [0, 180, 360],
                     }}

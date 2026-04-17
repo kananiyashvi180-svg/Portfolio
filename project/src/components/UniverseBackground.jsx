@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const UniverseBackground = () => {
     // Generate static stars for background
     const stars = useMemo(() => {
-        return Array.from({ length: 120 }).map((_, i) => ({
+        return Array.from({ length: 60 }).map((_, i) => ({
             id: i,
             size: Math.random() * 2 + 1,
             x: Math.random() * 100,
@@ -17,10 +17,10 @@ const UniverseBackground = () => {
     // Floating light orbs/nebulae that drift slowly
     const driftOrbs = useMemo(() => {
         return [
-            { color: 'rgba(108, 99, 255, 0.2)', size: '50vw', x: '10%', y: '20%', duration: 40 },
-            { color: 'rgba(0, 229, 255, 0.15)', size: '60vw', x: '80%', y: '70%', duration: 55 },
-            { color: 'rgba(255, 110, 199, 0.12)', size: '45vw', x: '40%', y: '50%', duration: 45 },
-            { color: 'rgba(108, 99, 255, 0.1)', size: '40vw', x: '50%', y: '10%', duration: 50 },
+            { color: 'rgba(157, 0, 255, 0.15)', size: '50vw', x: '10%', y: '20%', duration: 40 }, // Purple
+            { color: 'rgba(0, 255, 243, 0.12)', size: '60vw', x: '80%', y: '70%', duration: 55 }, // Cyan
+            { color: 'rgba(255, 0, 135, 0.1)', size: '45vw', x: '40%', y: '50%', duration: 45 },  // Pink
+            { color: 'rgba(0, 184, 255, 0.08)', size: '40vw', x: '50%', y: '10%', duration: 50 }, // Blue
         ];
     }, []);
 
@@ -42,7 +42,7 @@ const UniverseBackground = () => {
                         x: [0, 50, -30, 0],
                         y: [0, -40, 60, 0],
                         scale: [1, 1.2, 0.9, 1.1, 1],
-                        opacity: [0.4, 0.7, 0.5, 0.8, 0.4],
+                        opacity: [0.4, 0.5, 0.45, 0.55, 0.4],
                     }}
                     transition={{
                         duration: orb.duration,
@@ -64,7 +64,7 @@ const UniverseBackground = () => {
                         top: `${star.y}%`,
                     }}
                     animate={{
-                        opacity: [star.opacity, star.opacity * 0.2, star.opacity],
+                        opacity: [star.opacity, star.opacity * 0.5, star.opacity],
                         scale: [1, 1.5, 1],
                     }}
                     transition={{
