@@ -62,6 +62,7 @@ const App = () => {
           <meta property="og:description" content="Full Stack Developer Portfolio - Building premium digital experiences with modern technologies." />
           <meta property="og:url" content="https://yashvi-portfolio-dun.vercel.app/" />
           <meta name="twitter:title" content="Yashvi Kanani Portfolio" />
+          <meta name="google-site-verification" content="googlee367cd6bd678976d" />
           <meta name="twitter:description" content="Full Stack Developer Portfolio - Building premium digital experiences." />
         </Helmet>
         {loading ? (
