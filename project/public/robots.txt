@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yashvikanani.dev/sitemap.xml
+Sitemap: https://yashvi-portfolio-dun.vercel.app/sitemap.xml

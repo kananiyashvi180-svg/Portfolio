@@ -19,6 +19,7 @@ import CustomCursor from './components/CustomCursor';
 import TouchInteraction from './components/TouchInteraction';
 import CinematicLoader from './components/CinematicLoader';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -53,6 +54,16 @@ const App = () => {
   return (
     <ThemeProvider>
       <AnimatePresence mode="wait">
+        <Helmet>
+          <title>Yashvi Kanani | Full Stack Developer Portfolio</title>
+          <meta name="description" content="Full Stack Developer specializing in React, Node.js, and modern web applications. Building premium digital experiences with modern technologies." />
+          <meta name="keywords" content="Full Stack Developer, React Developer, Portfolio, Web Developer, Yashvi Kanani, MERN Stack" />
+          <meta property="og:title" content="Yashvi Kanani Portfolio" />
+          <meta property="og:description" content="Full Stack Developer Portfolio - Building premium digital experiences with modern technologies." />
+          <meta property="og:url" content="https://yashvi-portfolio-dun.vercel.app/" />
+          <meta name="twitter:title" content="Yashvi Kanani Portfolio" />
+          <meta name="twitter:description" content="Full Stack Developer Portfolio - Building premium digital experiences." />
+        </Helmet>
         {loading ? (
           <CinematicLoader />
         ) : (

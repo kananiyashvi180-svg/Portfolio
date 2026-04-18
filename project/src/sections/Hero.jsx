@@ -163,7 +163,7 @@ const Hero = () => {
                         animate={{ opacity: 1, scale: 1 }}
                     >
                         <div className="relative w-full max-w-xs lg:max-w-sm aspect-[3.5/5] rounded-[2.5rem] overflow-hidden border-2 border-[#B2A5FF]/50 shadow-[0_0_30px_rgba(178,165,255,0.3)] bg-[#0A0A0A] z-10 transition-shadow duration-500 hover:shadow-[0_0_50px_rgba(178,165,255,0.5)]">
-                            <img src="/profile.jpg" alt={portfolioData.name} className="w-full h-full object-cover object-top" />
+                            <img src="/profile.jpg" alt={portfolioData.name} loading="lazy" className="w-full h-full object-cover object-top" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 px-6 py-2.5 bg-white/10 backdrop-blur-xl border border-[#B2A5FF]/30 rounded-full text-white text-[10px] font-black tracking-[0.2em] uppercase whitespace-nowrap">
                                 <Typewriter words={portfolioData.roles} loop={0} cursor cursorStyle="_" typeSpeed={80} />

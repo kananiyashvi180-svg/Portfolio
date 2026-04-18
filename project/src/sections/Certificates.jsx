@@ -36,6 +36,7 @@ const CertificateCard = ({ cert, onOpen, index }) => {
                 <motion.img
                     src={cert.image}
                     alt={cert.title}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
@@ -149,7 +150,7 @@ const Certificates = () => {
                                 <X size={20} />
                             </button>
                             <div className="p-[clamp(1.5rem,5vw,2.5rem)]">
-                                <img src={selectedCert.image} className="w-full h-auto rounded-2xl sm:rounded-3xl mb-6 sm:mb-8 shadow-2xl" alt={selectedCert.title} />
+                                <img src={selectedCert.image} className="w-full h-auto rounded-2xl sm:rounded-3xl mb-6 sm:mb-8 shadow-2xl" alt={selectedCert.title} loading="lazy" />
                                 <h3 className="text-[clamp(1.5rem,4vw,2rem)] font-black mb-2 uppercase">{selectedCert.title}</h3>
                                 <p className="text-primary-500 font-bold mb-6 tracking-widest">{selectedCert.issuer}</p>
                                 <div className="flex flex-wrap items-center justify-between gap-4 mb-6">

@@ -21,11 +21,11 @@ const FullStackHeroCard = ({ item }) => {
             >
                 {/* Human-Centric Background (The Picture with People) */}
                 <div className="absolute inset-0 z-0">
-                    <img
                         src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1600&q=80"
                         alt="Medical Background"
+                        loading="lazy"
                         className="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700"
-                    />
+
                     <div className="absolute inset-0 bg-gradient-to-r from-[#02040f] via-[#02040f]/90 to-transparent" />
                 </div>
 
@@ -85,6 +85,7 @@ const FullStackHeroCard = ({ item }) => {
                                 <img
                                     src={item.image}
                                     alt={item.title}
+                                    loading="lazy"
                                     className="w-full h-auto object-cover opacity-90 group-hover/mockup:opacity-100 transition-opacity"
                                 />
                             </div>
@@ -110,12 +111,13 @@ const ProjectGridCard = ({ item, id, type, onClick }) => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent z-10 transition-opacity duration-150 group-hover:opacity-80" />
 
             <motion.div className="absolute inset-0 w-full h-full overflow-hidden rounded-[2rem]">
-                <motion.img
-                    layoutId={`card-image-${id}`}
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover origin-center transition-transform duration-150 group-hover:scale-105"
-                />
+                    <motion.img
+                        layoutId={`card-image-${id}`}
+                        src={item.image}
+                        alt={item.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover origin-center transition-transform duration-150 group-hover:scale-105"
+                    />
             </motion.div>
 
             <div className="absolute inset-0 z-20 p-5 sm:p-8 flex flex-col justify-between pointer-events-none">
