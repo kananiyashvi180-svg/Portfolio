@@ -1,16 +1,89 @@
-# React + Vite
+# ✨ Yashvi Kanani | Senior Full-Stack Developer Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, cinematic, and high-performance developer portfolio built with **React**, **Vite**, and **Tailwind CSS**. This project showcases a high-gloss, futuristic digital experience with smooth animations and comprehensive SEO optimization.
 
-Currently, two official plugins are available:
+🚀 **[Live Demo](https://yashvi-portfolio-dun.vercel.app/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🌟 Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This portfolio is designed to be more than just a resume—it's a digital experience. It combines modern UI/UX principles with technical excellence, featuring:
+- **Cinematic Entry**: A luxury neon-blue-to-purple gradient loader with elegant typography reveals.
+- **Dynamic Projects Showcase**: Categorized layers for Full-Stack, Frontend, UI/UX Design, and experimental "Clone Labs".
+- **Advanced Animations**: Powered by **Framer Motion** for glassmorphism effects, particle networks, and interactive hover states.
+- **Full Responsiveness**: Optimized for mobile, tablet, and desktop viewing.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- **Frontend**: React 19, Vite, Tailwind CSS (v4)
+- **Animations**: Framer Motion, Lucide React (Icons)
+- **Typography**: Google Fonts (Inter & Outfit)
+- **Development Tools**: ESLint, PostCSS, Autoprefixer
+- **SEO & Head Management**: React Helmet Async
+
+---
+
+## 📈 SEO & Performance Optimization
+
+This portfolio has been rigorously optimized for search engines and performance:
+- **Dynamic Meta Tags**: Fully integrated with `react-helmet-async` for section-specific SEO.
+- **Google Search Console**: Verified via meta-tag and backup HTML file (`/googlee367cd6bd678976d.html`).
+- **Crawlability**: 
+  - Complete `sitemap.xml` including all major sections.
+  - Robust `robots.txt` configuration.
+  - Semantic HTML structure (`<header>`, `<main>`, `<section>`, `<footer>`).
+- **Performance**: 
+  - Image lazy-loading implemented across all sections.
+  - Optimized asset paths and minimal unused JS.
+
+---
+
+## 📂 Featured Sections
+
+- **Identity**: A deep dive into my background and personality.
+- **Skills Matrix**: High-gloss, interactive skill cards with proficiency levels.
+- **Featured Projects**: From full-stack healthcare platforms (**MediGuide**) to interactive tools.
+- **Certificates**: A verified achievement wall featuring credentials from Google Cloud, Sololearn, and Odoo.
+- **Resume**: Interactive resume section with direct PDF download integration.
+
+---
+
+## ⚙️ Installation & Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/kananiyashvi180-svg/Portfolio.git
+   ```
+
+2. **Navigate to the project**:
+   ```bash
+   cd project
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+4. **Run development server**:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 📧 Contact & Connectivity
+
+Feel free to reach out for collaborations or opportunities!
+
+- **Email**: [yashvi.kanani.cg@gmail.com](mailto:yashvi.kanani.cg@gmail.com)
+- **LinkedIn**: [Yashvi Kanani](https://linkedin.com)
+- **GitHub**: [@kananiyashvi180-svg](https://github.com/kananiyashvi180-svg)
+- **YouTube**: [@YashviKanani-777](https://www.youtube.com/@YashviKanani-777)
+
+---
+
+Built with 💙 by **Yashvi Kanani**
