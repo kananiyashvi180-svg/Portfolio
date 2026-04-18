@@ -123,6 +123,13 @@ export const portfolioData = {
     ],
     certificates: [
         {
+            title: "AI-First Open Innovation Hackathon",
+            issuer: "OceanLab X CHARUSAT / DEPSTAR",
+            date: "18th April 2026",
+            description: "Participated in the OceanLab X CHARUSAT Hacks 2026, a national-level 48-hour offline hackathon focused on building AI-first SaaS solutions. Collaborated with leading tech partners including Watermelon UI, Lovable Dev, and Supabase to develop innovative AI-driven prototypes.",
+            image: "/oceanlab_hacks_2026.png"
+        },
+        {
             title: "C Intermediate",
             issuer: "Sololearn",
             date: "8th March 2026",
